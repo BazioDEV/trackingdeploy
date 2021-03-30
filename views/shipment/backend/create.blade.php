@@ -264,7 +264,7 @@
 
                                             <label>{{translate('Quantity')}}:</label>
 
-                                            <input class="kt_touchspin_qty" type="number" min="0" name="qty" class="form-control" value="0" />
+                                            <input class="kt_touchspin_qty" type="number" min="1" name="qty" class="form-control" value="1" />
                                             <div class="d-md-none mb-2"></div>
 
                                         </div>
@@ -273,7 +273,7 @@
 
                                             <label>{{translate('Weight')}}:</label>
 
-                                            <input type="number" min="0" name="weight" class="form-control weight-listener kt_touchspin_weight" onchange="calcTotalWeight()" value="0" />
+                                            <input type="number" min="1" name="weight" class="form-control weight-listener kt_touchspin_weight" onchange="calcTotalWeight()" value="1" />
                                             <div class="d-md-none mb-2"></div>
 
                                         </div>
@@ -284,17 +284,17 @@
                                         </div>
                                         <div class="col-md-2">
 
-                                            <input class="dimensions_r" type="number" min="0" class="form-control" placeholder="{{translate('Length')}}" name="length" value="0" />
+                                            <input class="dimensions_r" type="number" min="1" class="form-control" placeholder="{{translate('Length')}}" name="length" value="1" />
 
                                         </div>
                                         <div class="col-md-2">
 
-                                            <input class="dimensions_r" type="number" min="0" class="form-control" placeholder="{{translate('Width')}}" name="width" value="0" />
+                                            <input class="dimensions_r" type="number" min="1" class="form-control" placeholder="{{translate('Width')}}" name="width" value="1" />
 
                                         </div>
                                         <div class="col-md-2">
 
-                                            <input class="dimensions_r" type="number" min="0" class="form-control " placeholder="{{translate('Height')}}" name="height" value="0" />
+                                            <input class="dimensions_r" type="number" min="1" class="form-control " placeholder="{{translate('Height')}}" name="height" value="1" />
 
                                         </div>
 
@@ -336,7 +336,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Total Weight')}}:</label>
-                                        <input id="kt_touchspin_4" type="text" min="0" class="form-control total-weight" value="0" name="Shipment[total_weight]" />
+                                        <input id="kt_touchspin_4" type="text" min="1" class="form-control total-weight" value="1" name="Shipment[total_weight]" />
                                     </div>
                                 </div>
 
@@ -515,7 +515,7 @@
                     buttondown_class: 'btn btn-secondary',
                     buttonup_class: 'btn btn-secondary',
 
-                    min: 0,
+                    min: 1,
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
@@ -525,7 +525,7 @@
                     buttondown_class: 'btn btn-secondary',
                     buttonup_class: 'btn btn-secondary',
 
-                    min: 0,
+                    min: 1,
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
@@ -535,7 +535,7 @@
                     buttondown_class: 'btn btn-secondary',
                     buttonup_class: 'btn btn-secondary',
 
-                    min: 0,
+                    min: 1,
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
@@ -563,7 +563,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 0,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
@@ -573,7 +573,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 0,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
@@ -583,7 +583,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 0,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
@@ -593,7 +593,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 0,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
@@ -602,7 +602,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 0,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,

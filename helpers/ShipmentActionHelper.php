@@ -88,6 +88,10 @@ class ShipmentActionHelper{
             [
                 "text"=> translate('Create Supply Manifest'),
                 "permissions"=>1040,
+            ],
+            [
+                "text"=> translate('Create Transfer Manifest'),
+                "permissions"=>1200,
             ]
         ];  
     }
@@ -249,6 +253,16 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openAssignShipmentCaptainModel(this,event)';
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['permissions'] = 1036; 
+            $this->actions[count($this->actions)-1]['index'] = true;
+
+            $this->actions[count($this->actions)] = array();
+            $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Branch');
+            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.mission',['type'=>Mission::TRANSFER_TYPE]);
+            $this->actions[count($this->actions)-1]['method'] = 'POST';
+            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCaptainModel(this,event)';
+            $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['permissions'] = 1200; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();

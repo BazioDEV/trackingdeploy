@@ -76,6 +76,35 @@
 
                 <div class="form-group row">
 
+                    <label class="col-2 col-form-label">{{translate('Receiving Mission Confirmation Type')}}</label>
+                    <div class="col-9 col-form-label">
+                        <div class="radio-inline">
+                            <label class="radio radio-success  btn btn-default">
+                                <input @if(\App\ShipmentSetting::getVal('def_shipment_conf_type')=='seg' ) checked @endif type="radio" name="Setting[def_shipment_conf_type]" value="seg" />
+                                <span></span>
+                            {{translate('Customer Signature')}}
+                            </label>
+                            <label class="radio radio-success btn btn-default">
+                                <input @if(\App\ShipmentSetting::getVal('def_shipment_conf_type')=='otp' ) checked @endif type="radio" name="Setting[def_shipment_conf_type]" value="otp" />
+                                <span></span>
+                                {{translate('OTP')}}
+                            </label>
+                            <label class="radio radio-success btn btn-default">
+                                <input @if(\App\ShipmentSetting::getVal('def_shipment_conf_type')=='none' ) checked @endif type="radio" name="Setting[def_shipment_conf_type]" value="none" />
+                                <span></span>
+                                {{translate('Without Confirmation')}}
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="separator separator-dashed my-10"></div>
+
+                <div class="form-group row">
+
                     <div class="col-lg-3">
                         <label class="col-form-label text-lg-right">{{translate('Default Package Type')}}:</label>
                         <select  class="form-control kt-select2" id="select-how" name="Setting[def_package_type]">

@@ -16,7 +16,8 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
     Route::post('shipments/action/supply_mission/{type}','ShipmentController@createSupplyMission')->name('admin.shipments.action.create.supply.mission');
     Route::post('shipments/action/delivery_mission/{type}','ShipmentController@createDeliveryMission')->name('admin.shipments.action.create.delivery.mission');
     Route::post('shipments/action/return_mission/{type}','ShipmentController@createReturnMission')->name('admin.shipments.action.create.return.mission');
-    
+    Route::post('shipments/action/transfer_mission/{type}','ShipmentController@createTransferMission')->name('admin.shipments.action.create.transfer.mission');
+   
     Route::get('/shipments/covered_cities/{country_id}','ShipmentController@covered_cities')->name('admin.shipments.covered_cities');
     Route::get('/shipments/covered_countries','ShipmentController@covered_countries')->name('admin.shipments.covered_countries');
     Route::post('/shipments/post_covered_cities/{country_id}','ShipmentController@post_covered_cities')->name('admin.shipments.post_covered_cities');

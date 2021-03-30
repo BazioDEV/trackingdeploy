@@ -47,7 +47,14 @@
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
-                                            <span class="text-dark font-weight-bold mb-4">{{translate('Branch')}}</span>
+                                            <span class="text-dark font-weight-bold mb-4">{{translate('Previous Branch')}}</span>
+    
+                                            <span class="text-muted font-weight-bolder font-size-lg">@isset(\App\Branch::find($shipment->prev_branch)->name) {{\App\Branch::find($shipment->prev_branch)->name}} @endisset </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <div class="mb-8 d-flex flex-column">
+                                            <span class="text-dark font-weight-bold mb-4">{{translate('Current Branch')}}</span>
                                             <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->branch->name}}</span>
                                         </div>
                                     </div>

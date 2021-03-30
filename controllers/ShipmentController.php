@@ -17,6 +17,7 @@ use App\PackageShipment;
 use App\Shipment;
 use App\ShipmentMission;
 use App\ShipmentSetting;
+use App\Http\Helpers\MissionPRNG;
 use Excel;
 use App\State;
 use App\Transaction;
@@ -138,6 +139,9 @@ class ShipmentController extends Controller
             $model->code = -1;
             $model->status_id = Mission::REQUESTED_STATUS;
             $model->type = Mission::DELIVERY_TYPE;
+            if(ShipmentSetting::getVal('def_shipment_conf_type')=='otp'){
+                $model->otp = MissionPRNG::get();
+            }
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -147,6 +151,53 @@ class ShipmentController extends Controller
             }
             foreach ($request->checked_ids as $shipment_id) {
                 if ($model->id != null && ShipmentMission::check_if_shipment_is_assigned_to_mission($shipment_id, Mission::DELIVERY_TYPE) == 0) {
+                    $shipment = Shipment::find($shipment_id);
+                    $shipment_mission = new ShipmentMission();
+                    $shipment_mission->shipment_id = $shipment->id;
+                    $shipment_mission->mission_id = $model->id;
+                    if ($shipment_mission->save()) {
+                        $shipment->mission_id = $model->id;
+                        $shipment->save();
+                    }
+                }
+            }
+
+            //Calaculate Amount 
+            $helper = new TransactionHelper();
+            $helper->calculate_mission_amount($model->id);
+
+
+            DB::commit();
+            flash(translate("Mission created successfully"))->success();
+            return back();
+        } catch (\Exception $e) {
+            DB::rollback();
+            print_r($e->getMessage());
+            exit;
+
+            flash(translate("Error"))->error();
+            return back();
+        }
+    }
+
+    public function createTransferMission(Request $request, $type)
+    {
+        try {
+            DB::beginTransaction();
+            $model = new Mission();
+            $model->fill($request['Mission']);
+            $model->code = -1;
+            $model->status_id = Mission::REQUESTED_STATUS;
+            $model->type = Mission::TRANSFER_TYPE;
+            if (!$model->save()) {
+                throw new \Exception();
+            }
+            $model->code = $model->id;
+            if (!$model->save()) {
+                throw new \Exception();
+            }
+            foreach ($request->checked_ids as $shipment_id) {
+                if ($model->id != null && ShipmentMission::check_if_shipment_is_assigned_to_mission($shipment_id, Mission::TRANSFER_TYPE) == 0) {
                     $shipment = Shipment::find($shipment_id);
                     $shipment_mission = new ShipmentMission();
                     $shipment_mission->shipment_id = $shipment->id;

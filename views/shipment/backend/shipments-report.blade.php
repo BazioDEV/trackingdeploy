@@ -128,7 +128,7 @@
                         <th>{{translate('Captain')}}</th>
                         @endif
                         @if($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
-                        <th>{{translate('Manifest')}}</th>
+                        <th>{{translate('Mission')}}</th>
                         @endif
                         <th class="text-center">{{translate('Created At')}}</th>
                       
