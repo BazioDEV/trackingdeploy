@@ -2,6 +2,7 @@
 
 namespace App\Http\Helpers;
 
+use App\ClientShipmentLog;
 use App\Mission;
 use App\Shipment;
 use App\ShipmentLog;
@@ -29,10 +30,18 @@ class StatusManagerHelper{
                 if($shipment !=null)
                 {
                     $oldStatus = $shipment->status_id;
+                    $oldClientStatus = $shipment->client_status;
 
                     //Conditions of change status
                     if($to == Shipment::REQUESTED_STATUS)
                     {
+                        $shipment->client_status = Shipment::CLIENT_STATUS_READY;
+                        $log = new ClientShipmentLog();
+                        $log->from = $oldClientStatus;
+                        $log->to = Shipment::CLIENT_STATUS_READY;
+                        $log->shipment_id = $shipment->id;
+                        $log->created_by = \Auth::user()->id;
+                        $log->save();
                         if($mission_id != null && ShipmentMission::check_if_shipment_is_assigned_to_mission($shipment_id,Mission::PICKUP_TYPE) == 0)
                         {
                                 $shipment_mission = new ShipmentMission();
@@ -48,6 +57,15 @@ class StatusManagerHelper{
                                 // $transaction->create_shipment_transaction($shipment->id,$shipment_cost,Transaction::CLIENT,$shipment->client_id,Transaction::DEBIT);
                             }
                         }
+                    }elseif($to == Shipment::APPROVED_STATUS)
+                    {
+                        $shipment->client_status = Shipment::CLIENT_STATUS_IN_PROCESSING;
+                        $log = new ClientShipmentLog();
+                        $log->from = $oldClientStatus;
+                        $log->to = Shipment::CLIENT_STATUS_IN_PROCESSING;
+                        $log->shipment_id = $shipment->id;
+                        $log->created_by = \Auth::user()->id;
+                        $log->save();
                     }elseif($to == Shipment::SAVED_STATUS)
                     {
                         $shipment_mission = ShipmentMission::where('mission_id',$mission_id)->where('shipment_id',$shipment->id)->first();
@@ -66,6 +84,16 @@ class StatusManagerHelper{
                     {
                         $shipment->mission_id = null;
                         $shipment->captain_id = null;
+                    }elseif($to == Shipment::DELIVERED_STATUS)
+                    {
+                        
+                        $shipment->client_status = Shipment::CLIENT_STATUS_DELIVERED;
+                        $log = new ClientShipmentLog();
+                        $log->from = $oldClientStatus;
+                        $log->to = Shipment::CLIENT_STATUS_DELIVERED;
+                        $log->shipment_id = $shipment->id;
+                        $log->created_by = \Auth::user()->id;
+                        $log->save();
                     }
                     
                     $shipment->status_id = $to;

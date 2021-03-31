@@ -612,6 +612,12 @@ class ShipmentController extends Controller
         return view('backend.shipments.show', compact('shipment'));
     }
 
+    public function print($shipment)
+    {
+        $shipment = Shipment::find($shipment);
+        return view('backend.shipments.print', compact('shipment'));
+    }
+
     public function shipmentsReport(Request $request)
     {
         $shipments = new Shipment();

@@ -37,7 +37,7 @@
                                     <label class="mr-3 mb-0 d-none d-md-block">{{translate('Client')}}:</label>
                                     <select name="client_id" class="form-control" id="kt_datatable_search_status">
                                         <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Client::all() as $client)
+                                        @foreach(\App\Client::where('is_archived',0)->get() as $client)
                                         <option @if(isset($_POST['client_id']) && $_POST['client_id'] == $client->id)  selected @endif value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
                                     </select>
@@ -66,7 +66,7 @@
                                     <label class="mr-3 mb-0 d-none d-md-block">{{translate('Branch')}}:</label>
                                     <select name="branch_id" class="form-control" id="kt_datatable_search_type">
                                     <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Branch::all() as $Branch)
+                                        @foreach(\App\Branch::where('is_archived',0)->get() as $Branch)
                                         <option @if(isset($_POST['branch_id']) && $_POST['branch_id'] == $Branch->id)  selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
                                         @endforeach
                                     </select>

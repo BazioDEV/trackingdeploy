@@ -131,6 +131,12 @@
                                             <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->insurance}}</span>
                                         </div>
                                     </div>
+                                     <div class="col-6 col-md-4">
+                                        <div class="mb-8 d-flex flex-column">
+                                            <span class="text-dark font-weight-bold mb-4">{{translate('Amount To Collected:')}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->amount_to_be_collected}}</span>
+                                        </div>
+                                    </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Return Cost:')}}</span>

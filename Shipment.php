@@ -37,6 +37,74 @@ class Shipment extends Model
     const RETURNED_STOCK = 14;
     const RETURNED_CLIENT_GIVEN = 15;
 
+    const CLIENT_STATUS_CREATED = 1;
+    const CLIENT_STATUS_READY = 2;
+    const CLIENT_STATUS_IN_PROCESSING = 3;
+    const CLIENT_STATUS_TRANSFERED = 4;
+    const CLIENT_STATUS_RECEIVED_BRANCH = 5;
+    const CLIENT_STATUS_OUT_FOR_DELIVERY = 6;
+    const CLIENT_STATUS_DELIVERED = 7;
+
+    static public function client_status_info()
+    {
+        $array = [
+            [
+                'status' => Self::CLIENT_STATUS_CREATED,
+                'text' => translate('Created'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_READY,
+                'text' => translate('Ready for shipping'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_IN_PROCESSING,
+                'text' => translate('In Processing'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_TRANSFERED,
+                'text' => translate('Moving to Branch'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_RECEIVED_BRANCH,
+                'text' => translate('Received in branch'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_OUT_FOR_DELIVERY,
+                'text' => translate('Out for delivery'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_DELIVERED,
+                'text' => translate('Delivered'),
+            ]
+        ];
+        return $array;
+    }
+    public function getClientStatus()
+    {
+        $result = null;
+        foreach (Self::client_status_info() as $status) {
+            $status_id = $this->status_id;
+            $result = (isset($status['status']) && $status['status'] == $status_id) ? $status['text'] : null;
+            if ($result != null) {
+                return $result;
+            }
+        }
+
+        return $result;
+    }
+    static public function getClientStatusByStatusId($status_id_attr)
+    {
+        $result = null;
+        foreach (Self::client_status_info() as $status) {
+            $status_id = $status_id_attr;
+            $result = (isset($status['status']) && $status['status'] == $status_id) ? $status['text'] : null;
+            if ($result != null) {
+                return $result;
+            }
+        }
+
+        return $result;
+    }
 
     static public function status_info()
     {
@@ -263,7 +331,7 @@ class Shipment extends Model
 
     public function logs()
     {
-        return $this->hasMany('App\ShipmentLog', 'shipment_id', 'id');
+        return $this->hasMany('App\ClientShipmentLog', 'shipment_id', 'id');
     }
 
     public function from_country(){

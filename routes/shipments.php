@@ -3,6 +3,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	//Update Routes
     Route::get('shipments/settings','ShipmentController@settings')->name('admin.shipments.settings');
     Route::post('shipments/settings/store','ShipmentController@storeSettings')->name('admin.shipments.settings.store');
+    Route::get('shipments/print/{shipment}','ShipmentController@print')->name('admin.shipments.print');
 
     Route::get('shipments/settings/fees','ShipmentController@feesSettings')->name('admin.shipments.settings.fees');
     Route::get('shipments/settings/fees-fixed','ShipmentController@feesFixedSettings')->name('admin.shipments.settings.fees.fixed');

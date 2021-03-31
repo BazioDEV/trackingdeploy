@@ -21,7 +21,7 @@
         </div>
         @endif
         @if(\App\Cost::all()->count() == 0)
-         <div class="row">
+        <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
                 {{translate('Please Configure Your covered countries and cities')}},
                 <a class="alert-link" href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
@@ -325,6 +325,15 @@
 
                             <hr>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{translate('Amount to be Collected')}}:</label>
+                                        <input id="kt_touchspin_3" type="text" min="0" class="form-control" value="0" name="Shipment[amount_to_be_collected]" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Delivery Time')}}:</label>
@@ -379,7 +388,7 @@
             }
         }
     }
-    
+
     $('.select-client').select2({
         placeholder: "Select Client",
     }).on('select2:open', () => {
@@ -485,7 +494,7 @@
                 </li>`);
         });
 
-       
+
         $('.select-country').trigger('change');
         $('.select-state').trigger('change');
         $('#kt_datepicker_3').datepicker({
@@ -563,7 +572,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: 1,
+            min: 0,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
@@ -639,10 +648,9 @@
                                 message: '{{translate("This is required!")}}',
                                 callback: function(input) {
                                     // Get the selected options
-                                    if((input.value !== ""))
-                                    {
+                                    if ((input.value !== "")) {
                                         $('.client-select').removeClass('has-errors');
-                                    }else{
+                                    } else {
                                         $('.client-select').addClass('has-errors');
                                     }
                                     return (input.value !== "");

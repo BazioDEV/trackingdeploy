@@ -10,6 +10,11 @@
             <form class="form-horizontal" action="{{ route('admin.shipments.post_covered_cities',['country_id'=>$country->id]) }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
+            <div class="col-md-3">
+                <input type="checkbox"  id="checkAll" /> <b>{{translate('Select All')}}</b>
+            </div>
+            </div>
+            <div class="row">
                 @foreach($cities as $city)
                 <div class="col-md-3">
                 <input type="checkbox" name="covered_cities[]" id="" value="{{$city->id}}" @if($city->covered == 1) checked @endif /> {{$city->name}}
@@ -29,4 +34,11 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+ $("#checkAll").click(function () {
+     $('input:checkbox').not(this).prop('checked', this.checked);
+ });
+</script>
 @endsection
