@@ -9,7 +9,7 @@
 
     "addon_banner" : "shipment_banner.jpg",
 
-    "required_addons" : "",
+    "required_addons" : "spot-cargo-shipment-mission-addon",
 
     "directory" :
     [
