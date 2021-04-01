@@ -20,7 +20,7 @@
             </div>
         </div>
         @endif
-        @if(\App\Cost::all()->count() == 0)
+        @if(\App\Country::where('covered',1)->count() == 0)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
                 {{translate('Please Configure Your covered countries and cities')}},

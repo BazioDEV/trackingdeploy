@@ -32,6 +32,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
     
     Route::get('shipments/shipments-report','ShipmentController@shipmentsReport')->name('admin.shipments.report');
     Route::post('shipments/shipments-report/results','ShipmentController@exportShipmentsReport')->name('admin.shipments.post.report');
+    Route::post('shipments/print/stickers','ShipmentController@printStickers')->name('admin.shipments.print.stickers');
     Route::resource('shipments','ShipmentController',[
         'as' => 'admin'
     ]);

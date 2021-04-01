@@ -1,3 +1,7 @@
+<?php 
+use \Milon\Barcode\DNS1D;
+$d = new DNS1D();
+?>
 @extends('backend.layouts.app')
 
 @section('content')
@@ -34,8 +38,13 @@
                                         <div class="font-size-h2 mb-7 text-dark-50">{{translate('To Receiver')}}
                                             <span class="text-info font-weight-boldest ml-2">{{$shipment->reciver_name}}</span>
                                         </div>
-
+                                        @if($shipment->barcode != null)
+                                        <?=$d->getBarcodeHTML($shipment->barcode, "EAN13");?>
+                                        @endif
                                     </div>
+                                </div>
+                                <div class="row mb-6">
+                                    
                                 </div>
                                 <div class="row mb-6">
                                     <!--begin::Info-->

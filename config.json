@@ -101,6 +101,10 @@
             "update_directory": "resources/views/backend/shipments/fees-fixed-settings.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/print-stickers.blade.php",
+            "update_directory": "resources/views/backend/shipments/print-stickers.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/fees-state-to-state-settings.blade.php",
             "update_directory": "resources/views/backend/shipments/fees-state-to-state-settings.blade.php"
         },

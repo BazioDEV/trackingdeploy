@@ -23,7 +23,7 @@ use App\State;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Milon\Barcode\DNS1D;
 use function Psy\sh;
 
 class ShipmentController extends Controller
@@ -93,6 +93,12 @@ class ShipmentController extends Controller
         return view('backend.shipments.index', compact('shipments', 'actions', 'page_name', 'type', 'status'));
     }
 
+
+    public function printStickers(Request $request)
+    {
+        $shipments_ids = $request->checked_ids;
+        return view('backend.shipments.print-stickers', compact('shipments_ids'));
+    }
     public function createPickupMission(Request $request, $type)
     {
         try {
@@ -551,6 +557,10 @@ class ShipmentController extends Controller
             $model->fill($_POST['Shipment']);
             $model->code = -1;
             $model->status_id = Shipment::SAVED_STATUS;
+            $date = date_create();
+			$today = date("Y-m-d");
+            $d = new DNS1D();
+            $model->barcode = $d->getBarCode(date_timestamp_get($date).rand(10,100), "EAN13");
 
             if (!$model->save()) {
                 throw new \Exception();
