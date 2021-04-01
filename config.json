@@ -1,7 +1,7 @@
 {
     "name" : "Shipments",
 
-    "unique_identifier" : "shipment_addon",
+    "unique_identifier" : "spot-cargo-shipment-addon",
 
     "version" : "0.4",
 

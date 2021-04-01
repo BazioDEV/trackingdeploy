@@ -1,5 +1,5 @@
 @php 
-$addon = \App\Addon::where('unique_identifier', 'shipment_addon')->first();
+$addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 @endphp
 @if ($addon != null)
 @if($addon->activated)
