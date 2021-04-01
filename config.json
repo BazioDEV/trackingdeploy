@@ -213,6 +213,10 @@
             "update_directory": "app/ShipmentSetting.php"
         },
         {
+            "root_directory": "addons/shipment_addon/ClientShipmentLog.php",
+            "update_directory": "app/ClientShipmentLog.php"
+        },
+        {
             "root_directory": "addons/shipment_addon/Widgets/OrderCount.php",
             "update_directory": "app/Widgets/OrderCount.php"
         },
