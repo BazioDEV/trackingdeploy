@@ -5,7 +5,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
 @if($addon->activated)
     @if(Auth::user()->user_type == 'admin' || in_array('1001', json_decode(Auth::user()->staff->role->permissions)))
-        <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.branchs.update','admin.branchs.create'])}}" aria-haspopup="true" data-menu-toggle="hover">
+        <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.branchs.index','admin.branchs.update','admin.branchs.create'])}}" aria-haspopup="true" data-menu-toggle="hover">
             <a href="javascript:;" class="menu-link menu-toggle">
                 <i class="menu-icon flaticon2-document"></i>
                 <span class="menu-text">{{translate('Branches')}}</span>

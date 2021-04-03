@@ -162,6 +162,10 @@
             "update_directory": "resources/views/backend/inc/addons/shipment_sidenav.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/topbar/shipment_sidenav.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/topbar/shipment_sidenav.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/permissions/shipment_permissions.blade.php",
             "update_directory": "resources/views/backend/permissions/shipment_permissions.blade.php"
         },
