@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-lg-12 mx-auto">
+<div class="mx-auto col-lg-12">
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Branch Information')}}</h5>
@@ -14,11 +14,11 @@
             <div class="card-body">
                 <div class="form-group">
                     <label>{{translate('Branch Name')}}:</label>
-                    <input type="text" id="name" class="form-control" placeholder="{{translate('Here')}}" name="Branch[name]">
+                    <input type="text" id="name" class="form-control" placeholder="{{translate('Branch Name')}}" name="Branch[name]">
                 </div>
                 <div class="form-group">
                     <label>{{translate('Email')}}:</label>
-                    <input id="email-field" type="text" class="form-control" placeholder="{{translate('Here')}}" name="Branch[email]">
+                    <input id="email-field" type="text" class="form-control" placeholder="{{translate('Email')}}" name="Branch[email]">
                 </div>
 
 
@@ -62,13 +62,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Password')}}:</label>
-                            <input type="password" class="form-control" id="password" placeholder="{{translate('Here')}}" name="User[password]">
+                            <input type="password" class="form-control" id="password" placeholder="{{translate('Password')}}" name="User[password]">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Confirm Password')}}:</label>
-                            <input type="password" class="form-control" placeholder="{{translate('Here')}}" name="User[confirm_password]">
+                            <input type="password" class="form-control" placeholder="{{translate('Confirm Password')}}" name="User[confirm_password]">
                         </div>
                     </div>
                 </div>
@@ -76,13 +76,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Owner Name')}}:</label>
-                            <input type="text" class="form-control" id="owner_name" placeholder="{{translate('Here')}}" name="Branch[responsible_name]">
+                            <input type="text" class="form-control" id="owner_name" placeholder="{{translate('Owner Name')}}" name="Branch[responsible_name]">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Owner Phone')}}:</label>
-                            <input type="text" class="form-control" placeholder="{{translate('Here')}}" name="Branch[responsible_mobile]">
+                            <input type="text" class="form-control" placeholder="{{translate('Owner Phone')}}" name="Branch[responsible_mobile]">
                         </div>
                     </div>
                 </div>
@@ -90,14 +90,14 @@
 
                 <div class="form-group">
                     <label>{{translate('Owner National ID')}}:</label>
-                    <input type="text" class="form-control" placeholder="{{translate('Here')}}" name="Branch[national_id]">
+                    <input type="text" class="form-control" placeholder="{{translate('Owner National ID')}}" name="Branch[national_id]">
                 </div>
 
                 
                 
                 {!! hookView('spot-cargo-shipment-branch-addon',$currentView) !!}               
 
-                <div class="form-group mb-0 text-right">
+                <div class="mb-0 text-right form-group">
                     <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
                 </div>
             </div>
@@ -162,6 +162,16 @@
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Branch[national_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid national id'
                             }
                         }
                     }
