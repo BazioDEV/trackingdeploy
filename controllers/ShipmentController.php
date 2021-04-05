@@ -413,7 +413,7 @@ class ShipmentController extends Controller
     public function storeSettings()
     {
         foreach ($_POST['Setting'] as $key => $value) {
-            if (ShipmentSetting::getVal($key) == null) {
+            if (ShipmentSetting::where('key',$key)->count() == 0) {
                 $set = new ShipmentSetting();
                 $set->key = $key;
                 $set->value = $value;
@@ -559,8 +559,8 @@ class ShipmentController extends Controller
             $model->status_id = Shipment::SAVED_STATUS;
             $date = date_create();
 			$today = date("Y-m-d");
-            $d = new DNS1D();
-            $model->barcode = $d->getBarCode(date_timestamp_get($date).rand(10,100), "EAN13");
+            // $d = new DNS1D();
+            // $model->barcode = $d->getBarCode(date_timestamp_get($date).rand(10,100), "EAN13");
 
             if (!$model->save()) {
                 throw new \Exception();

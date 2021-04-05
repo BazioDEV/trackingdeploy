@@ -118,38 +118,38 @@ $d = new DNS1D();
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Total Cost')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->tax + $shipment->shipping_cost + $shipment->insurance }}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance) }}</span>
                                             <span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Shipping Cost')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->shipping_cost}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->shipping_cost)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Tax &  Duty:')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->tax}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->tax)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Insurance:')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->insurance}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->insurance)}}</span>
                                         </div>
                                     </div>
                                      <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Amount To Collected:')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->amount_to_be_collected}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->amount_to_be_collected)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">
                                         <div class="mb-8 d-flex flex-column">
                                             <span class="text-dark font-weight-bold mb-4">{{translate('Return Cost:')}}</span>
-                                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->return_cost}}</span>
+                                            <span class="text-muted font-weight-bolder font-size-lg">{{single_price($shipment->return_cost)}}</span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-4">

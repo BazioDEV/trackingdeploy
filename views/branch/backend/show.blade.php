@@ -6,7 +6,7 @@
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container">
-        <div class="mt-2 mb-3 text-left aiz-titlebar">
+        <div class="aiz-titlebar text-left mt-2 mb-3">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <h1 class="h3">{{translate('Branch Profile')}}</h1>
@@ -19,17 +19,17 @@
             </div>
         </div>
         <!--begin::Profile Overview-->
-        <div class="flex-row d-flex">
+        <div class="d-flex flex-row">
             <!--begin::Aside-->
             <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
                 <!--begin::Profile Card-->
                 <div class="card card-custom card-stretch">
                     <!--begin::Body-->
-                    <div class="pt-4 card-body">
+                    <div class="card-body pt-4">
 
                         <!--begin::User-->
                         <div class="d-flex align-items-center">
-                            <div class="mr-5 symbol symbol-60 symbol-xxl-100 align-self-start align-self-xxl-center">
+                            <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                                 <div class="symbol-label" style="background:url(<?= uploaded_asset($branch->img) ?>);background-size:cover;"></div>
                                 <i class="symbol-badge bg-success"></i>
                             </div>
@@ -37,19 +37,20 @@
                                 <a href="#" class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">{{$branch->name}}</a>
                                 <div class="text-muted">{{$branch->email}}</div>
                                 <div class="mt-2">
-                                    <a href="{{route('admin.branchs.edit',['branch'=>$branch->id])}}" class="px-3 py-2 my-1 mr-2 btn btn-sm btn-primary font-weight-bold px-xxl-5">{{translate('Edit')}}</a>
+                                    <a href="{{route('admin.branchs.edit',['branch'=>$branch->id])}}" class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1">{{translate('Edit')}}</a>
+                                    <a href="#" class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1">Follow</a>
                                 </div>
                             </div>
                         </div>
                         <!--end::User-->
                         <!--begin::Contact-->
                         <div class="py-9">
-                            <div class="mb-2 d-flex align-items-center justify-content-between">
-                                <span class="mr-2 font-weight-bold">{{translate('Email')}}:</span>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="font-weight-bold mr-2">{{translate('Email')}}:</span>
                                 <a href="#" class="text-muted text-hover-primary">{{$branch->email}}</a>
                             </div>
-                            <div class="mb-2 d-flex align-items-center justify-content-between">
-                                <span class="mr-2 font-weight-bold">{{translate('Phone')}}:</span>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="font-weight-bold mr-2">{{translate('Phone')}}:</span>
                                 <span class="text-muted">{{$branch->responsible_mobile}}</span>
                             </div>
                             
@@ -57,9 +58,9 @@
                         <!--end::Contact-->
                         <!--begin::Nav-->
                         <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
-                            <div class="mb-2 navi-item">
-                                <a href="{{route('admin.branchs.show',['branch'=>$branch->id])}}" class="py-4 navi-link active">
-                                    <span class="mr-2 navi-icon">
+                            <div class="navi-item mb-2">
+                                <a href="{{route('admin.branchs.show',['branch'=>$branch->id])}}" class="navi-link py-4 active">
+                                    <span class="navi-icon mr-2">
                                         <span class="svg-icon">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

@@ -11,7 +11,7 @@ Route::get('captains/transactions/{captain_id}','TransactionController@getCaptai
 });
 Route::get('admin/reverce_config',function(){
 	
-	$str = file_get_contents(base_path('addons/transaction_addon/config.json'));
+	$str = file_get_contents(base_path('addons/spot-cargo-shipment-addon/config.json'));
 	$config = json_decode($str, true);
 	if (!empty($config['files'])) {
 		foreach ($config['files'] as $file) {

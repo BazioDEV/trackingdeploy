@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="mx-auto col-lg-12">
+<div class="col-lg-12 mx-auto">
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Client Information')}}</h5>
@@ -14,11 +14,11 @@
             <div class="card-body">
                 <div class="form-group">
                     <label>{{translate('Commercial Name')}}:</label>
-                    <input type="text" id="name" class="form-control" placeholder="{{translate('Commercial Name')}}" name="Client[name]">
+                    <input type="text" id="name" class="form-control" placeholder="{{translate('Here')}}" name="Client[name]">
                 </div>
                 <div class="form-group">
                     <label>{{translate('Email')}}:</label>
-                    <input id="email-field" type="text" class="form-control" placeholder="{{translate('Email')}}" name="Client[email]">
+                    <input id="email-field" type="text" class="form-control" placeholder="{{translate('Here')}}" name="Client[email]">
                 </div>
 
 
@@ -62,13 +62,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Password')}}:</label>
-                            <input type="password" class="form-control" id="password" placeholder="{{translate('Password')}}" name="User[password]">
+                            <input type="password" class="form-control" id="password" placeholder="{{translate('Here')}}" name="User[password]">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Confirm Password')}}:</label>
-                            <input type="password" class="form-control" placeholder="{{translate('Confirm Password')}}" name="User[confirm_password]">
+                            <input type="password" class="form-control" placeholder="{{translate('Here')}}" name="User[confirm_password]">
                         </div>
                     </div>
                 </div>
@@ -76,13 +76,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Owner Name')}}:</label>
-                            <input type="text" class="form-control" id="owner_name" placeholder="{{translate('Owner Name')}}" name="Client[responsible_name]">
+                            <input type="text" class="form-control" id="owner_name" placeholder="{{translate('Here')}}" name="Client[responsible_name]">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Owner Phone')}}:</label>
-                            <input type="text" class="form-control" placeholder="{{translate('Owner Phone')}}" name="Client[responsible_mobile]">
+                            <input type="text" class="form-control" placeholder="{{translate('Here')}}" name="Client[responsible_mobile]">
                         </div>
                     </div>
                 </div>
@@ -90,25 +90,25 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Followup Name')}} :</label>
-                            <input type="text" class="form-control" id="followup_name" placeholder="{{translate('Followup Name')}}" name="Client[follow_up_name]">
+                            <input type="text" class="form-control" id="followup_name" placeholder="{{translate('Here')}}" name="Client[follow_up_name]">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>{{translate('Followup Phone')}}:</label>
-                            <input type="text" class="form-control" placeholder="{{translate('Followup Phone')}}" name="Client[follow_up_mobile]">
+                            <input type="text" class="form-control" placeholder="{{translate('Here')}}" name="Client[follow_up_mobile]">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>{{translate('National ID')}}:</label>
-                    <input type="text" class="form-control" placeholder="{{translate('National ID')}}" name="Client[national_id]">
+                    <input type="text" class="form-control" placeholder="{{translate('Here')}}" name="Client[national_id]">
                 </div>
 
                 <div class="form-group">
                     <label>{{translate('Client Source')}}:</label>
-                    <select class="form-control kt-select2 how-know-us" id="select-how" name="Client[how_know_us]">
+                    <select class="form-control kt-select2" id="select-how" name="Client[how_know_us]">
                         <option></option>
                         <option value="Facebook">{{translate('Facebook')}}</option>
                         <option value="Website">{{translate('ًWebsite')}}</option>
@@ -121,7 +121,7 @@
 
                 {!! hookView('spot-cargo-shipment-client-addon',$currentView) !!}
 
-                <div class="mb-0 text-right form-group">
+                <div class="form-group mb-0 text-right">
                     <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
                 </div>
             </div>
@@ -134,11 +134,6 @@
 
 @section('script')
 <script type="text/javascript">
-
-    $('.how-know-us').select2({
-        placeholder: "Client Source",
-    });
-
     $(document).ready(function() {
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
