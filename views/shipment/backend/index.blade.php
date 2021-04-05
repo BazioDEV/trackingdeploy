@@ -390,7 +390,7 @@
                     @endif
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
-                        <button id="submit-mission" type="submit" class="btn btn-primary">{{translate('Create Mission')}}</button>
+                        <button type="submit" class="btn btn-primary">{{translate('Create Mission')}}</button>
                     </div>
                 </div>
             </div>
@@ -466,10 +466,6 @@
     $(document).on('click','#submit_transfer',function(){
         $('#tableForm').submit();
     });
-    $(document).on('click','#submit-mission',function(){
-        $('#tableForm').submit();
-    });
-    
     $('#reset_search').click(function(e) {
         e.preventDefault();
         $('#search_form')[0].reset();

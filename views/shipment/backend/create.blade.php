@@ -6,13 +6,13 @@
         font-weight: bold !important;
     }
 </style>
-<div class="col-lg-12 mx-auto">
+<div class="mx-auto col-lg-12">
     <div class="card">
 
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
         </div>
-        @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
+        @if( \App\ShipmentSetting::getVal('fees_type') == null)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
                 {{translate('Please Configure Fees Settings , Costs in creation will be zero without configuration')}},
@@ -56,7 +56,7 @@
                             <label class="col-2 col-form-label">{{translate('Shipment Type')}}</label>
                             <div class="col-9 col-form-label">
                                 <div class="radio-inline">
-                                    <label class="radio radio-success  btn btn-default">
+                                    <label class="radio radio-success btn btn-default">
                                         <input @if(\App\ShipmentSetting::getVal('def_shipment_type')=='1' ) checked @endif type="radio" name="Shipment[type]" checked="checked" value="1" />
                                         <span></span>
                                         {{translate("Pickup (For door to door delivery)")}}
@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <label>{{translate('Shipping Date')}}:</label>
                                     <div class="input-group date">
-                                        <input type="text" value="{{\App\ShipmentSetting::getVal('def_shipping_date')}}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
+                                        <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_date')}}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="la la-calendar"></i>
@@ -119,21 +119,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Client Address')}}:</label>
-                                    <textarea name="Shipment[client_address]" class="form-control" id=""></textarea>
+                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control" id="" />
 
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Name')}}:</label>
-                                    <input type="text" name="Shipment[reciver_name]" class="form-control" />
+                                    <input type="text" placeholder="{{translate('Receiver Name')}}" name="Shipment[reciver_name]" class="form-control" />
 
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Address')}}:</label>
-                                    <input type="text" name="Shipment[reciver_address]" class="form-control" />
+                                    <input type="text" placeholder="{{translate('Receiver Address')}}" name="Shipment[reciver_address]" class="form-control" />
 
                                 </div>
                             </div>
@@ -213,13 +213,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Payment Type')}}:</label>
-                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_type]">
-
-
+                                    <select class="form-control kt-select2 payment-type" id="payment_type" name="Shipment[payment_type]">
                                         <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='1' ) selected @endif value="1">{{translate('Postpaid')}}</option>
                                         <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='2' ) selected @endif value="2">{{translate('Prepaid')}}</option>
-
-
                                     </select>
 
                                 </div>
@@ -227,7 +223,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Payment Method')}}:</label>
-                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_method]">
+                                    <select class="form-control kt-select2 payment-method" id="payment_method" name="Shipment[payment_method]">
                                         <option @if(\App\ShipmentSetting::getVal('def_payment_method')=='1' ) selected @endif value="1">{{translate('Cash')}}</option>
                                         <option @if(\App\ShipmentSetting::getVal('def_payment_method')=='2' ) selected @endif value="2">{{translate('Paypal')}}</option>
                                     </select>
@@ -247,25 +243,25 @@
                                         <div class="col-md-3">
 
                                             <label>{{translate('Package Type')}}:</label>
-                                            <select class="form-control kt-select2 package-type-select" id="select-how" name="package_id">
+                                            <select class="form-control kt-select2 package-type-select" id="package_id" name="package_id">
                                                 <option></option>
                                                 @foreach(\App\Package::all() as $package)
                                                 <option @if(\App\ShipmentSetting::getVal('def_package_type')==$package->id) selected @endif value="{{$package->id}}">{{$package->name}}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="d-md-none mb-2"></div>
+                                            <div class="mb-2 d-md-none"></div>
                                         </div>
                                         <div class="col-md-3">
                                             <label>{{translate('description')}}:</label>
-                                            <input type="text" class="form-control" name="description">
-                                            <div class="d-md-none mb-2"></div>
+                                            <input type="text" placeholder="{{translate('description')}}" class="form-control" name="description">
+                                            <div class="mb-2 d-md-none"></div>
                                         </div>
                                         <div class="col-md-3">
 
                                             <label>{{translate('Quantity')}}:</label>
 
-                                            <input class="kt_touchspin_qty" type="number" min="1" name="qty" class="form-control" value="1" />
-                                            <div class="d-md-none mb-2"></div>
+                                            <input class="kt_touchspin_qty" placeholder="{{translate('Quantity')}}" type="number" min="1" name="qty" class="form-control" value="1" />
+                                            <div class="mb-2 d-md-none"></div>
 
                                         </div>
 
@@ -273,8 +269,8 @@
 
                                             <label>{{translate('Weight')}}:</label>
 
-                                            <input type="number" min="1" name="weight" class="form-control weight-listener kt_touchspin_weight" onchange="calcTotalWeight()" value="1" />
-                                            <div class="d-md-none mb-2"></div>
+                                            <input type="number" min="1" placeholder="{{translate('Weight')}}" name="weight" class="form-control weight-listener kt_touchspin_weight" onchange="calcTotalWeight()" value="1" />
+                                            <div class="mb-2 d-md-none"></div>
 
                                         </div>
 
@@ -314,7 +310,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="">
-                                    <label class="col-form-label text-right">{{translate('Add')}}</label>
+                                    <label class="text-right col-form-label">{{translate('Add')}}</label>
                                     <div>
                                         <a href="javascript:;" data-repeater-create="" class="btn btn-sm font-weight-bolder btn-light-primary">
                                             <i class="la la-plus"></i>{{translate('Add')}}
@@ -328,7 +324,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{translate('Amount to be Collected')}}:</label>
-                                        <input id="kt_touchspin_3" type="text" min="0" class="form-control" value="0" name="Shipment[amount_to_be_collected]" />
+                                        <input id="kt_touchspin_3" placeholder="{{translate('Amount to be Collected')}}" type="text" min="0" class="form-control" value="0" name="Shipment[amount_to_be_collected]" />
                                     </div>
                                 </div>
                             </div>
@@ -337,7 +333,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Delivery Time')}}:</label>
-                                        <select class="form-control kt-select2" id="select-how" name="Shipment[delivery_time]">
+                                        <select class="form-control kt-select2 delivery-time" id="delivery_time" name="Shipment[delivery_time]">
                                             <option value="1-2 Days">{{translate('1-2 Days')}}</option>
                                         </select>
                                     </div>
@@ -345,7 +341,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Total Weight')}}:</label>
-                                        <input id="kt_touchspin_4" type="text" min="1" class="form-control total-weight" value="1" name="Shipment[total_weight]" />
+                                        <input id="kt_touchspin_4" placeholder="{{translate('Total Weight')}}" type="text" min="1" class="form-control total-weight" value="1" name="Shipment[total_weight]" />
                                     </div>
                                 </div>
 
@@ -362,7 +358,7 @@
 
                     {!! hookView('shipment_addon',$currentView) !!}
 
-                    <div class="form-group mb-0 text-right">
+                    <div class="mb-0 text-right form-group">
                         <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
                     </div>
                 </div>
@@ -397,6 +393,22 @@
             </li>`);
     });
 
+    $('.payment-method').select2({
+        placeholder: "Payment Method",
+    });
+
+    $('.payment-type').select2({
+        placeholder: "Payment Type",
+    });
+    
+    $('.package-type-select').select2({
+        placeholder: "Payment Type",
+    });
+
+    $('.delivery-time').select2({
+        placeholder: "Delivery Time",
+    });
+  
 
     $('.select-branch').select2({
         placeholder: "Select Branch",
@@ -512,7 +524,7 @@
 
 
 
-        //Package Types Repeater 
+        //Package Types Repeater
 
         $('#kt_repeater_1').repeater({
             initEmpty: false,

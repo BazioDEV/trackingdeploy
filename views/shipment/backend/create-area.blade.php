@@ -25,7 +25,7 @@
                         <label>{{translate('From Country')}}:</label>
                         <select id="change-country"  class="form-control select-country" name="country">
                             <option value=""></option>
-                            @foreach(\App\Country::where('covered',1)->get() as $country)
+                            @foreach(\App\Country::all() as $country)
                             <option value="{{$country->id}}">{{$country->name}}</option>
                             @endforeach
                         </select>
