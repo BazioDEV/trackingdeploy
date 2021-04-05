@@ -102,7 +102,7 @@
 
                     <div class="form-group col-md-4">
                         <label>{{translate('From Country')}}:</label>
-                        <select name="from_country" class="form-control select-country">
+                        <select name="from_country" class="form-control select-country" required>
                             <option value=""></option>
 
                             @foreach(\App\Country::where('covered',1)->get() as $covered)
@@ -112,7 +112,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('To Country')}}:</label>
-                        <select name="to_country" class="form-control select-country">
+                        <select name="to_country" class="form-control select-country" required>
                             <option value=""></option>
                             @foreach(\App\Country::where('covered',1)->get() as $covered)
                             <option value="{{$covered->id}}">{{$covered->name}}</option>
@@ -142,41 +142,45 @@
 
             <div class="card-body">
                 <div class="row">
+                    @if(count($packages = \App\Package::all()))
+                        <table class="table aiz-table mb-0">
+                            <thead>
+                                <tr>
 
-                    <table class="table aiz-table mb-0">
-                        <thead>
-                            <tr>
+                                    <th>{{translate('Name')}}</th>
 
-                                <th>{{translate('Name')}}</th>
+                                    <th>{{translate('Extra Cost')}}</th>
 
-                                <th>{{translate('Extra Cost')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($packages as $key => $package)
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($packages = \App\Package::all() as $key => $package)
-
-                            <tr>
-                                <td>{{$package->name}}</td>
-
-
-                                <td>
-
-                                    <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{$package->cost}}" />
-                                    <input type="hidden" name="package_id[]" value="{{$package->id}}">
-
-                                </td>
-                            </tr>
-
-                            @endforeach
-                            <tr>
-                                <td></td>
-                                <td> <button class="btn btn-primary form-control">{{translate('Save Package Types Extra Fees')}}</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <td>{{$package->name}}</td>
 
 
+                                        <td>
+
+                                            <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{$package->cost}}" />
+                                            <input type="hidden" name="package_id[]" value="{{$package->id}}">
+
+                                        </td>
+                                    </tr>
+
+                                @endforeach
+                                <tr>
+                                    <td></td>
+                                    <td> <button class="btn btn-primary form-control">{{translate('Save Package Types Extra Fees')}}</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                            {{translate('Please Configure Package Types')}},
+                            <a class="alert-link" href="{{ route('admin.packages.index') }}">{{ translate('Configure Now') }}</a>
+                        </div>
+                    @endif
 
 
 

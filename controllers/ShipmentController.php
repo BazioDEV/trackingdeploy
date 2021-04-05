@@ -789,11 +789,16 @@ class ShipmentController extends Controller
     {
         $from_country = $_GET['from_country'];
         $to_country = $_GET['to_country'];
-        $from = Country::find($from_country);
-        $to = Country::find($to_country);
-        $from_cities = State::where('country_id', $from->id)->where('covered', 1)->get();
-        $to_cities = State::where('country_id', $to->id)->where('covered', 1)->get();
-        return view('backend.shipments.costs-repeter', compact('from', 'to', 'from_cities', 'to_cities'));
+        if($from_country && $to_country){
+            $from = Country::find($from_country);
+            $to = Country::find($to_country);
+            $from_cities = State::where('country_id', $from->id)->where('covered', 1)->get();
+            $to_cities = State::where('country_id', $to->id)->where('covered', 1)->get();
+            return view('backend.shipments.costs-repeter', compact('from', 'to', 'from_cities', 'to_cities'));
+        }else{
+            flash(translate("(From Country) and (To Country) are required"))->error();
+            return back();
+        }
     }
     public function ajax_costs_repeter()
     {
