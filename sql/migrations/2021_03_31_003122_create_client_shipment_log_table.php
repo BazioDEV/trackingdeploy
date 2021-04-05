@@ -18,6 +18,7 @@ class CreateClientShipmentLogTable extends Migration
             $table->integer('from');
             $table->integer('to');
             $table->integer('created_by');
+            $table->integer('shipment_id');
             $table->timestamps();
         });
     }

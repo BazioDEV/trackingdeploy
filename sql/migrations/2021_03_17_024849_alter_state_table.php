@@ -13,9 +13,11 @@ class AlterStateTable extends Migration
      */
     public function up()
     {
-        Schema::table('states', function (Blueprint $table) {
-            $table->boolean('covered')->default(0);
-        });
+        if(!Schema::hasColumn('states', 'covered')){
+            Schema::table('states', function (Blueprint $table) {
+                $table->boolean('covered')->default(0);
+            });
+        }
     }
 
     /**

@@ -540,6 +540,7 @@
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
+                    initval: 1,
                 });
 
                 $('.kt_touchspin_weight').TouchSpin({
@@ -550,6 +551,7 @@
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
+                    initval: 1,
                     prefix: 'Kg'
                 });
                 $('.kt_touchspin_qty').TouchSpin({
@@ -560,6 +562,7 @@
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
+                    initval: 1,
                 });
 
             },
@@ -598,6 +601,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
+            initval: 1,
             prefix: 'Kg'
         });
         $('.kt_touchspin_weight').TouchSpin({
@@ -608,6 +612,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
+            initval: 1,
             prefix: 'Kg'
         });
         $('.kt_touchspin_qty').TouchSpin({
@@ -618,6 +623,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
+            initval: 1,
         });
         $('.dimensions_r').TouchSpin({
             buttondown_class: 'btn btn-secondary',
@@ -627,6 +633,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
+            initval: 1,
         });
 
 

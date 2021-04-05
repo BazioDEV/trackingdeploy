@@ -13,9 +13,11 @@ class AlterCountryTable extends Migration
      */
     public function up()
     {
-        Schema::table('countries', function (Blueprint $table) {
-            $table->boolean('covered')->default(0);
-        });
+        if(!Schema::hasColumn('countries', 'covered')){
+            Schema::table('countries', function (Blueprint $table) {
+                $table->boolean('covered')->default(0);
+            });
+        }
     }
 
     /**
