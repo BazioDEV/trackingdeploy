@@ -39,6 +39,9 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'Branch.email' => 'required|unique:users,email',
+        ]);
         try{	
 			DB::beginTransaction();
 			$model = new Branch();

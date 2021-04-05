@@ -41,6 +41,9 @@ class CaptainController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'Captain.email' => 'required|unique:users,email',
+        ]);
         try{	
 			DB::beginTransaction();
 			$model = new Captain();

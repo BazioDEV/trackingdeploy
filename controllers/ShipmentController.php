@@ -899,10 +899,12 @@ class ShipmentController extends Controller
             $count->covered = 0;
             $count->save();
         }
-        foreach ($_POST['covered_countries'] as $country_id) {
-            $c = Country::find($country_id);
-            $c->covered = 1;
-            $c->save();
+        if(isset($_POST['covered_countries'])){
+            foreach ($_POST['covered_countries'] as $country_id) {
+                $c = Country::find($country_id);
+                $c->covered = 1;
+                $c->save();
+            }
         }
         flash(translate("Covered Countries added successfully"))->success();
         return back();
