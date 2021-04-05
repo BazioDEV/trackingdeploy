@@ -18,6 +18,27 @@
             <div class="card-body">
                 <div class="form-group row mt-3">
 
+                    <div class="col-lg-6">
+                        <label class="col-form-label text-lg-right">{{translate('Default Count for dashboard Latest shipment widget')}}:</label>
+
+                        <select  class="form-control kt-select2"  name="Setting[latest_shipment_count]">
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '5') selected @endif  value="5">5</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '10' || \App\ShipmentSetting::getVal('latest_shipment_count') == null) selected @endif  value="10">10</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '15') selected @endif  value="15">15</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '20') selected @endif  value="20">20</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '30') selected @endif  value="30">30</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '50') selected @endif  value="50">50</option>
+                            <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '100') selected @endif  value="100">100</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="separator separator-dashed my-10"></div>
+
+                <div class="form-group row mt-3">
+
                     <div class="col-lg-3">
                         <div class="form-group row">
                             <label class=" col-form-label">{{translate('Enable Shipping date')}}</label>
@@ -41,9 +62,17 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Defult Shipping date')}}:</label>
-                        <input type="text" value="{{\App\ShipmentSetting::getVal('def_shipping_date')}}" name="Setting[def_shipping_date]" class="form-control datepicker" placeholder="Defult Shipping date" />
+
+                        <select  class="form-control kt-select2"  name="Setting[def_shipping_date]">
+                            <option>{{translate('Choose')}}</option>
+                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date') == 'same_day') selected @endif  value="same_day">{{translate('Same day')}}</option>
+                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 'next_day') selected @endif  value="next_day">{{translate('Next day')}}</option>
+                            @for ($i = 2; $i <= 30; $i++)
+                                <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 'after_'.$i.'_day') selected @endif  value="after_{{ $i }}_day">{{translate('After '.$i.' days')}}</option>
+                            @endfor
+                        </select>
 
                     </div>
 
