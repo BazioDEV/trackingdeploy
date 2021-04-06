@@ -919,10 +919,12 @@ class ShipmentController extends Controller
             $count->covered = 0;
             $count->save();
         }
-        foreach ($_POST['covered_cities'] as $state_id) {
-            $c = State::find($state_id);
-            $c->covered = 1;
-            $c->save();
+        if(isset($_POST['covered_cities'])){
+            foreach ($_POST['covered_cities'] as $state_id) {
+                $c = State::find($state_id);
+                $c->covered = 1;
+                $c->save();
+            }
         }
         flash(translate("Covered Cities updated successfully"))->success();
         return back();

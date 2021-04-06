@@ -20,11 +20,27 @@
             </div>
         </div>
         @endif
-        @if(\App\Country::where('covered',1)->count() == 0)
+        @if(count($countries = \App\Country::where('covered',1)->get()) == 0 || \App\State::where('covered', 1)->count() == 0)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
                 {{translate('Please Configure Your covered countries and cities')}},
                 <a class="alert-link" href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
+            </div>
+        </div>
+        @endif
+        @if(\App\Area::count() == 0)
+        <div class="row">
+            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                {{translate('Please Add areas before creating your first shipment')}},
+                <a class="alert-link" href="{{ route('admin.areas.create') }}">{{ translate('Configure Now') }}</a>
+            </div>
+        </div>
+        @endif
+        @if(count($packages = \App\Package::all()) == 0)
+        <div class="row">
+            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                {{translate('Please Add package types before creating your first shipment')}},
+                <a class="alert-link" href="{{ route('admin.packages.create') }}">{{ translate('Configure Now') }}</a>
             </div>
         </div>
         @endif
@@ -146,7 +162,7 @@
                                     <label>{{translate('From Country')}}:</label>
                                     <select id="change-country" name="Shipment[from_country_id]" class="form-control select-country">
                                         <option value=""></option>
-                                        @foreach(\App\Country::where('covered',1)->get() as $country)
+                                        @foreach($countries as $country)
                                         <option value="{{$country->id}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
@@ -157,7 +173,7 @@
                                     <label>{{translate('To Country')}}:</label>
                                     <select id="change-country-to" name="Shipment[to_country_id]" class="form-control select-country">
                                         <option value=""></option>
-                                        @foreach(\App\Country::where('covered',1)->get() as $country)
+                                        @foreach($countries as $country)
                                         <option value="{{$country->id}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
@@ -245,7 +261,7 @@
                                             <label>{{translate('Package Type')}}:</label>
                                             <select class="form-control kt-select2 package-type-select" id="package_id" name="package_id">
                                                 <option></option>
-                                                @foreach(\App\Package::all() as $package)
+                                                @foreach($packages as $package)
                                                 <option @if(\App\ShipmentSetting::getVal('def_package_type')==$package->id) selected @endif value="{{$package->id}}">{{$package->name}}</option>
                                                 @endforeach
                                             </select>
