@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.20",
+    "version" : "0.21",
 
     "minimum_item_version" : "3.7",
 
@@ -235,14 +235,6 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/ClientShipmentLog.php",
             "update_directory": "app/ClientShipmentLog.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/latest_shipments.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/dashboard/latest_shipments.blade.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/order_count.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/dashboard/order_count.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/helpers/ShipmentActionHelper.php",
