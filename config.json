@@ -18,7 +18,6 @@
                 "resources/views/hooks/spot-cargo-shipment-addon/spot-cargo-shipment-addon",
                 "resources/views/hooks/spot-cargo-shipment-addon/spot-cargo-shipment-mission-addon",
                 "resources/views/backend/shipments",
-                "resources/views/widgets/addons",
 
                 "resources/views/backend/branchs",
 
@@ -238,20 +237,12 @@
             "update_directory": "app/ClientShipmentLog.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/Widgets/OrderCount.php",
-            "update_directory": "app/Widgets/OrderCount.php"
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/latest_shipments.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/dashboard/latest_shipments.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/Widgets/LatestShipments.php",
-            "update_directory": "app/Widgets/LatestShipments.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/widgets/latest_shipments.blade.php",
-            "update_directory": "resources/views/widgets/addons/latest_shipments.blade.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/widgets/order_count.blade.php",
-            "update_directory": "resources/views/widgets/addons/order_count.blade.php"
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/order_count.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/dashboard/order_count.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/helpers/ShipmentActionHelper.php",
