@@ -102,25 +102,33 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.packages.index'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.packages.index') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
                                 <span class="menu-text">{{translate('Package Types')}}</span>
                             </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.shipments.settings') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
                                 <span class="menu-text">{{translate('General Settings')}}</span>
                             </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.shipments.covered_countries'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.shipments.covered_countries') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
                                 <span class="menu-text">{{translate('Covered Areas')}}</span>
                             </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings.fees'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.shipments.settings.fees') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
                                 <span class="menu-text">{{translate('Fees Settings')}}</span>
                             </a>
                         </li>
