@@ -1,4 +1,4 @@
-@if(Auth::user()->user_type == 'admin' || in_array('1100', json_decode(Auth::user()->staff->role->permissions)))
+@if(Auth::user()->user_type == 'admin' || in_array('1100', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
 
 
 @php

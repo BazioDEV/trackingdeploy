@@ -1,5 +1,5 @@
 <?php 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'customer']], function(){
 	//Update Routes
     Route::get('shipments/settings','ShipmentController@settings')->name('admin.shipments.settings');
     Route::post('shipments/settings/store','ShipmentController@storeSettings')->name('admin.shipments.settings.store');

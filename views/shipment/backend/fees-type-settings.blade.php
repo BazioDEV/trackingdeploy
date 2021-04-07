@@ -98,34 +98,43 @@
             </div>
 
             <div class="card-body">
-                <div class="row">
+                @if(count($covered_countries = \App\Country::where('covered',1)->get()))
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>{{translate('From Country')}}:</label>
+                            <select name="from_country" class="form-control select-country" required>
+                                <option value=""></option>
 
-                    <div class="form-group col-md-4">
-                        <label>{{translate('From Country')}}:</label>
-                        <select name="from_country" class="form-control select-country" required>
-                            <option value=""></option>
+                                @foreach($covered_countries as $covered)
+                                <option value="{{$covered->id}}">{{$covered->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>{{translate('To Country')}}:</label>
+                            <select name="to_country" class="form-control select-country" required>
+                                <option value=""></option>
+                                @foreach($covered_countries as $covered)
+                                <option value="{{$covered->id}}">{{$covered->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>{{translate('Configure Costs')}}:</label>
+                            <button class="btn btn-primary form-control">{{translate('Configure Selected Countries Costs')}}</button>
+                        </div>
 
-                            @foreach(\App\Country::where('covered',1)->get() as $covered)
-                            <option value="{{$covered->id}}">{{$covered->name}}</option>
-                            @endforeach
-                        </select>
+
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>{{translate('To Country')}}:</label>
-                        <select name="to_country" class="form-control select-country" required>
-                            <option value=""></option>
-                            @foreach(\App\Country::where('covered',1)->get() as $covered)
-                            <option value="{{$covered->id}}">{{$covered->name}}</option>
-                            @endforeach
-                        </select>
+                @else
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                            {{translate('Please Configure Your covered countries and cities')}},
+                            <a class="alert-link" href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
+                        </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>{{translate('Configure Costs')}}:</label>
-                        <button class="btn btn-primary form-control">{{translate('Configure Selected Countries Costs')}}</button>
-                    </div>
-
-
-                </div>
+                @endif
+                
 
 
 

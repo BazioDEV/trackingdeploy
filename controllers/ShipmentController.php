@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Area;
 use App\Branch;
 use App\Client;
@@ -53,6 +54,9 @@ class ShipmentController extends Controller
                 $shipments = $shipments->where('type', $_GET['type']);
             }
         }
+        if(Auth::user()->user_type == 'customer'){
+            $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+        }
         $shipments = $shipments->paginate(20);
         $actions = new ShipmentActionHelper();
         $actions = $actions->get('all');
@@ -83,6 +87,9 @@ class ShipmentController extends Controller
             if (isset($_GET['type']) && !empty($_GET['type'])) {
                 $shipments = $shipments->where('type', $_GET['type']);
             }
+        }
+        if(Auth::user()->user_type == 'customer'){
+            $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
         }
         $shipments = $shipments->paginate(20);
 
@@ -648,6 +655,9 @@ class ShipmentController extends Controller
                 $shipments = $shipments->where('type', $_GET['type']);
             }
         }
+        if(Auth::user()->user_type == 'customer'){
+            $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+        }
         $shipments = $shipments->paginate(20);
         $actions = new ShipmentActionHelper();
         $actions = $actions->get('all');
@@ -692,6 +702,9 @@ class ShipmentController extends Controller
                         $shipments = $shipments->whereBetween('created_at',[$_POST['from_date'],$_POST['to_date']]);
                     }
                 }
+            }
+            if(Auth::user()->user_type == 'customer'){
+                $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
             }
             $shipments = $shipments->paginate(20);
             $actions = new ShipmentActionHelper();

@@ -1,5 +1,5 @@
 <?php 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'customer']], function(){
     Route::post('missions/action/{to}','MissionsController@change')->name('admin.missions.action');
     Route::post('missions/action/approve/{to}','MissionsController@approveAndAssign')->name('admin.mission.action.approve');
     Route::get('missions/action/confirm_amount/{mission_id}','MissionsController@getAmountModel')->name('admin.missions.action.confirm_amount');

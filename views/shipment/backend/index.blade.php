@@ -45,7 +45,7 @@
                         <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
                         <li class="navi-item">
                             @foreach($actions as $action)
-                            @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions)))
+                            @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                             @if($action['index'] == true)
                             <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
                                 <span class="navi-icon">
@@ -547,52 +547,52 @@
 
         });
 
-        FormValidation.formValidation(
-            document.getElementById('tableForm'), {
-                fields: {
-                    "Mission[address]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    },
-                    "Mission[client_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    },
-                    "Mission[to_branch_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    }
+        // FormValidation.formValidation(
+        //     document.getElementById('tableForm'), {
+        //         fields: {
+        //             "Mission[address]": {
+        //                 validators: {
+        //                     notEmpty: {
+        //                         message: '{{translate("This is required!")}}'
+        //                     }
+        //                 }
+        //             },
+        //             "Mission[client_id]": {
+        //                 validators: {
+        //                     notEmpty: {
+        //                         message: '{{translate("This is required!")}}'
+        //                     }
+        //                 }
+        //             },
+        //             "Mission[to_branch_id]": {
+        //                 validators: {
+        //                     notEmpty: {
+        //                         message: '{{translate("This is required!")}}'
+        //                     }
+        //                 }
+        //             }
 
 
-                },
+        //         },
 
 
-                plugins: {
-                    autoFocus: new FormValidation.plugins.AutoFocus(),
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap(),
-                    // Validate fields when clicking the Submit button
-                    submitButton: new FormValidation.plugins.SubmitButton(),
-                    // Submit the form when all fields are valid
-                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                    icon: new FormValidation.plugins.Icon({
-                        valid: 'fa fa-check',
-                        invalid: 'fa fa-times',
-                        validating: 'fa fa-refresh',
-                    }),
-                }
-            }
-        );
+        //         plugins: {
+        //             autoFocus: new FormValidation.plugins.AutoFocus(),
+        //             trigger: new FormValidation.plugins.Trigger(),
+        //             // Bootstrap Framework Integration
+        //             bootstrap: new FormValidation.plugins.Bootstrap(),
+        //             // Validate fields when clicking the Submit button
+        //             submitButton: new FormValidation.plugins.SubmitButton(),
+        //             // Submit the form when all fields are valid
+        //             defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+        //             icon: new FormValidation.plugins.Icon({
+        //                 valid: 'fa fa-check',
+        //                 invalid: 'fa fa-times',
+        //                 validating: 'fa fa-refresh',
+        //             }),
+        //         }
+        //     }
+        // );
 
     });
 </script>

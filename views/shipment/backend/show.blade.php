@@ -17,7 +17,7 @@ $d = new DNS1D();
             <div class="flex-row-fluid">
                 <!--begin::Section-->
                 <div class="row">
-                @if(Auth::user()->user_type == 'admin' || in_array('1103', json_decode(Auth::user()->staff->role->permissions)))
+                @if(Auth::user()->user_type == 'admin' || in_array('1103', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                     <div class="col-md-7 col-lg-12 col-xxl-7">
                         <!--begin::Engage Widget 14-->
                         <div class="card card-custom card-stretch gutter-b">
@@ -216,7 +216,7 @@ $d = new DNS1D();
                 @endif
                     <div class="col-md-5 col-lg-12 col-xxl-5">
                         <!--begin::List Widget 19-->
-                        @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions)))
+                        @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                         <div class="card card-custom card-stretch card-stretch-half gutter-b"  >
                             <!--begin::Header-->
                             <div class="card-header border-0 pt-6 mb-2">
@@ -275,7 +275,7 @@ $d = new DNS1D();
                         </div>
                         @endif
                         <!--end::List Widget 19-->
-                        @if(Auth::user()->user_type == 'admin' || in_array('1102', json_decode(Auth::user()->staff->role->permissions)))
+                        @if(Auth::user()->user_type == 'admin' || in_array('1102', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                         <div class="card card-custom card-stretch card-stretch-half gutter-b">
                             <!--begin::List Widget 19-->
 

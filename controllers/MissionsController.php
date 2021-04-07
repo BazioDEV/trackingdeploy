@@ -11,6 +11,7 @@ use App\Mission;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 class MissionsController extends Controller
 {
     /**
@@ -25,7 +26,11 @@ class MissionsController extends Controller
 
     public function statusIndex($status,$type=null)
     {
-        $missions = Mission::where('status_id',$status);
+        if(Auth::user()->user_type == 'customer'){
+            $missions = Mission::where('status_id',$status)->where('client_id',Auth::user()->userClient->client_id);
+        }else{
+            $missions = Mission::where('status_id',$status);
+        }
         if($type !=null)
         {
             $missions = $missions->where('type',$type);

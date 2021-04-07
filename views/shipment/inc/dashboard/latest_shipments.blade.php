@@ -1,4 +1,4 @@
-@if(Auth::user()->user_type == 'admin' || in_array('1101', json_decode(Auth::user()->staff->role->permissions)))
+@if(Auth::user()->user_type == 'admin' || in_array('1101', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
 <div class="row">
     <div class="col-md-12">
         <div class="card card-custom card-stretch">
