@@ -7,7 +7,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
     @if($addon->activated) 
         <label class="checkbox">
-            <input type="checkbox" name="permissions[]" value="1009" @php if(isset($permissions) && in_array(1008, $permissions)) echo "checked"; @endphp>
+            <input type="checkbox" name="permissions[]" value="1009" @php if(isset($permissions) && in_array(1009, $permissions)) echo "checked"; @endphp>
             <span></span>{{ translate('Shipment Index') }}
         </label>
         @foreach(\App\Shipment::status_info() as $item)
@@ -35,17 +35,17 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
             </label>
 
             <label class="checkbox">
-                <input type="checkbox" name="permissions[]" class="" value="1102" @php if(isset($permissions) && in_array(1101, $permissions)) echo "checked"; @endphp>
+                <input type="checkbox" name="permissions[]" class="" value="1102" @php if(isset($permissions) && in_array(1102, $permissions)) echo "checked"; @endphp>
                 <span></span>{{ translate('Shipment Log') }}
             </label>
 
             <label class="checkbox">
-                <input type="checkbox" name="permissions[]" class="" value="1103" @php if(isset($permissions) && in_array(1101, $permissions)) echo "checked"; @endphp>
+                <input type="checkbox" name="permissions[]" class="" value="1103" @php if(isset($permissions) && in_array(1103, $permissions)) echo "checked"; @endphp>
                 <span></span>{{ translate('Shipment Info') }}
             </label>
 
             <label class="checkbox">
-                <input type="checkbox" name="permissions[]" class="" value="1104" @php if(isset($permissions) && in_array(1101, $permissions)) echo "checked"; @endphp>
+                <input type="checkbox" name="permissions[]" class="" value="1104" @php if(isset($permissions) && in_array(1104, $permissions)) echo "checked"; @endphp>
                 <span></span>{{ translate('Shipment Packages') }}
             </label>
     @endif

@@ -4,7 +4,7 @@
     @endphp
     @if ($addon != null)
     @if($addon->activated)
-        @if(Auth::user()->user_type == 'admin' || in_array('1009', json_decode(Auth::user()->staff->role->permissions)))
+        @if(Auth::user()->user_type == 'admin' || in_array('1008', json_decode(Auth::user()->staff->role->permissions)))
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.missions.index','admin.missions.update','admin.missions.create'])}} @foreach(\App\Mission::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-shipping-fast"></i>

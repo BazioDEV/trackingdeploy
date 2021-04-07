@@ -10,7 +10,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
     @if($addon->activated)  
         <label class="checkbox">
-            <input type="checkbox" name="permissions[]" value="1008" @php if(isset($permissions) && in_array(1009, $permissions)) echo "checked"; @endphp>
+            <input type="checkbox" name="permissions[]" value="1008" @php if(isset($permissions) && in_array(1008, $permissions)) echo "checked"; @endphp>
             <span></span>{{ translate('Missions Index') }}
         </label>
         @foreach(\App\Mission::status_info() as $item)
