@@ -7,6 +7,7 @@ use App\Captain;
 use App\Http\Helpers\UserRegistrationHelper;
 use App\User;
 use App\UserCaptain;
+use Auth;
 use DB;
 use App\Branch;
 class CaptainController extends Controller
@@ -18,7 +19,11 @@ class CaptainController extends Controller
      */
     public function index()
     {
-        $captains = Captain::where('is_archived',0)->paginate(15);
+        if(Auth::user()->user_type == 'branch'){
+            $captains = Captain::where('is_archived',0)->where('branch_id', Auth::user()->userBranch->branch_id)->paginate(15);
+        }else{
+            $captains = Captain::where('is_archived',0)->paginate(15);
+        }
         return view('backend.captains.index', compact('captains'));
     }
 
@@ -70,6 +75,7 @@ class CaptainController extends Controller
 				$userRegistrationHelper->generatePassword();
 			}
 			$userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+			$userRegistrationHelper->setUserType("captain");
 			$response = $userRegistrationHelper->save();
 			if(!$response['success']){
 				throw new \Exception($response['error_msg']);

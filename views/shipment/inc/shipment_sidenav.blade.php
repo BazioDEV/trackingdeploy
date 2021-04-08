@@ -4,7 +4,7 @@ $user_type = Auth::user()->user_type;
 @endphp
 @if ($addon != null)
     @if($addon->activated)
-        @if($user_type == 'admin' || $user_type == 'customer' || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.index','admin.shipments.update','admin.shipments.create'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-box-open"></i>
@@ -20,7 +20,7 @@ $user_type = Auth::user()->user_type;
                             </span>
                         </li>
 
-                        @if($user_type == 'admin' || $user_type == 'customer' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                         <li class="menu-item {{ areActiveRoutes(['admin.shipments.create'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.shipments.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
@@ -40,7 +40,7 @@ $user_type = Auth::user()->user_type;
 
                         @endif
                         @foreach(\App\Shipment::status_info() as $item)
-                        @if($user_type == 'admin' || $user_type == 'customer' || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                             @if($item['status'] == \App\Shipment::SAVED_STATUS)
                             <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status ==  $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
                                 <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
@@ -141,6 +141,8 @@ $user_type = Auth::user()->user_type;
                     </div>
                 </li>
             @endif
+
+            @if(in_array($user_type,['admin','customer','branch']) )
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.report'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon flaticon2-document"></i>
@@ -166,6 +168,7 @@ $user_type = Auth::user()->user_type;
                     </ul>
                 </div>
             </li>
+            @endif
         @endif
     @endif
 @endif

@@ -56,6 +56,8 @@ class ShipmentController extends Controller
         }
         if(Auth::user()->user_type == 'customer'){
             $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+        }elseif(Auth::user()->user_type == 'branch'){
+            $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
         $shipments = $shipments->paginate(20);
         $actions = new ShipmentActionHelper();
@@ -90,6 +92,8 @@ class ShipmentController extends Controller
         }
         if(Auth::user()->user_type == 'customer'){
             $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+        }elseif(Auth::user()->user_type == 'branch'){
+            $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
         $shipments = $shipments->paginate(20);
 
@@ -605,8 +609,9 @@ class ShipmentController extends Controller
 
             DB::commit();
             flash(translate("Shipment added successfully"))->success();
-            $route = 'admin.shipments.index';
-            return execute_redirect($request, $route);
+            // $route = 'admin.shipments.index';
+            // return execute_redirect($request, $route);
+            return redirect()->route('admin.shipments.show', $model->id);
         } catch (\Exception $e) {
             DB::rollback();
             print_r($e->getMessage());
@@ -657,6 +662,8 @@ class ShipmentController extends Controller
         }
         if(Auth::user()->user_type == 'customer'){
             $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+        }elseif(Auth::user()->user_type == 'branch'){
+            $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
         $shipments = $shipments->paginate(20);
         $actions = new ShipmentActionHelper();
@@ -705,6 +712,8 @@ class ShipmentController extends Controller
             }
             if(Auth::user()->user_type == 'customer'){
                 $shipments = $shipments->where('client_id', Auth::user()->userClient->client_id);
+            }elseif(Auth::user()->user_type == 'branch'){
+                $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
             }
             $shipments = $shipments->paginate(20);
             $actions = new ShipmentActionHelper();

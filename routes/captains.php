@@ -1,5 +1,5 @@
 <?php 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|branch']], function(){
 	//Update Routes
     Route::resource('captains','CaptainController',[
         'as' => 'admin'

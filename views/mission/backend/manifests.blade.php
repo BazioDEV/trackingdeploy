@@ -18,10 +18,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
+                    @php
+                        if(Auth::user()->user_type == 'branch'){
+                            $manifest_captains = \App\Captain::where('branch_id',Auth::user()->userBranch->branch_id)->get();
+                        }else{
+                            $manifest_captains = \App\Captain::all();
+                        }
+                    @endphp
                     <label>{{translate('Captain')}}:</label>
 
                     <select name="captain_id" class="form-control">
-                        @foreach(\App\Captain::all() as $captain)
+                        @foreach($manifest_captains as $captain)
                         <option value="{{$captain->id}}">{{$captain->name}}</option>
                         @endforeach
                     </select>

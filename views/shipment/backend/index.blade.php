@@ -226,8 +226,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
-
-                                    <select name="Mission[client_id]" class="form-control">
+                                    <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
+                                    <select class="form-control" id="pick_up_client_id" disabled>
                                         @foreach(\App\Client::all() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
@@ -267,8 +267,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
-
-                                    <select name="Mission[client_id]" class="form-control">
+                                    <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
+                                    <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
                                         @foreach(\App\Client::all() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
@@ -309,8 +309,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
-
-                                    <select name="Mission[client_id]" class="form-control">
+                                    <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
+                                    <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
                                         @foreach(\App\Client::all() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
@@ -350,8 +350,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
-
-                                    <select name="Mission[client_id]" class="form-control">
+                                    <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
+                                    <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
                                         @foreach(\App\Client::all() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
@@ -483,6 +483,8 @@
             $('#tableForm').attr('method', $(element).data('method'));
             $('#assign-to-captain-modal').modal('toggle');
             $('#pick_up_address').val(selected_address[0]);
+            $('#pick_up_client_id').val(selected[0]);
+            $('#pick_up_client_id_hidden').val(selected[0]);
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
         } else if (selected.length > 1) {
@@ -503,6 +505,8 @@
             $('#tableForm').attr('method', $(element).data('method'));
             $('#assign-to-captain-modal').modal('toggle');
             $('#delivery_address').val(selected_address[0]);
+            $('#pick_up_client_id').val(selected[0]);
+            $('#pick_up_client_id_hidden').val(selected[0]);
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
         } else if (selected.length > 1) {

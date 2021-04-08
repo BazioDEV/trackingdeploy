@@ -28,6 +28,10 @@ class MissionsController extends Controller
     {
         if(Auth::user()->user_type == 'customer'){
             $missions = Mission::where('status_id',$status)->where('client_id',Auth::user()->userClient->client_id);
+        }elseif(Auth::user()->user_type == 'captain'){
+            $missions = Mission::where('status_id',$status)->where('captain_id',Auth::user()->userCaptain->captain_id);
+        // }elseif(Auth::user()->user_type == 'branch'){
+        //     $missions = Mission::where('status_id',$status)->where('to_branch_id',Auth::user()->userBranch->branch_id);
         }else{
             $missions = Mission::where('status_id',$status);
         }
@@ -144,6 +148,15 @@ class MissionsController extends Controller
 
     public function getManifests()
     {
+        if(Auth::user()->user_type == 'captain'){
+            $captain = Captain::find(Auth::user()->userCaptain->captain_id);
+            $missions = Mission::where('captain_id',Auth::user()->userCaptain->captain_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
+            return view('backend.missions.manifest-profile',compact('missions','captain'));
+        }elseif(Auth::user()->user_type == 'customer'){
+            $missions = Mission::where('client_id',Auth::user()->userClient->client_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
+            $captain = $missions[0]->captain;
+            return view('backend.missions.manifest-profile',compact('missions','captain'));
+        }
         return view('backend.missions.manifests');
     }
     public function getManifestProfile(Request $request)

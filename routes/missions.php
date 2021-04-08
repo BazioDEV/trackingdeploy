@@ -1,5 +1,5 @@
 <?php 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'customer']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|customer|captain|branch']], function(){
     Route::post('missions/action/{to}','MissionsController@change')->name('admin.missions.action');
     Route::post('missions/action/approve/{to}','MissionsController@approveAndAssign')->name('admin.mission.action.approve');
     Route::get('missions/action/confirm_amount/{mission_id}','MissionsController@getAmountModel')->name('admin.missions.action.confirm_amount');
@@ -19,7 +19,4 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'customer']], functio
         Route::get('missions/'.$item['route_url'].'/{status}'.$params,'MissionsController@statusIndex')
         ->name($item['route_name']);
     }
-
-    
-
 });

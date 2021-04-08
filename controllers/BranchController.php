@@ -68,6 +68,7 @@ class BranchController extends Controller
 				$userRegistrationHelper->generatePassword();
 			}
 			$userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+			$userRegistrationHelper->setUserType("branch");
 			$response = $userRegistrationHelper->save();
 			if(!$response['success']){
 				throw new \Exception($response['error_msg']);
