@@ -169,12 +169,12 @@
             "update_directory": "resources/views/backend/permissions/shipment_permissions.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/latest_shipments.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/dashboard/latest_shipments.blade.php"
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/2-latest_shipments.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/dashboard/2-latest_shipments.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/order_count.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/dashboard/order_count.blade.php"
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/1-order_count.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/dashboard/1-order_count.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/routes/shipments.php",
