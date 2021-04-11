@@ -79,11 +79,11 @@
                                     <tr class="font-weight-bolder">
                                         
                                         @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                            <td>{{$mission->client->pickup_cost}}</td>
+                                            <td>{{format_price(convert_price($mission->client->pickup_cost))}}</td>
                                         @endif
                                        
                                        
-                                        <td class="text-danger font-size-h3 font-weight-boldest">{{$mission->amount}}</td>
+                                        <td class="text-danger font-size-h3 font-weight-boldest">{{format_price(convert_price($mission->amount))}}</td>
                                         
                                     </tr>
                                 </tbody>

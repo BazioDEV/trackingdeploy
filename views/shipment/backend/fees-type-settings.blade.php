@@ -31,20 +31,20 @@
 
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>{{translate('Default Shipping Cost')}}:</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost')}}" name="Setting[def_shipping_cost]">
+                                <label>{{translate('Default Shipping Cost')}}({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_shipping_cost')))}}" name="Setting[def_shipping_cost]">
                             </div>
                             <div class="form-group col-md-4">
-                                <label>{{translate('Default Tax')}}:</label>
+                                <label>{{translate('Default Tax')}}%:</label>
                                 <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_tax')}}" name="Setting[def_tax]">
                             </div>
                             <div class="form-group col-md-4">
-                                <label>{{translate('Default Insurance')}}:</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_insurance')}}" name="Setting[def_insurance]">
+                                <label>{{translate('Default Insurance')}}({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_insurance')))}}" name="Setting[def_insurance]">
                             </div>
                             <div class="form-group col-md-4">
-                                <label>{{translate('Default Returned Shipment Cost')}}:</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost')}}" name="Setting[def_return_cost]">
+                                <label>{{translate('Default Returned Shipment Cost')}}({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_return_cost')))}}" name="Setting[def_return_cost]">
                             </div>
                         </div>
                         <hr>
@@ -166,12 +166,12 @@
                                 @foreach($packages as $key => $package)
 
                                     <tr>
-                                        <td>{{$package->name}}</td>
+                                        <td>{{$package->name}} ({{currency_symbol()}}):</td>
 
 
                                         <td>
 
-                                            <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{$package->cost}}" />
+                                            <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{convert_price($package->cost)}}" />
                                             <input type="hidden" name="package_id[]" value="{{$package->id}}">
 
                                         </td>
