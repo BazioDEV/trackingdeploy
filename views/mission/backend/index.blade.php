@@ -93,7 +93,7 @@
                     <td>{{$mission->type}}</td>
                     
                     
-                    <td>{{$mission->amount}}</td>
+                    <td>{{format_price(convert_price($mission->amount))}}</td>
                 
                     <td class="text-center">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
@@ -101,11 +101,11 @@
                         </a>
                         @if(isset($status))
                             @if($status == \App\Mission::APPROVED_STATUS)
-                            @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
                             <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                                 <i class="fa fa-check"></i> {{translate('Receive Mission')}}
                             </a>
-                            @endif
+                            {{-- @endif --}}
                             @endif
                         @endif
                        

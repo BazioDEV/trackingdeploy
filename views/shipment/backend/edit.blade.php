@@ -240,13 +240,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Shipping Cost')}}:</label>
-                                        <input id="kt_touchspin_3" type="text" class="form-control" value="{{$shipment->shipping_cost}}" name="Shipment[shipping_cost]" />
+                                        <input id="kt_touchspin_3" type="text" class="form-control" value="{{convert_price($shipment->shipping_cost)}}" name="Shipment[shipping_cost]" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{translate('Return Cost')}}:</label>
-                                        <input id="kt_touchspin_3" type="text" class="form-control" value="{{$shipment->return_cost}}" name="Shipment[return_cost]" />
+                                        <input id="kt_touchspin_3_3" type="text" class="form-control" value="{{convert_price($shipment->return_cost)}}" name="Shipment[return_cost]" />
                                     </div>
                                 </div>                               
                             </div>
@@ -358,7 +358,17 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
-            prefix: '$'
+            prefix: '{{currency_symbol()}}'
+        });
+        $('#kt_touchspin_3_3').TouchSpin({
+            buttondown_class: 'btn btn-secondary',
+            buttonup_class: 'btn btn-secondary',
+
+            min: -1000000000,
+            max: 1000000000,
+            stepinterval: 50,
+            maxboostedstep: 10000000,
+            prefix: '{{currency_symbol()}}'
         });
         $('#kt_touchspin_4').TouchSpin({
             buttondown_class: 'btn btn-secondary',

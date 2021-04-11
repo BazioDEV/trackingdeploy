@@ -56,7 +56,7 @@ class MissionsController extends Controller
             $params = array();
             if($to == Mission::RECIVED_STATUS)
             {
-                if(isset($request->amount))
+                if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
                 {
                     $params['amount'] = $request->amount;
                 }
@@ -151,10 +151,6 @@ class MissionsController extends Controller
         if(Auth::user()->user_type == 'captain'){
             $captain = Captain::find(Auth::user()->userCaptain->captain_id);
             $missions = Mission::where('captain_id',Auth::user()->userCaptain->captain_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
-            return view('backend.missions.manifest-profile',compact('missions','captain'));
-        }elseif(Auth::user()->user_type == 'customer'){
-            $missions = Mission::where('client_id',Auth::user()->userClient->client_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
-            $captain = $missions[0]->captain;
             return view('backend.missions.manifest-profile',compact('missions','captain'));
         }
         return view('backend.missions.manifests');

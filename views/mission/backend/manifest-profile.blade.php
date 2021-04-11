@@ -64,14 +64,14 @@
                                     @foreach($missions as $key=>$mission)
 
                                     <tr>
-                                        
+                                        <td></td>
                                         <td width="3%">{{ ($key+1) }}</td>
                                         <td width="5%">M{{$mission->code}}</td>
                                         <td>{{$mission->getStatus()}}</td>
                                         <td>{{$mission->type}}</td>
 
 
-                                        <td>{{$mission->amount}}</td>
+                                        <td>{{format_price(convert_price($mission->amount))}}</td>
 
                                        
                                     </tr>

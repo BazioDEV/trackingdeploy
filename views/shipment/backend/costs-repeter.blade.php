@@ -29,20 +29,20 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Shipping Cost')}}:</label>
-                                <input type="number" onchange="changeShippingCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->shipping_cost)){echo $default_country_cost->shipping_cost;}else{ echo 0;} @endphp" name="shipping_cost[]">
+                                <label>{{translate(' Shipping Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeShippingCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->shipping_cost)){echo convert_price($default_country_cost->shipping_cost);}else{ echo 0;} @endphp" name="shipping_cost[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Tax')}}:</label>
+                                <label>{{translate(' Tax')}} %:</label>
                                 <input type="number" onchange="changeTax(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->tax)){echo $default_country_cost->tax;}else{ echo 0;} @endphp" name="tax[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Insurance')}}:</label>
-                                <input type="number" onchange="changeInsurance(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->insurance)){echo $default_country_cost->insurance;}else{ echo 0;} @endphp" name="insurance[]">
+                                <label>{{translate(' Insurance')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeInsurance(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->insurance)){echo convert_price($default_country_cost->insurance);}else{ echo 0;} @endphp" name="insurance[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Returned Shipment Cost')}}:</label>
-                                <input type="number" onchange="changeReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->return_cost)){echo $default_country_cost->return_cost;}else{ echo 0;} @endphp" name="return_cost[]">
+                                <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->return_cost)){echo convert_price($default_country_cost->return_cost);}else{ echo 0;} @endphp" name="return_cost[]">
                             </div>
                         </div>
                         <hr>
@@ -98,19 +98,19 @@
                                 <input type="hidden" name="to_state[]" value="`+to_city_id+`">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Shipping Cost')}}:</label>
+                                <label>{{translate(' Shipping Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control shipp_cost" placeholder="{{translate('Here')}}" value="`+shipping_cost+`" name="shipping_cost[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Tax')}}:</label>
+                                <label>{{translate(' Tax')}} %:</label>
                                 <input type="number" min="0" id="name" class="form-control tax_cost" placeholder="{{translate('Here')}}" value="`+tax+`" name="tax[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Insurance')}}:</label>
+                                <label>{{translate(' Insurance')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control insurance_cost" placeholder="{{translate('Here')}}" value="`+insurance+`" name="insurance[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate(' Returned Shipment Cost')}}:</label>
+                                <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control return_cost" placeholder="{{translate('Here')}}" value="`+return_cost+`" name="return_cost[]">
                             </div>
                         </div>

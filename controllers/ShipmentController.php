@@ -837,7 +837,7 @@ class ShipmentController extends Controller
             foreach ($to_cities as $to_city){
                 $from_costs = \App\Cost::where('from_country_id', $from->id)->where('to_country_id', $to->id)->where('from_state_id', $city->id)->where('to_state_id', $to_city->id)->first();
                 if($from_costs != null){
-                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>$from_costs->shipping_cost,'tax'=>$from_costs->tax,'return_cost'=>$from_costs->return_cost,'insurance'=>$from_costs->insurance]);
+                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>convert_price($from_costs->shipping_cost),'tax'=>$from_costs->tax,'return_cost'=>convert_price($from_costs->return_cost),'insurance'=>convert_price($from_costs->insurance)]);
                 }else
                 {
                     array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>0,'tax'=>0,'return_cost'=>0,'insurance'=>0]);

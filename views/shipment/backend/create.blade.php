@@ -12,7 +12,7 @@
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
         </div>
-        @if( \App\ShipmentSetting::getVal('fees_type') == null)
+        @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
                 {{translate('Please Configure Fees Settings , Costs in creation will be zero without configuration')}},
@@ -643,7 +643,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
-            prefix: '$'
+            prefix: '{{currency_symbol()}}'
         });
         $('#kt_touchspin_4').TouchSpin({
             buttondown_class: 'btn btn-secondary',
