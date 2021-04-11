@@ -416,9 +416,19 @@
     $('.payment-type').select2({
         placeholder: "Payment Type",
     });
-    
+
     $('.package-type-select').select2({
-        placeholder: "Payment Type",
+        placeholder: "Package Type",
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
+              class="btn btn-primary" >Manage {{translate('Packages')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
     });
 
     $('.delivery-time').select2({
@@ -508,20 +518,46 @@
     }
     $(document).ready(function() {
         $('.select-country').select2({
-            placeholder: "Select country"
+            placeholder: "Select country",
+            language: {
+              noResults: function() {
+                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
+                  class="btn btn-primary" >Manage {{translate('Countries')}}</a>
+                  </li>`;
+              },
+            },
+            escapeMarkup: function(markup) {
+              return markup;
+            },
         });
+
         $('.select-state').select2({
-            placeholder: "Select state"
+            placeholder: "Select state",
+            language: {
+              noResults: function() {
+                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
+                  class="btn btn-primary" >Manage {{translate('States')}}</a>
+                  </li>`;
+              },
+            },
+            escapeMarkup: function(markup) {
+              return markup;
+            },
         });
 
         $('.select-area').select2({
-            placeholder: "Select Area"
-        }).on('select2:open', () => {
-            $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.areas.create')}}?redirect=admin.shipments.create"
-                class="btn btn-primary" >+ {{translate('Add New Area')}}</a>
-                </li>`);
+            placeholder: "Select Area",
+            language: {
+              noResults: function() {
+                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.areas.create')}}?redirect=admin.shipments.create"
+                  class="btn btn-primary" >Manage {{translate('Areas')}}</a>
+                  </li>`;
+              },
+            },
+            escapeMarkup: function(markup) {
+              return markup;
+            },
         });
-
 
         $('.select-country').trigger('change');
         $('.select-state').trigger('change');

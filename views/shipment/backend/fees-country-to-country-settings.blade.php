@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
+<div class="mt-2 mb-3 text-left aiz-titlebar">
     <div class="row align-items-center">
         <div class="col-md-6">
             <h1 class="h3">{{translate('Fees Country To Country Settings')}}</h1>
@@ -107,7 +107,7 @@
                     <label>{{translate('Returned Shipment Cost')}}:</label>
                     <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="0" name="Cost[return_cost]">
                 </div>
-                <div class="form-group mb-0 text-left col-md-4">
+                <div class="mb-0 text-left form-group col-md-4">
                     <label>{{translate('Save')}}:</label>
                     <div>
                         <button type="submit" class="btn btn-md btn-primary">{{translate('Save')}}</button>
@@ -119,12 +119,12 @@
 
     </div>
 </div>
-<div class="card mt-10">
+<div class="mt-10 card">
     <div class="card-header">
         <h5 class="mb-0 h6">{{translate('From Country To Country Costs')}}</h5>
     </div>
     <div class="card-body">
-        <table class="table aiz-table mb-0">
+        <table class="table mb-0 aiz-table">
             <thead>
                 <tr>
                     <th width="3%">#</th>
@@ -259,6 +259,20 @@
 
 
         });
+    });
+
+    $('.select-country').select2({
+        placeholder: "Select country",
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
+              class="btn btn-primary" >Manage {{translate('Countries')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
     });
     
     
