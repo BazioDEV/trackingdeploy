@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
+<div class="mt-2 mb-3 text-left aiz-titlebar">
     <div class="row align-items-center">
         <div class="col-md-6">
             <h1 class="h3">{{translate('Shipments Report')}}</h1>
@@ -13,7 +13,7 @@
 
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
-    <div class="card-header flex-wrap py-3">
+    <div class="flex-wrap py-3 card-header">
         <div class="card-title">
             <h3 class="card-label">
                 {{$page_name}}
@@ -32,10 +32,10 @@
                     <div class="col-lg-12 col-xl-12">
                         <div class="row align-items-center">
                             
-                            <div class="col-md-4 my-2 my-md-0">
+                            <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Client')}}:</label>
-                                    <select name="client_id" class="form-control" id="kt_datatable_search_status">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
+                                    <select name="client_id" class="form-control client" id="kt_datatable_search_status">
                                         <option value="">{{translate('All')}}</option>
                                         @foreach(\App\Client::where('is_archived',0)->get() as $client)
                                         <option @if(isset($_POST['client_id']) && $_POST['client_id'] == $client->id)  selected @endif value="{{$client->id}}">{{$client->name}}</option>
@@ -43,10 +43,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-2 my-md-0">
+                            <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Type')}}:</label>
-                                    <select name="type" class="form-control" id="kt_datatable_search_type">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Type')}}:</label>
+                                    <select name="type" class="form-control type" >
                                         <option value="">All</option>
                                         @if($type == null || $type == \App\Shipment::PICKUP)
                                         <option @if(isset($_POST['type']) && $_POST['type'] == \App\Shipment::PICKUP)  selected @endif value="{{\App\Shipment::PICKUP}}">{{translate('Pickup')}}</option>
@@ -61,10 +61,10 @@
                         </div>
                         <div class="row align-items-center">
                             
-                            <div class="col-md-4 my-2 my-md-5">
+                            <div class="my-2 col-md-4 my-md-5">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Branch')}}:</label>
-                                    <select name="branch_id" class="form-control" id="kt_datatable_search_type">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
+                                    <select name="branch_id" class="form-control branch" id="kt_datatable_search_type">
                                     <option value="">{{translate('All')}}</option>
                                         @foreach(\App\Branch::where('is_archived',0)->get() as $Branch)
                                         <option @if(isset($_POST['branch_id']) && $_POST['branch_id'] == $Branch->id)  selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
@@ -72,10 +72,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-2 my-md-5">
+                            <div class="my-2 col-md-4 my-md-5">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Status')}}:</label>
-                                    <select name="status" class="form-control" id="kt_datatable_search_type">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Status')}}:</label>
+                                    <select name="status" class="form-control status">
                                     <option value="">{{translate('All')}}</option>
                                         @foreach(\App\Shipment::status_info() as $status_info)
                                         <option @if(isset($_POST['status']) && $_POST['status'] == $status_info['status'])  selected @endif value="{{$status_info['status']}}">{{$status_info['text']}}</option>
@@ -86,23 +86,23 @@
                         </div>
                         <div class="row align-items-center">
                             
-                            <div class="col-md-4 my-2 my-md-5">
+                            <div class="my-2 col-md-4 my-md-5">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('From Date')}}:</label>
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('From Date')}}:</label>
                                     <input type="text" name="from_date" value="<?php if(isset($_POST['from_date'])){echo $_POST['from_date'];}?>" class="form-control datepicker" placeholder="{{translate('Created From Date')}}" id="kt_datatable_search_query" />
                                 </div>
                             </div>
-                            <div class="col-md-4 my-2 my-md-5">
+                            <div class="my-2 col-md-4 my-md-5">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('From Date')}}:</label>
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('From Date')}}:</label>
                                     <input type="text" name="to_date" value="<?php if(isset($_POST['to_date'])){echo $_POST['to_date'];}?>" class="form-control datepicker" placeholder="{{translate('Created To Date')}}" id="kt_datatable_search_query" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                        <button type="submit" class="btn btn-light-primary px-6 font-weight-bold">{{translate('Get Report')}}</button>
-                        <input type="submit" class="btn btn-light-primary px-6 font-weight-bold" name="excel" value="{{translate('Export Excel Sheet')}}" />
+                    <div class="mt-5 col-lg-3 col-xl-4 mt-lg-0">
+                        <button type="submit" class="px-6 btn btn-light-primary font-weight-bold">{{translate('Get Report')}}</button>
+                        <input type="submit" class="px-6 btn btn-light-primary font-weight-bold" name="excel" value="{{translate('Export Excel Sheet')}}" />
                     </div>
                 
             </div>
@@ -110,7 +110,7 @@
 
             <form id="tableForm">
             @csrf()
-            <table class="table aiz-table mb-0">
+            <table class="table mb-0 aiz-table">
                 <thead>
                     <tr>
                        
@@ -237,6 +237,43 @@ $('.datepicker').datepicker({
             Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
         }
     }
+
+    $('.type').select2({
+        placeholder: "Type",
+    });
+
+    $('.status').select2({
+        placeholder: "Status",
+    });
+
+    $('.branch').select2({
+        placeholder: 'Branch',
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.branchs.create')}}"
+              class="btn btn-primary" >Manage {{translate('Branchs')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
+    });
+
+    $('.client').select2({
+        placeholder: 'Client',
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.clients.create')}}"
+              class="btn btn-primary" >Manage {{translate('Clients')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
+    });
+
     $(document).ready(function() {
         $('.action-caller').on('click', function(e) {
             e.preventDefault();
@@ -244,46 +281,6 @@ $('.datepicker').datepicker({
             $('#tableForm').attr('method', $(this).data('method'));
             $('#tableForm').submit();
         });
-
-        FormValidation.formValidation(
-            document.getElementById('tableForm'), {
-                fields: {
-                    "Mission[address]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    },
-                    "Mission[client_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    }
-
-
-                },
-
-
-                plugins: {
-                    autoFocus: new FormValidation.plugins.AutoFocus(),
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap(),
-                    // Validate fields when clicking the Submit button
-                    submitButton: new FormValidation.plugins.SubmitButton(),
-                    // Submit the form when all fields are valid
-                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                    icon: new FormValidation.plugins.Icon({
-                        valid: 'fa fa-check',
-                        invalid: 'fa fa-times',
-                        validating: 'fa fa-refresh',
-                    }),
-                }
-            }
-        );
 
     });
 </script>

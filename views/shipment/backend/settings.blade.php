@@ -6,7 +6,7 @@
         font-weight: bold !important;
     }
 </style>
-<div class="col-lg-12 mx-auto">
+<div class="mx-auto col-lg-12">
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipping General Settings')}}</h5>
@@ -16,12 +16,12 @@
             @csrf
 
             <div class="card-body">
-                <div class="form-group row mt-3">
+                <div class="mt-3 form-group row">
 
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Default Count for dashboard Latest shipment widget')}}:</label>
 
-                        <select  class="form-control kt-select2"  name="Setting[latest_shipment_count]">
+                        <select  class="form-control kt-select2 latest_shipment_count"  name="Setting[latest_shipment_count]">
                             <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '5') selected @endif  value="5">5</option>
                             <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '10' || \App\ShipmentSetting::getVal('latest_shipment_count') == null) selected @endif  value="10">10</option>
                             <option @if(\App\ShipmentSetting::getVal('latest_shipment_count')== '15') selected @endif  value="15">15</option>
@@ -35,9 +35,9 @@
 
                 </div>
 
-                <div class="separator separator-dashed my-10"></div>
+                <div class="my-10 separator separator-dashed"></div>
 
-                <div class="form-group row mt-3">
+                <div class="mt-3 form-group row">
 
                     <div class="col-lg-3">
                         <div class="form-group row">
@@ -65,7 +65,7 @@
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Defult Shipping date')}}:</label>
 
-                        <select  class="form-control kt-select2"  name="Setting[def_shipping_date]">
+                        <select  class="form-control kt-select2 def_shipping_date"  name="Setting[def_shipping_date]">
                             <option>{{translate('Choose')}}</option>
                             <option @if(\App\ShipmentSetting::getVal('def_shipping_date') == 'same_day') selected @endif  value="same_day">{{translate('Same day')}}</option>
                             <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 'next_day') selected @endif  value="next_day">{{translate('Next day')}}</option>
@@ -78,14 +78,14 @@
 
                 </div>
 
-                <div class="separator separator-dashed my-10"></div>
+                <div class="my-10 separator separator-dashed"></div>
 
                 <div class="form-group row">
 
                     <label class="col-2 col-form-label">{{translate('Default Shipment Type')}}</label>
                     <div class="col-9 col-form-label">
                         <div class="radio-inline">
-                            <label class="radio radio-success  btn btn-default">
+                            <label class="radio radio-success btn btn-default">
                                 <input @if(\App\ShipmentSetting::getVal('def_shipment_type')=='1' ) checked @endif type="radio" name="Setting[def_shipment_type]" checked="checked" value="1" />
                                 <span></span>
                                 {{translate("Pickup (For door to door delivery)")}}
@@ -101,14 +101,14 @@
 
                 </div>
 
-                <div class="separator separator-dashed my-10"></div>
+                <div class="my-10 separator separator-dashed"></div>
 
                 <div class="form-group row">
 
                     <label class="col-2 col-form-label">{{translate('Receiving Mission Confirmation Type')}}</label>
                     <div class="col-9 col-form-label">
                         <div class="radio-inline">
-                            <label class="radio radio-success  btn btn-default">
+                            <label class="radio radio-success btn btn-default">
                                 <input @if(\App\ShipmentSetting::getVal('def_shipment_conf_type')=='seg' ) checked @endif type="radio" name="Setting[def_shipment_conf_type]" value="seg" />
                                 <span></span>
                             {{translate('Customer Signature')}}
@@ -130,14 +130,13 @@
                 </div>
 
 
-                <div class="separator separator-dashed my-10"></div>
+                <div class="my-10 separator separator-dashed"></div>
 
                 <div class="form-group row">
 
                     <div class="col-lg-3">
                         <label class="col-form-label text-lg-right">{{translate('Default Package Type')}}:</label>
-                        <select  class="form-control kt-select2" id="select-how" name="Setting[def_package_type]">
-                            <option>{{translate('Choose Package Type')}}</option>
+                        <select  class="form-control kt-select2 def_package_type" id="select-how" name="Setting[def_package_type]">
                             @foreach(\App\Package::all() as $package)
                             <option @if(\App\ShipmentSetting::getVal('def_package_type')== $package->id) selected @endif  value="{{$package->id}}">{{$package->name}}</option>
                             @endforeach
@@ -145,8 +144,7 @@
                     </div>
                     <div class="col-lg-3">
                         <label class="col-form-label text-lg-right">{{translate('Default Branch')}}:</label>
-                        <select class="form-control kt-select2" id="select-how" name="Setting[def_branch]">
-                            <option>{{translate('Choose Branch')}}</option>
+                        <select class="form-control kt-select2 def_branch" name="Setting[def_branch]">
                             @foreach(\App\Branch::where('is_archived',0)->get() as $branch)
                             <option @if(\App\ShipmentSetting::getVal('def_branch')== $branch->id) selected @endif value="{{$branch->id}}">{{$branch->name}}</option>
                             @endforeach
@@ -155,7 +153,7 @@
                     <div class="col-md-3">
                       
                             <label class="col-form-label text-lg-right">{{translate('Default Payment Type')}}:</label>
-                            <select class="form-control kt-select2" id="select-how" name="Setting[def_payment_type]">
+                            <select class="form-control kt-select2 def_payment_type" name="Setting[def_payment_type]">
 
 
                                 <option @if(\App\ShipmentSetting::getVal('def_payment_type')== '1') selected @endif value="1">{{translate('Postpaid')}}</option>
@@ -169,7 +167,7 @@
                     <div class="col-md-3">
                       
                             <label class="col-form-label text-lg-right">{{translate('Default Payment Method')}}:</label>
-                            <select class="form-control kt-select2" id="select-how" name="Setting[def_payment_method]">
+                            <select class="form-control kt-select2 def_payment_method" name="Setting[def_payment_method]">
                                 <option @if(\App\ShipmentSetting::getVal('def_payment_method')== '1') selected @endif  value="1">{{translate('Cash')}}</option>
                                 <option @if(\App\ShipmentSetting::getVal('def_payment_method')== '2') selected @endif value="2">{{translate('Paypal')}}</option>
                             </select>
@@ -197,6 +195,51 @@
 
 @section('script')
 <script type="text/javascript">
+    
+    $('.def_shipping_date').select2({
+        placeholder: "Defult Shipping Date",
+    });
+
+    $('.latest_shipment_count').select2({
+        placeholder: "Latest Shipment Count",
+    });
+
+    $('.def_payment_type').select2({
+        placeholder: "Defult Payment Type",
+    });
+
+    $('.def_payment_method').select2({
+        placeholder: "Defult Payment Method",
+    });
+
+    $('.def_branch').select2({
+        placeholder: 'Defult Branch',
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.branchs.create')}}?redirect=admin.shipments.settings"
+              class="btn btn-primary" >Manage {{translate('Branchs')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
+    });
+
+    $('.def_package_type').select2({
+        placeholder: 'Defult Backage Type',
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.settings"
+              class="btn btn-primary" >Manage {{translate('Backages')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
+    });
+
     $(document).ready(function() {
         $('.datepicker').datepicker({
             orientation: "bottom auto",

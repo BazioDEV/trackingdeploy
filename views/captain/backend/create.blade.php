@@ -46,7 +46,7 @@
                                 <option value="3">{{translate('Pickup & Delivery')}}</option>
                                 <option value="1">{{translate('Pickup')}}</option>
                                 <option value="2">{{translate('Delivery')}}</option>
-                                
+
                             </select>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-              
+
 
                 <div class="form-group">
                     <label>{{translate('National ID')}}:</label>
@@ -99,8 +99,8 @@
 
                     </select>
                 </div>
-                
-                {!! hookView('branch_addon',$currentView) !!}               
+
+                {!! hookView('branch_addon',$currentView) !!}
 
                 <div class="mb-0 text-right form-group">
                     <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
@@ -121,7 +121,17 @@
     });
 
     $('.branch').select2({
-        placeholder: "Branch",
+        placeholder: 'Select Branch',
+        language: {
+          noResults: function() {
+            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.branchs.create')}}?redirect=admin.captains.create"
+              class="btn btn-primary" >Manage {{translate('Branchs')}}</a>
+              </li>`;
+          },
+        },
+        escapeMarkup: function(markup) {
+          return markup;
+        },
     });
 
     $(document).ready(function() {
@@ -174,7 +184,7 @@
                     },
 
                 },
-                
+
 
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),

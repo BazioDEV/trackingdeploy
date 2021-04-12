@@ -6,8 +6,8 @@
         font-weight: bold !important;
     }
 </style>
-<div class="col-lg-12 mx-auto">
-    <div class="card mb-10">
+<div class="mx-auto col-lg-12">
+    <div class="mb-10 card">
 
         <div class="card-body">
             <div class="alert alert-info">
@@ -32,19 +32,19 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Shipping Cost')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_shipping_cost')))}}" name="Setting[def_shipping_cost]">
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_shipping_cost')))}}" name="Setting[def_shipping_cost]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Tax')}}%:</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_tax')}}" name="Setting[def_tax]">
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Tax')}}" value="{{\App\ShipmentSetting::getVal('def_tax')}}" name="Setting[def_tax]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Insurance')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_insurance')))}}" name="Setting[def_insurance]">
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Insurance')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_insurance')))}}" name="Setting[def_insurance]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Returned Shipment Cost')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_return_cost')))}}" name="Setting[def_return_cost]">
+                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Returned Shipment Cost')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_return_cost')))}}" name="Setting[def_return_cost]">
                             </div>
                         </div>
                         <hr>
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-5">
+        <div class="mt-5 card">
             <div class="card-header">
                 <h5 class="mb-0 h6">{{translate('Extra Costs For Kg')}}</h5>
             </div>
@@ -65,19 +65,19 @@
 
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Shipping Cost/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost_gram')}}" name="Setting[def_shipping_cost_gram]">
+                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Shipping Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost_gram')}}" name="Setting[def_shipping_cost_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Tax/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_tax_gram')}}" name="Setting[def_tax_gram]">
+                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Tax/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_tax_gram')}}" name="Setting[def_tax_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Insurance/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_insurance_gram')}}" name="Setting[def_insurance_gram]">
+                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Insurance/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_insurance_gram')}}" name="Setting[def_insurance_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Returned Shipment Cost/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost_gram')}}" name="Setting[def_return_cost_gram]">
+                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Returned Shipment Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost_gram')}}" name="Setting[def_return_cost_gram]">
                     </div>
 
                 </div>
@@ -87,12 +87,12 @@
 
             </div>
         </div>
-        <div class="form-group mb-0 text-right">
-            <button type="submit" class="btn btn-lg btn-success">{{translate('Save')}}</button>
+        <div class="mb-0 text-right form-group">
+            <button type="submit" class="mt-2 btn btn-lg btn-success">{{translate('Save')}}</button>
         </div>
     </form>
     <form class="form-horizontal" action="{{ route('admin.shipments.config.costs') }}" id="kt_form_1" method="GET" enctype="multipart/form-data">
-        <div class="card mt-5">
+        <div class="mt-5 card">
             <div class="card-header">
                 <h5 class="mb-0 h6">{{translate('Custom Costs for Covered Areas')}}</h5>
             </div>
@@ -144,7 +144,7 @@
     </form>
     <form class="form-horizontal" action="{{ route('admin.shipments.post.config.package.costs') }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card mt-5">
+        <div class="mt-5 card">
             <div class="card-header">
                 <h5 class="mb-0 h6">{{translate('Extra Fees for Package Types')}}</h5>
             </div>
@@ -152,7 +152,7 @@
             <div class="card-body">
                 <div class="row">
                     @if(count($packages = \App\Package::all()))
-                        <table class="table aiz-table mb-0">
+                        <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
 
