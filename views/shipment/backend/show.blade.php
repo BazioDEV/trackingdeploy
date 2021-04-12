@@ -38,6 +38,12 @@ $d = new DNS1D();
                                         <div class="font-size-h2 mb-7 text-dark-50">{{translate('To Receiver')}}
                                             <span class="text-info font-weight-boldest ml-2">{{$shipment->reciver_name}}</span>
                                         </div>
+                                        @if($shipment->paid == 0)
+                                            <div class="font-size-h2 mb-7 text-dark-50">
+                                                <a href="{{route('admin.shipments.pay', $shipment->id)}}" class="btn btn-success btn-md mr-3" target="_blanck">{{translate('Pay')}} <i class="far fa-credit-card ml-2"></i></a>
+                                            </div>
+                                        @endif
+
                                         @if($shipment->barcode != null)
                                         <?=$d->getBarcodeHTML($shipment->barcode, "EAN13");?>
                                         @endif

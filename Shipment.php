@@ -352,4 +352,9 @@ class Shipment extends Model
     public function to_area(){
 		return $this->hasOne('App\Area', 'id' , 'to_area_id');
 	}
+    
+    public function pay()
+    {
+        return $this->belongsTo('App\BusinessSetting', 'payment_method_id');
+    }
 }

@@ -73,6 +73,10 @@
             "update_directory": "resources/views/backend/shipments/index.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/pay.blade.php",
+            "update_directory": "resources/views/backend/shipments/pay.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/index-package.blade.php",
             "update_directory": "resources/views/backend/shipments/index-package.blade.php"
         },

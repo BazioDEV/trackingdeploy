@@ -23,8 +23,10 @@ class CreateShipmentsTable extends Migration
             $table->integer('client_id')->unsigned()->nullable();
             $table->text('client_address')->nullable();
             $table->tinyInteger('payment_type')->nullable();
+            
+            $table->tinyInteger('paid')->default(0);
 
-            $table->tinyInteger('payment_method')->nullable();
+            $table->integer('payment_method_id')->nullable();
             $table->double('tax')->default(0);
             $table->double('insurance')->default(0);
             $table->string('delivery_time')->nullable();

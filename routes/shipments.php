@@ -1,4 +1,6 @@
 <?php 
+
+Route::get('admin/shipments/payment/{shipment_id}','ShipmentController@pay')->name('admin.shipments.pay');
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|customer|captain|branch']], function(){
 	//Update Routes
     Route::get('shipments/settings','ShipmentController@settings')->name('admin.shipments.settings');

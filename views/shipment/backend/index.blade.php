@@ -176,7 +176,7 @@
                     <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
 
                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
-                    <td>{{$shipment->payment_method}}</td>
+                    <td>{{$shipment->pay->name ?? ""}}</td>
                     <td>{{$shipment->shipping_date}}</td>
                     @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
 

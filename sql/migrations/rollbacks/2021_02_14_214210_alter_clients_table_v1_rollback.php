@@ -13,9 +13,9 @@ class AlterClientsTableV1Rollback extends Migration
      */
     public function up()
     {
-        Schema::table('clients', function (Blueprint $table) {
-            $table->dropColumn('pickup_cost');
-        });
+        // Schema::table('clients', function (Blueprint $table) {
+        //     $table->dropColumn('pickup_cost');
+        // });
         Schema::dropIfExists('shipments');
         Schema::dropIfExists('shipment_log');
         Schema::dropIfExists('packages');

@@ -125,9 +125,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Payment Method')}}:</label>
-                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_method]">
-                                        <option @if($shipment->payment_method == 1) selected @endif  value="1">{{translate('Cash')}}</option>
-                                        <option @if($shipment->payment_method == 2) selected @endif value="2">{{translate('Paypal')}}</option>
+                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_method_id]">
+                                        @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                            <option @if($shipment->payment_method_id == $gateway->id) selected @endif value="{{$gateway->id}}">{{$gateway->name}}</option>  
+                                        @empty
+                                            <option value="11">{{translate('Cash')}}</option>
+                                        @endforelse
                                     </select>
                                 </div>
                             </div>
@@ -454,7 +457,7 @@
                             }
                         }
                     },
-                    "Shipment[payment_method]": {
+                    "Shipment[payment_method_id]": {
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'
