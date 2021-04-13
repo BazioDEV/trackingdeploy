@@ -41,6 +41,8 @@ $d = new DNS1D();
                                         @if($shipment->paid == 0)
                                             <div class="font-size-h2 mb-7 text-dark-50">
                                                 <a href="{{route('admin.shipments.pay', $shipment->id)}}" class="btn btn-success btn-md mr-3" target="_blanck">{{translate('Pay')}} <i class="far fa-credit-card ml-2"></i></a>
+                                                <button class="btn btn-success btn-sm " onclick="copyToClipboard('#payment-link')">{{translate('Copy Payment Link')}}<i class="fas fa-copy ml-2"></i></button>
+                                                <div id="payment-link" style="display: none">{{route('admin.shipments.pay', $shipment->id)}}</div>
                                             </div>
                                         @endif
 
@@ -351,4 +353,18 @@ $d = new DNS1D();
 
 @section('modal')
 @include('modals.delete_modal')
+@endsection
+
+@section('script')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+            AIZ.plugins.notify('success', '{{translate("Payment Link Copied")}}');
+        }
+    </script>
 @endsection
