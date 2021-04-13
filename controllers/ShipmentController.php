@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Milon\Barcode\DNS1D;
 use function Psy\sh;
+use App\Events\CreateMission;
 
 class ShipmentController extends Controller
 {
@@ -145,6 +146,7 @@ class ShipmentController extends Controller
             $helper = new TransactionHelper();
             $helper->calculate_mission_amount($model->id);
 
+            event(new CreateMission($model));
             DB::commit();
             flash(translate("Mission created successfully"))->success();
             return back();
