@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
+<div class="mt-2 mb-3 text-left aiz-titlebar">
     <div class="row align-items-center">
         <div class="col-md-6">
             <h1 class="h3">{{translate('Shipments')}}</h1>
@@ -17,7 +17,7 @@
 
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
-    <div class="card-header flex-wrap py-3">
+    <div class="flex-wrap py-3 card-header">
         <div class="card-title">
             <h3 class="card-label">
                 {{$page_name}}
@@ -25,7 +25,7 @@
         </div>
         <div class="card-toolbar">
             <!--begin::Dropdown-->
-            <div class="dropdown dropdown-inline mr-2">
+            <div class="mr-2 dropdown dropdown-inline">
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -41,8 +41,8 @@
                 <!--begin::Dropdown Menu-->
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                     <!--begin::Navigation-->
-                    <ul class="navi flex-column navi-hover py-2">
-                        <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
+                    <ul class="py-2 navi flex-column navi-hover">
+                        <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
                         <li class="navi-item">
                             @foreach($actions as $action)
                             @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
@@ -75,7 +75,7 @@
 
                     <div class="col-lg-12 col-xl-12">
                         <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
+                            <div class="my-2 col-md-4 my-md-0">
                                 <div class="input-icon">
                                     <input type="text" name="code" value="<?php if (isset($_GET['code'])) {
                                                                                 echo $_GET['code'];
@@ -85,9 +85,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-2 my-md-0">
+                            <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Client')}}:</label>
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
                                     <select name="client_id" class="form-control" id="kt_datatable_search_status">
                                         <option value="">{{translate('All')}}</option>
                                         @foreach(\App\Client::all() as $client)
@@ -96,9 +96,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 my-2 my-md-0">
+                            <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Type')}}:</label>
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Type')}}:</label>
                                     <select name="type" class="form-control" id="kt_datatable_search_type">
                                         <option value="">All</option>
                                         @if($type == null || $type == \App\Shipment::PICKUP)
@@ -114,9 +114,9 @@
                         </div>
                         <div class="row align-items-center">
 
-                            <div class="col-md-4 my-2 my-md-5">
+                            <div class="my-2 col-md-4 my-md-5">
                                 <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">{{translate('Branch')}}:</label>
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
                                     <select name="branch_id" class="form-control" id="kt_datatable_search_type">
                                         <option value="">{{translate('All')}}</option>
                                         @foreach(\App\Branch::all() as $Branch)
@@ -127,9 +127,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                        <button type="submit" class="btn btn-light-primary px-6 font-weight-bold">{{translate('Search')}}</button>
-                        <button id="reset_search" class="btn btn-light-primary px-6 font-weight-bold">{{translate('Reset')}}</button>
+                    <div class="mt-5 col-lg-3 col-xl-4 mt-lg-0">
+                        <button type="submit" class="px-6 btn btn-light-primary font-weight-bold">{{translate('Search')}}</button>
+                        <button id="reset_search" class="px-6 btn btn-light-primary font-weight-bold">{{translate('Reset')}}</button>
                     </div>
 
                 </div>
@@ -138,7 +138,7 @@
     <!--end::Search Form-->
     <form id="tableForm">
         @csrf()
-        <table class="table aiz-table mb-0">
+        <table class="table mb-0 aiz-table">
             <thead>
                 <tr>
                     <th width="3%"></th>
@@ -167,7 +167,7 @@
                 @foreach($shipments as $key=>$shipment)
 
                 <tr>
-                    <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{$shipment->client->id}}" type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                    <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                     <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
                     <td width="5%">D{{$shipment->code}}</td>
                     <td><a href="">{{$shipment->getStatus()}}</a></td>
@@ -408,23 +408,22 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label>{{translate('From Branch')}}:</label>
+                                    <input style="background:#f3f6f9;color:#3f4254;" id="from_branch_transfer" type="text" class="form-control disabled" value="{{translate('Transfer')}}" disabled="disabled" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>{{translate('To Branch')}}:</label>
 
-                                    <select name="Mission[to_branch_id]" class="form-control">
+                                    <select name="Mission[to_branch_id]" id="to_branch_id" class="form-control">
+                                        <option value="" disabled selected hidden>Choose Branch...</option>
                                         @foreach(\App\Branch::all() as $branch)
                                         <option value="{{$branch->id}}">{{$branch->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>{{translate('Transfer To Address')}}:</label>
-                                    <input type="text" name="Mission[address]" class="form-control"  />
-
-                                </div>
-                            </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Type')}}:</label>
@@ -517,14 +516,26 @@
 
     function openTransferShipmentCaptainModel(element, e) {
         var selected = [];
+        var branchId = '';
+        var branchName = '';
+
+        $('#to_branch_id option').css("display","block");
+        
 
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
+            branchId = $(this).data('branchid');
+            branchName = $(this).data('branchname');
         });
+
         if (selected.length == 1) {
             $('#assign-to-captain-modal').remove();
             $('#tableForm').attr('action', $(element).data('url'));
             $('#tableForm').attr('method', $(element).data('method'));
+
+            document.getElementById("from_branch_transfer").value = branchName;
+            $('#to_branch_id option[value='+ branchId +']').css("display","none");
+            $('#to_branch_id option[value='+ branchId +']').find('option:selected').remove();
             $('#transfer-to-branch-modal').modal('toggle');
             
         } else if (selected.length == 0) {

@@ -140,20 +140,20 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['permissions'] = 1031; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
+
+            $this->actions[count($this->actions)] = array();
+            $this->actions[count($this->actions)-1]['title'] = translate('Print Barcode');
+            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-print';
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');
+            $this->actions[count($this->actions)-1]['method'] = 'POST';
+            $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+            $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['index'] = true;
             
             $this->actions[count($this->actions)] = array();
             $this->actions[count($this->actions)-1]['title'] = translate('Close');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-trash';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
-            $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['permissions'] = 1032; 
-            $this->actions[count($this->actions)-1]['type'] = 1; 
-            $this->actions[count($this->actions)-1]['index'] = true;
-
-            $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Print Barcode');
-            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-trash';
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1032; 
             $this->actions[count($this->actions)-1]['type'] = 1; 

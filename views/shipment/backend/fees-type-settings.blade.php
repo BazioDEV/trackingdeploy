@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <form class="form-horizontal" action="{{ route('admin.shipments.settings.store') }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
+    <form class="form-horizontal" action="{{ route('admin.shipments.settings.store') }}" id="kt_form_2" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card">
             <div class="card-header">
@@ -32,19 +32,19 @@
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Shipping Cost')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_shipping_cost')))}}" name="Setting[def_shipping_cost]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_shipping_cost'))}}" name="Setting[def_shipping_cost]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Tax')}}%:</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Tax')}}" value="{{\App\ShipmentSetting::getVal('def_tax')}}" name="Setting[def_tax]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Tax')}}" value="{{\App\ShipmentSetting::getVal('def_tax')}}" name="Setting[def_tax]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Insurance')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Insurance')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_insurance')))}}" name="Setting[def_insurance]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Insurance')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_insurance'))}}" name="Setting[def_insurance]">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>{{translate('Default Returned Shipment Cost')}}({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Default Returned Shipment Cost')}}" value="{{format_price(convert_price(\App\ShipmentSetting::getVal('def_return_cost')))}}" name="Setting[def_return_cost]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Returned Shipment Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_return_cost'))}}" name="Setting[def_return_cost]">
                             </div>
                         </div>
                         <hr>
@@ -65,19 +65,19 @@
 
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Shipping Cost/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Shipping Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost_gram')}}" name="Setting[def_shipping_cost_gram]">
+                        <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Shipping Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost_gram')}}" name="Setting[def_shipping_cost_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Tax/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Tax/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_tax_gram')}}" name="Setting[def_tax_gram]">
+                        <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Tax/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_tax_gram')}}" name="Setting[def_tax_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Insurance/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Insurance/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_insurance_gram')}}" name="Setting[def_insurance_gram]">
+                        <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Insurance/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_insurance_gram')}}" name="Setting[def_insurance_gram]">
                     </div>
                     <div class="form-group col-md-4">
                         <label>{{translate('Fixed Returned Shipment Cost/Kg')}}:</label>
-                        <input type="number" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Returned Shipment Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost_gram')}}" name="Setting[def_return_cost_gram]">
+                        <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Returned Shipment Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost_gram')}}" name="Setting[def_return_cost_gram]">
                     </div>
 
                 </div>
@@ -221,5 +221,109 @@
             }
         }
     }
+
+    $(document).ready(function() {
+        FormValidation.formValidation(
+            document.getElementById('kt_form_2'), {
+                fields: {
+                    "Setting[def_shipping_cost]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_tax]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_insurance]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_return_cost]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_shipping_cost_gram]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_tax_gram]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_insurance_gram]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    },
+                    "Setting[def_return_cost_gram]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            },
+                            numeric: {
+                                message: 'This is should be valid Number'
+                            }
+                        }
+                    }
+                },
+
+
+                plugins: {
+                    autoFocus: new FormValidation.plugins.AutoFocus(),
+                    trigger: new FormValidation.plugins.Trigger(),
+                    // Bootstrap Framework Integration
+                    bootstrap: new FormValidation.plugins.Bootstrap(),
+                    // Validate fields when clicking the Submit button
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    // Submit the form when all fields are valid
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                    icon: new FormValidation.plugins.Icon({
+                        validating: 'fa fa-refresh',
+                    }),
+                }
+            }
+        );
+    });
 </script>
 @endsection

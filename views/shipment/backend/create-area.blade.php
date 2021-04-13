@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
+<div class="mt-2 mb-3 text-left aiz-titlebar">
     <div class="row align-items-center">
         <div class="col-md-6">
             <h1 class="h3">{{translate('Areas')}}</h1>
@@ -25,7 +25,7 @@
                         <label>{{translate('From Country')}}:</label>
                         <select id="change-country"  class="form-control select-country" name="country">
                             <option value=""></option>
-                            @foreach(\App\Country::all() as $country)
+                            @foreach(\App\Country::where('covered',1)->get() as $country)
                             <option value="{{$country->id}}">{{$country->name}}</option>
                             @endforeach
                         </select>
@@ -59,7 +59,7 @@
           
             <div class="row">
               
-                <div class="form-group mb-0 text-left col-md-4">
+                <div class="mb-0 text-left form-group col-md-4">
                     <label>{{translate('Save')}}:</label>
                     <div>
                         <button type="submit" class="btn btn-md btn-primary">{{translate('Save')}}</button>
