@@ -228,6 +228,56 @@ $d = new DNS1D();
 <!--end::Card-->
 
 
+<!--end::List Widget 19-->
+@if((Auth::user()->user_type == 'admin' || in_array('1102', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) && !empty($shipment->logs->toArray()))
+    <div class="card card-custom card-stretch card-stretch-half gutter-b">
+        <!--begin::List Widget 19-->
+
+        <!--begin::Header-->
+        <div class="card-header border-0 pt-6 mb-2">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">{{translate('Shipment Status Log')}}</span>
+
+            </h3>
+            <div class="card-toolbar">
+
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body pt-2" style="padding-bottom: 0;overflow:hidden">
+            <div class="timeline timeline-6 mt-3 scroll scroll-pull" style="overflow:hidden" data-scroll="true" data-wheel-propagation="true">
+        
+            @foreach($shipment->logs()->orderBy('id','desc')->get() as $log)    
+                <!--begin::Item-->
+                <div class="timeline-item align-items-start">
+                    <!--begin::Label-->
+                    <div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">{{$log->created_at->diffForHumans()}}</div>
+                    <!--end::Label-->
+
+                    <!--begin::Badge-->
+                    <div class="timeline-badge">
+                        <i class="fa fa-genderless text-warning icon-xl"></i>
+                    </div>
+                    <!--end::Badge-->
+
+                    <!--begin::Text-->
+                    <div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">
+                        {{translate('Changed from')}}: "{{\App\Shipment::getStatusByStatusId($log->from)}}" {{translate('To')}}: "{{\App\Shipment::getStatusByStatusId($log->to)}}"
+                    </div>
+                    <!--end::Text-->
+                    
+                </div>
+                <!--end::Item-->
+                
+            @endforeach
+
+                
+            </div>
+        </div>
+    </div>
+@endif
+    
 @endsection
 
 @section('modal')
