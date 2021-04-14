@@ -15,6 +15,7 @@ use Auth;
 use App\Events\ApproveMission;
 use App\Events\AssignMission;
 use App\Events\UpdateMission;
+use App\Events\MissionAction;
 
 class MissionsController extends Controller
 {
@@ -77,7 +78,7 @@ class MissionsController extends Controller
             $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
             if($response['success'])
             {
-                event(new UpdateMission($to,$request->checked_ids));
+                event(new MissionAction($to,$request->checked_ids));
                 flash(translate("Status Changed Successfully!"))->success();
                 return back();
             }

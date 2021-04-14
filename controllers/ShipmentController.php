@@ -29,6 +29,8 @@ use function Psy\sh;
 use App\Events\CreateMission;
 use App\Events\AddShipment;
 use App\Events\UpdateShipment;
+use App\Events\UpdateMission;
+use App\Events\ShipmentAction;
 
 class ShipmentController extends Controller
 {
@@ -148,7 +150,7 @@ class ShipmentController extends Controller
             $helper = new TransactionHelper();
             $helper->calculate_mission_amount($model->id);
 
-            event(new UpdateShipment( Shipment::REQUESTED_STATUS,$request->checked_ids));
+            event(new ShipmentAction( Shipment::REQUESTED_STATUS,$request->checked_ids));
             event(new CreateMission($model));
             DB::commit();
             flash(translate("Mission created successfully"))->success();
@@ -369,7 +371,8 @@ class ShipmentController extends Controller
             $helper = new TransactionHelper();
             $helper->calculate_mission_amount($mission);
 
-            event(new UpdateShipment( Shipment::SAVED_STATUS,$request->checked_ids));
+            event(new UpdateMission( $mission));
+            // event(new ShipmentAction( Shipment::SAVED_STATUS,[$shipment]));
             DB::commit();
             flash(translate("Shipment removed from mission successfully"))->success();
             return back();
@@ -391,7 +394,7 @@ class ShipmentController extends Controller
             $action = new StatusManagerHelper();
             $response = $action->change_shipment_status($request->checked_ids, $to);
             if ($response['success']) {
-                event(new UpdateShipment($to,$request->checked_ids));
+                event(new ShipmentAction($to,$request->checked_ids));
                 flash(translate("Status Changed Successfully!"))->success();
                 return back();
             }
@@ -802,7 +805,8 @@ class ShipmentController extends Controller
                     }
                 }
             }
-
+            
+            event(new UpdateShipment($model));
             DB::commit();
             flash(translate("Shipment added successfully"))->success();
             $route = 'admin.shipments.index';
