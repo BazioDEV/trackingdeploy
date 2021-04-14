@@ -74,6 +74,13 @@ class StatusManagerHelper{
                         $shipment->mission_id = null;
                     }elseif($to == Shipment::CAPTAIN_ASSIGNED_STATUS)
                     {
+                        $shipment->client_status = Shipment::CLIENT_STATUS_OUT_FOR_DELIVERY;
+                        $log = new ClientShipmentLog();
+                        $log->from = $oldClientStatus;
+                        $log->to = Shipment::CLIENT_STATUS_OUT_FOR_DELIVERY;
+                        $log->shipment_id = $shipment->id;
+                        $log->created_by = \Auth::user()->id;
+                        $log->save();
                         if($mission_id != null)
                         {
                                     $mission = Mission::find($mission_id);
