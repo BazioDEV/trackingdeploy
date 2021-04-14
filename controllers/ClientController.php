@@ -8,6 +8,8 @@ use App\Http\Helpers\UserRegistrationHelper;
 use App\User;
 use App\UserClient;
 use DB;
+use App\Events\AddClient;
+
 class ClientController extends Controller
 {
     /**
@@ -75,6 +77,8 @@ class ClientController extends Controller
 			if (!$userClient->save()){
 				throw new \Exception();
 			}
+
+            event(new AddClient($model));
 			DB::commit();
             flash(translate("Client added successfully"))->success();
             $route = 'admin.clients.index';

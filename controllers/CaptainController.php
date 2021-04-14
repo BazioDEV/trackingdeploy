@@ -10,6 +10,8 @@ use App\UserCaptain;
 use Auth;
 use DB;
 use App\Branch;
+use App\Events\AddCaptain;
+
 class CaptainController extends Controller
 {
     /**
@@ -86,6 +88,7 @@ class CaptainController extends Controller
 			if (!$userCaptain->save()){
 				throw new \Exception();
 			}
+            event(new AddCaptain($model));
 			DB::commit();
             flash(translate("Captain added successfully"))->success();
             $route = 'admin.captains.index';

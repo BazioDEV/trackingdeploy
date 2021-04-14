@@ -12,6 +12,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use App\Events\ApproveMission;
+use App\Events\AssignMission;
+use App\Events\UpdateMission;
+
 class MissionsController extends Controller
 {
     /**
@@ -50,7 +54,6 @@ class MissionsController extends Controller
 
     public function change(Request $request,$to)
     {
-        
         if(isset($request->checked_ids))
         {
             $params = array();
@@ -74,6 +77,7 @@ class MissionsController extends Controller
             $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
             if($response['success'])
             {
+                event(new UpdateMission($to,$request->checked_ids));
                 flash(translate("Status Changed Successfully!"))->success();
                 return back();
             }
@@ -126,6 +130,7 @@ class MissionsController extends Controller
 
     public function approveAndAssign(Request $request,$to)
     {
+        // return $request;
         try{	
 			DB::beginTransaction();
             $params = array();
@@ -133,6 +138,8 @@ class MissionsController extends Controller
             $action = new MissionStatusManagerHelper();
             $response = $action->change_mission_status($request->checked_ids,$to,$request['Mission']['captain_id'],$params);
             
+            event(new AssignMission($request['Mission']['captain_id'],$request->checked_ids));
+            event(new ApproveMission($request->checked_ids));
             DB::commit();
             flash(translate("Mission created successfully"))->success();
             return back();
