@@ -17,7 +17,7 @@
         $supply_missions     = App\Mission::where('type', App\Mission::SUPPLY_TYPE )->count();
     @endphp
 
-    // Admin With All Permission And Admin With Shipment Index Permission 
+    {{-- Admin With All Permission And Admin With Shipment Index Permission  --}}
     @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1009', $staff_permission) )
         <div class="row">
             <div class="col-xl-4">
@@ -62,7 +62,7 @@
         </div>
     @endif
     
-    // Admin With All Permission And Admin With Missions Index Permission 
+    {{-- Admin With All Permission And Admin With Missions Index Permission  --}}
     @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
         <div class="row">
             <div class="col-xl-4">
