@@ -44,6 +44,7 @@ class Shipment extends Model
     const CLIENT_STATUS_RECEIVED_BRANCH = 5;
     const CLIENT_STATUS_OUT_FOR_DELIVERY = 6;
     const CLIENT_STATUS_DELIVERED = 7;
+    const CLIENT_STATUS_SUPPLIED = 8;
 
     static public function client_status_info()
     {
@@ -75,6 +76,10 @@ class Shipment extends Model
             [
                 'status' => Self::CLIENT_STATUS_DELIVERED,
                 'text' => translate('Delivered'),
+            ],
+            [
+                'status' => Self::CLIENT_STATUS_SUPPLIED,
+                'text' => translate('Supplied'),
             ]
         ];
         return $array;

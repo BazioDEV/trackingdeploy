@@ -101,6 +101,15 @@ class StatusManagerHelper{
                         $log->shipment_id = $shipment->id;
                         $log->created_by = \Auth::user()->id;
                         $log->save();
+                    }elseif($to == Shipment::SUPPLIED_STATUS)
+                    {
+                        $shipment->client_status = Shipment::CLIENT_STATUS_SUPPLIED;
+                        $log = new ClientShipmentLog();
+                        $log->from = $oldClientStatus;
+                        $log->to = Shipment::CLIENT_STATUS_SUPPLIED;
+                        $log->shipment_id = $shipment->id;
+                        $log->created_by = \Auth::user()->id;
+                        $log->save();
                     }
                     
                     $shipment->status_id = $to;
