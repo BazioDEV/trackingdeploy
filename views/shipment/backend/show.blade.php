@@ -207,7 +207,11 @@ $d = new DNS1D();
             <div class="col-md-10">
                 <div class="d-flex justify-content-between">
                     @if($shipment->paid == 0 && $shipment->pay['id'] != 11)
-                        <a href="{{route('admin.shipments.pay', $shipment->id)}}" class="btn btn-success btn-md mr-3" target="_blanck">{{translate('Pay Now')}} <i class="far fa-credit-card ml-2"></i></a>
+                        <form action="{{ route('payment.checkout') }}" class="form-default" role="form" method="POST" id="checkout-form">
+                            @csrf
+                            <input type="hidden" name="shipment_id" value="{{$shipment->id}}">
+                            <button type="submit" class="btn btn-success btn-md mr-3">{{translate('Buy Now')}} <i class="far fa-credit-card ml-2"></i></button>
+                        </form>
                         <button class="btn btn-success btn-sm " onclick="copyToClipboard('#payment-link')">{{translate('Copy Payment Link')}}<i class="fas fa-copy ml-2"></i></button>
                         <div id="payment-link" style="display: none">{{route('admin.shipments.pay', $shipment->id)}}</div>
                     @endif

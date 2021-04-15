@@ -209,6 +209,13 @@ $d = new DNS1D();
                                                     <!--begin::Engage Widget 14-->
                                                     <div class="card card-custom card-stretch gutter-b">
                                                         <h1>{{translate('Payment Gateway')}}: {{$shipment->pay->name}}</h1>
+														<div class="d-flex justify-content-between">
+															<form action="{{ route('payment.checkout') }}" class="form-default" role="form" method="POST" id="checkout-form">
+																@csrf
+																<input type="hidden" name="shipment_id" value="{{$shipment->id}}">
+																<button type="submit" class="btn btn-success btn-md mr-3">{{translate('Buy Now')}} <i class="far fa-credit-card ml-2"></i></button>
+															</form>
+														</div>
                                                     </div>
                                                     <!--end::Engage Widget 14-->
                                                 </div>
