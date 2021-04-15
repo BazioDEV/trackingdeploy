@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
+<div class="mt-2 mb-3 text-left aiz-titlebar">
 	<div class="row align-items-center">
 		<div class="col-md-6">
 			<h1 class="h3">{{translate('All Captains')}}</h1>
@@ -20,14 +20,12 @@
         <h5 class="mb-0 h6">{{translate('Captains')}}</h5>
     </div>
     <div class="card-body">
-        <table class="table aiz-table mb-0">
+        <table class="table mb-0 aiz-table">
             <thead>
                 <tr>
                     <th  width="3%">#</th>
-                    <th >{{translate('Name')}}</th>
-                  
+                    <th >{{translate('Name')}}</th>                 
                     <th >{{translate('Phone')}}</th>
-                    <th >{{translate('Missions Type')}}</th>
                     <th >{{translate('Branch')}}</th>
                     
                     <th class="text-center">{{translate('Options')}}</th>
@@ -41,7 +39,6 @@
                             <td width="20%">{{$captain->name}}</td>
                             
                             <td width="20%">{{$captain->responsible_mobile}}</td>
-                            <td width="20%">{{$captain->type}}</td>
                             <td><a href="{{route('admin.branchs.show',$captain->branch_id)}}">{{$captain->branch->name}}</a></td>
                            
                             <td class="text-center">

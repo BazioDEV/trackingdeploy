@@ -24,7 +24,7 @@
 
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label>{{translate('Profile Picture')}}:</label>
 
@@ -37,17 +37,6 @@
                             </div>
                             <div class="file-preview">
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{translate('Missions Type')}}:</label>
-                            <select class="form-control kt-select2 mission-type" id="select-responsible-branch" name="Captain[type]">
-                                <option value="3">{{translate('Pickup & Delivery')}}</option>
-                                <option value="1">{{translate('Pickup')}}</option>
-                                <option value="2">{{translate('Delivery')}}</option>
-
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -115,11 +104,6 @@
 
 @section('script')
 <script type="text/javascript">
-
-    $('.mission-type').select2({
-        placeholder: "Mission Type",
-    });
-
     $('.branch').select2({
         placeholder: 'Select Branch',
         language: {
