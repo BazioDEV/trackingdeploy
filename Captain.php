@@ -18,6 +18,9 @@ class Captain extends Model
   {
     return $this->hasOne('App\Branch', 'id', 'branch_id');
   }
+  public function transaction(){
+    return $this->hasMany(Transaction::class, 'captain_id');
+  }
   public function getTypeAttribute($value)
   {
     if ($value == Self::PICKUP_MISSION) {

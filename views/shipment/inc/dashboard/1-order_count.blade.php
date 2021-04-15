@@ -1,8 +1,9 @@
 @php
     $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
 @endphp
 
-@if($user_type == 'admin' || in_array('1100', json_decode(Auth::user()->staff->role->permissions ?? "[]")) || in_array('1008', json_decode(Auth::user()->staff->role->permissions)) || in_array('1009', json_decode(Auth::user()->staff->role->permissions)) )
+@if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) || in_array('1009', $staff_permission) )
     @php
         $all_shipments       = App\Shipment::count();
         $pending_shipments   = App\Shipment::where('status_id', App\Shipment::PENDING_STATUS)->count();
@@ -13,10 +14,11 @@
         $pickup_missions     = App\Mission::where('type', App\Mission::PICKUP_TYPE )->count();
         $delivery_missions   = App\Mission::where('type', App\Mission::DELIVERY_TYPE )->count();
         $transfer_missions   = App\Mission::where('type', App\Mission::TRANSFER_TYPE )->count();
+        $supply_missions     = App\Mission::where('type', App\Mission::SUPPLY_TYPE )->count();
     @endphp
 
-    
-    @if($user_type == 'admin' || in_array('1100', json_decode(Auth::user()->staff->role->permissions ?? "[]")) || in_array('1009', json_decode(Auth::user()->staff->role->permissions)))
+    // Admin With All Permission And Admin With Shipment Index Permission 
+    @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1009', $staff_permission) )
         <div class="row">
             <div class="col-xl-4">
                 <!--begin::Stats Widget 30-->
@@ -60,7 +62,8 @@
         </div>
     @endif
     
-    @if($user_type == 'admin' || in_array('1100', json_decode(Auth::user()->staff->role->permissions ?? "[]")) || in_array('1008', json_decode(Auth::user()->staff->role->permissions)))
+    // Admin With All Permission And Admin With Missions Index Permission 
+    @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
         <div class="row">
             <div class="col-xl-4">
                 <!--begin::Stats Widget 30-->
@@ -129,6 +132,20 @@
                 </div>
                 <!--end::Stats Widget 30-->
             </div>
+
+            <div class="col-xl-4">
+                <!--begin::Stats Widget 30-->
+                <div class="card card-custom bg-info card-stretch gutter-b">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        <span class="mt-6 mb-0 text-white card-title font-weight-bolder font-size-h2 d-block">{{$supply_missions}}</span>
+                        <span class="text-white font-weight-bold font-size-sm">{{translate('Supply Missions')}}</span>
+                    </div>
+
+                    <!--end::Body-->
+                </div>
+                <!--end::Stats Widget 30-->
+            </div>
         </div>
     @endif
 
@@ -149,7 +166,7 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <span class="mt-6 mb-0 text-white card-title font-weight-bolder font-size-h2 d-block">{{$transactions}}</span>
-                    <span class="text-white font-weight-bold font-size-sm">{{translate('My Wallet')}}</span>
+                    <span class="text-white font-weight-bold font-size-sm">{{translate('Wallet')}}</span>
                 </div>
 
                 <!--end::Body-->
@@ -215,6 +232,7 @@
 @elseif($user_type == 'captain')
     @php
         $transactions = App\Transaction::where('captain_id', Auth::user()->userCaptain->captain_id)->orderBy('created_at','desc')->sum('value');
+        $transactions = abs($transactions); // Converting the transactions from negative to positive
     @endphp
 
     <div class="row">
@@ -224,7 +242,7 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <span class="mt-6 mb-0 text-white card-title font-weight-bolder font-size-h2 d-block">{{$transactions}}</span>
-                    <span class="text-white font-weight-bold font-size-sm">{{translate('My wallet')}}</span>
+                    <span class="text-white font-weight-bold font-size-sm">{{translate('Money')}}</span>
                 </div>
 
                 <!--end::Body-->
