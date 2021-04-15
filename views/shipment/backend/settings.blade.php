@@ -82,6 +82,20 @@
 
                 <div class="form-group row">
 
+                    <div class="col-lg-6">
+                        <label class="col-form-label text-lg-right">{{translate('Shipment Prefix')}}:</label>
+                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('shipment_prefix')}}" name="Setting[shipment_prefix]" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="col-form-label text-lg-right">{{translate('Shipment Number of digits in the tracking')}}:</label>
+                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('shipment_code_count')}}" name="Setting[shipment_code_count]" />
+                    </div>
+
+                </div>
+                <div class="my-10 separator separator-dashed"></div>
+
+                <div class="form-group row">
+
                     <label class="col-2 col-form-label">{{translate('Default Shipment Type')}}</label>
                     <div class="col-9 col-form-label">
                         <div class="radio-inline">
@@ -255,6 +269,8 @@
 
 
                 },
+
+
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),
                     trigger: new FormValidation.plugins.Trigger(),
