@@ -105,7 +105,17 @@
                                 <div class="form-group">
                                     <label>{{translate('Shipping Date')}}:</label>
                                     <div class="input-group date">
-                                        <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_date')}}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
+                                        @php
+                                            $defult_shipping_date = \App\ShipmentSetting::getVal('def_shipping_date');
+                                            if($defult_shipping_date == null )
+                                            {
+                                                $shipping_data = \Carbon\Carbon::now()->addDays(0);
+                                            }else{
+                                                $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
+                                            }
+                                            
+                                        @endphp
+                                        <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{ $shipping_data->toDateString() }}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="la la-calendar"></i>
@@ -241,7 +251,7 @@
                                     <label>{{translate('Payment Method')}}:</label>
                                     <select class="form-control kt-select2 payment-method" id="payment_method_id" name="Shipment[payment_method_id]">
                                         @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
-                                            <option value="{{$gateway->id}}" @if($gateway->id == 11) selected @endif>{{$gateway->name}}</option>  
+                                            <option value="{{$gateway->id}}" @if($gateway->id == 11) selected @endif>{{$gateway->name}}</option>
                                         @empty
                                             <option value="11">{{translate('Cash')}}</option>
                                         @endforelse
@@ -437,7 +447,7 @@
     $('.delivery-time').select2({
         placeholder: "Delivery Time",
     });
-  
+
 
     $('.select-branch').select2({
         placeholder: "Select Branch",

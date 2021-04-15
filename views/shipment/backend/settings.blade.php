@@ -67,10 +67,10 @@
 
                         <select  class="form-control kt-select2 def_shipping_date"  name="Setting[def_shipping_date]">
                             <option>{{translate('Choose')}}</option>
-                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date') == 'same_day') selected @endif  value="same_day">{{translate('Same day')}}</option>
-                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 'next_day') selected @endif  value="next_day">{{translate('Next day')}}</option>
+                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date') == 0 ) selected @endif  value="0">{{translate('Same day')}}</option>
+                            <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 1 ) selected @endif  value="1">{{translate('Next day')}}</option>
                             @for ($i = 2; $i <= 30; $i++)
-                                <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== 'after_'.$i.'_day') selected @endif  value="after_{{ $i }}_day">{{translate('After '.$i.' days')}}</option>
+                                <option @if(\App\ShipmentSetting::getVal('def_shipping_date')== $i ) selected @endif  value="{{ $i }}">{{translate('After '.$i.' days')}}</option>
                             @endfor
                         </select>
 
@@ -165,7 +165,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                      
+
                             <label class="col-form-label text-lg-right">{{translate('Default Payment Type')}}:</label>
                             <select class="form-control kt-select2 def_payment_type" name="Setting[def_payment_type]">
 
@@ -176,16 +176,16 @@
 
                             </select>
 
-                     
+
                     </div>
                     <div class="col-md-3">
-                      
+
                             <label class="col-form-label text-lg-right">{{translate('Default Payment Method')}}:</label>
                             <select class="form-control kt-select2 def_payment_method" name="Setting[def_payment_method]">
                                 <option @if(\App\ShipmentSetting::getVal('def_payment_method')== '1') selected @endif  value="1">{{translate('Cash')}}</option>
                                 <option @if(\App\ShipmentSetting::getVal('def_payment_method')== '2') selected @endif value="2">{{translate('Paypal')}}</option>
                             </select>
-                    
+
                     </div>
                 </div>
                 {!! hookView('shipment_addon',$currentView) !!}
@@ -209,7 +209,7 @@
 
 @section('script')
 <script type="text/javascript">
-    
+
     $('.def_shipping_date').select2({
         placeholder: "Defult Shipping Date",
     });
