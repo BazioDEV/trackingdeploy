@@ -24,7 +24,8 @@
             <thead>
                 <tr>
                     <th  width="3%">#</th>
-                    <th >{{translate('Name')}}</th>                 
+                    <th >{{translate('Name')}}</th>   
+                    <th >{{translate('Email')}}</th>               
                     <th >{{translate('Phone')}}</th>
                     <th >{{translate('Branch')}}</th>
                     
@@ -37,6 +38,7 @@
                         <tr>
                             <td  width="3%">{{ ($key+1) + ($captains->currentPage() - 1)*$captains->perPage() }}</td>
                             <td width="20%">{{$captain->name}}</td>
+                            <td width="20%">{{$captain->email}}</td>
                             
                             <td width="20%">{{$captain->responsible_mobile}}</td>
                             <td><a href="{{route('admin.branchs.show',$captain->branch_id)}}">{{$captain->branch->name}}</a></td>
