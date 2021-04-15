@@ -244,7 +244,6 @@ $d = new DNS1D();
                                     <div class='font-size-sm font-weight-bold text-right'>{{translate('length x width x height')}}</div>
                                     <table class="table table-borderless mb-0">
                                         <tbody>
-
                                             @foreach(\App\PackageShipment::where('shipment_id',$shipment->id)->get() as $package)
                                             <tr>
                                                 <td class="w-40px align-middle pb-6 pl-0 pr-2">
@@ -273,7 +272,6 @@ $d = new DNS1D();
                                                 <td class="font-weight-bolder font-size-lg text-dark-75 text-right align-middle pb-6">{{$package->length."x".$package->width."x".$package->height}} <br> </td>
                                             </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
