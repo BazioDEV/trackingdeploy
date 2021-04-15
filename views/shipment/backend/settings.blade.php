@@ -255,8 +255,6 @@
 
 
                 },
-
-
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),
                     trigger: new FormValidation.plugins.Trigger(),
