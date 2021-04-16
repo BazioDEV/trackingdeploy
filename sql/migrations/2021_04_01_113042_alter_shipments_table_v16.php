@@ -14,7 +14,7 @@ class AlterShipmentsTableV16 extends Migration
     public function up()
     {
         Schema::table('shipments', function (Blueprint $table) {
-            $table->integer('barcode')->nullable();
+            $table->string('barcode')->nullable();
         });
     }
 

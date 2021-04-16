@@ -88,7 +88,7 @@
                 <tr>
                     <td><label class="checkbox checkbox-success"><input class="ms-check" type="checkbox" name="checked_ids[]" value="{{$mission->id}}" /><span></span></label></td>
                     <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
-                    <td width="5%">M{{$mission->code}}</td>
+                    <td width="5%">{{$mission->code}}</td>
                     <td><a href="">{{$mission->getStatus()}}</a></td>
                     <td>{{$mission->type}}</td>
                     

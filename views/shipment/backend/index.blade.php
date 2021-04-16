@@ -182,7 +182,7 @@
                             <td><a href="{{route('admin.captains.show', $shipment->captain_id)}}">@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</a></td>
                         @endif
                     @if($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS )
-                        <td> <a href="{{route('admin.missions.show', $shipment->current_mission->id)}}">@isset($shipment->current_mission->id) M {{$shipment->current_mission->barcode}} @endisset</a></td>
+                        <td> <a href="{{route('admin.missions.show', $shipment->current_mission->id)}}">@isset($shipment->current_mission->id) {{$shipment->current_mission->code}} @endisset</a></td>
                     @endif
                     <td class="text-center">
                         {{$shipment->created_at->format('Y-m-d')}}

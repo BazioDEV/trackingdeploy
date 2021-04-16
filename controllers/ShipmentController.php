@@ -46,7 +46,7 @@ class ShipmentController extends Controller
         if (isset($_GET)) {
             if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-                $shipments = $shipments->where('code', str_replace('D', '', $_GET['code']));
+                $shipments = $shipments->where('code', $_GET['code']);
             }
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
 
@@ -93,7 +93,7 @@ class ShipmentController extends Controller
         if (isset($_GET)) {
             if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-                $shipments = $shipments->where('code', str_replace('D', '', $_GET['code']));
+                $shipments = $shipments->where('code', $_GET['code']);
             }
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
 
@@ -138,7 +138,14 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
+
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('mission_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
+
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -180,7 +187,12 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('mission_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -227,7 +239,12 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('mission_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -275,7 +292,12 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('mission_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -323,7 +345,12 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('mission_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -594,13 +621,19 @@ class ShipmentController extends Controller
             $model->status_id = Shipment::SAVED_STATUS;
             $date = date_create();
 			$today = date("Y-m-d");
-            // $d = new DNS1D();
-            // $model->barcode = $d->getBarCode(date_timestamp_get($date).rand(10,100), "EAN13");
 
             if (!$model->save()) {
                 throw new \Exception();
             }
             $model->code = $model->id;
+
+            $code = '';
+            for($n = 0; $n < ShipmentSetting::getVal('shipment_code_count'); $n++){
+                $code .= '0';
+            }
+            $code   =   substr($code, 0, -strlen($model->id));
+            $model->barcode = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
+
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -672,7 +705,7 @@ class ShipmentController extends Controller
         if (isset($_GET)) {
             if (isset($_GET['code']) && !empty($_GET['code'])) {
 
-                $shipments = $shipments->where('code', str_replace('D', '', $_GET['code']));
+                $shipments = $shipments->where('code', $_GET['code']);
             }
             if (isset($_GET['client_id']) && !empty($_GET['client_id'])) {
 

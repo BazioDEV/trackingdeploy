@@ -92,6 +92,22 @@
                     </div>
 
                 </div>
+
+                <div class="my-10 separator separator-dashed"></div>
+
+                <div class="form-group row">
+
+                    <div class="col-lg-6">
+                        <label class="col-form-label text-lg-right">{{translate('Mission Prefix')}}:</label>
+                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('mission_prefix')}}" name="Setting[mission_prefix]" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="col-form-label text-lg-right">{{translate('Mission Number of digits in the tracking')}}:</label>
+                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('mission_code_count')}}" name="Setting[mission_code_count]" />
+                    </div>
+
+                </div>
+
                 <div class="my-10 separator separator-dashed"></div>
 
                 <div class="form-group row">

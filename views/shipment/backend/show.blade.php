@@ -136,7 +136,7 @@ $d = new DNS1D();
                     @if ($shipment->mission_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="text-dark font-weight-bold mb-4">{{translate('Mission')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->current_mission->code))}}</span>
+                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->current_mission->code}}</span>
                         </div>
                     @endif
                 </div>

@@ -34,7 +34,7 @@
                             </div>
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder mb-2">{{translate('Mission Code')}}</span>
-                                <span class="opacity-70">M {{$mission->code}}</span>
+                                <span class="opacity-70">{{$mission->code}}</span>
                             </div>
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder mb-2">{{translate('Mission Address.')}}</span>
