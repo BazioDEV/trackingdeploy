@@ -168,9 +168,9 @@
 
                 <tr>
                     <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
-                    <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
-                    <td width="5%">D{{$shipment->code}}</td>
-                    <td><a href="">{{$shipment->getStatus()}}</a></td>
+                    <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
+                    <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
+                    <td>{{$shipment->getStatus()}}</td>
                     <td>{{$shipment->type}}</td>
                     <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
                     <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
@@ -178,17 +178,11 @@
                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                     <td>{{$shipment->pay->name ?? ""}}</td>
                     <td>{{$shipment->shipping_date}}</td>
-                    @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
-
-
-                    <td>@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</td>
-
-
-                    @endif
+                        @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
+                            <td><a href="{{route('admin.captains.show', $shipment->captain_id)}}">@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</a></td>
+                        @endif
                     @if($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS )
-
-                    <td> @isset($shipment->current_mission->id) M {{$shipment->current_mission->code}} @endisset</td>
-
+                        <td> <a href="{{route('admin.missions.show', $shipment->current_mission->id)}}">@isset($shipment->current_mission->id) M {{$shipment->current_mission->barcode}} @endisset</a></td>
                     @endif
                     <td class="text-center">
                         {{$shipment->created_at->format('Y-m-d')}}

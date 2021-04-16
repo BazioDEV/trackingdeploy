@@ -110,14 +110,6 @@ $user_type = Auth::user()->user_type;
                                     <span class="menu-text">{{translate('Package Types')}}</span>
                                 </a>
                             </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.shipments.settings') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('General Settings')}}</span>
-                                </a>
-                            </li>
                             <li class="menu-item {{ areActiveRoutes(['admin.shipments.covered_countries'])}}" aria-haspopup="true">
                                 <a href="{{ route('admin.shipments.covered_countries') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -132,6 +124,14 @@ $user_type = Auth::user()->user_type;
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{translate('Fees Settings')}}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings'])}}" aria-haspopup="true">
+                                <a href="{{ route('admin.shipments.settings') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{translate('General Settings')}}</span>
                                 </a>
                             </li>
 
