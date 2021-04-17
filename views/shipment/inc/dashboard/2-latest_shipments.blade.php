@@ -43,13 +43,13 @@
 
                                 <tr>
                                     
-                                    <td width="5%">D{{$shipment->code}}</td>
-                                    <td><a href="">{{$shipment->getStatus()}}</a></td>
+                                    <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                    <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
                                     <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
                                     <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
 
-                                    <td>{{$shipment->shipping_cost}}</td>
+                                    <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                                     <td>{{$shipment->pay->name}}</td>
                                     <td>{{$shipment->shipping_date}}</td>
 
@@ -103,9 +103,9 @@
                                     @if($captain->wallet > 0 ?? 0)
 
                                         <tr>                    
-                                            <td>{{$captain->code}}</td>
+                                            <td><a href="{{route('admin.captains.show',$captain->id)}}">{{$captain->code}}</a></td>
                                             <td>{{$captain->name}}</td>
-                                            <td>{{$captain->wallet}}</td>
+                                            <td>{{format_price(convert_price($captain->wallet))}}</td>
                                         </tr>
                                         
                                     @endif
@@ -160,13 +160,13 @@
 
                             <tr>
                                 
-                                <td width="5%">D{{$shipment->code}}</td>
-                                <td><a href="">{{$shipment->getStatus()}}</a></td>
+                                <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                <td>{{$shipment->getStatus()}}</td>
                                 <td>{{$shipment->type}}</td>
                                 <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
                                 <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
 
-                                <td>{{$shipment->shipping_cost}}</td>
+                                <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                                 <td>{{$shipment->pay->name}}</td>
                                 <td>{{$shipment->shipping_date}}</td>
 
@@ -212,8 +212,8 @@
                             @foreach($missions as $key=>$mission)
 
                             <tr> 
-                                <td width="5%">M{{$mission->code}}</td>
-                                <td><a href="">{{$mission->getStatus()}}</a></td>
+                                <td width="5%"><a href="{{route('admin.missions.show',$mission->id)}}">{{$mission->code}}</a></td>
+                                <td>{{$mission->getStatus()}}</td>
                                 <td>{{$mission->type}}</td>
                                 <td>{{format_price(convert_price($mission->amount))}}</td>
                             </tr>
@@ -258,8 +258,8 @@
                             @foreach($missions as $key=>$mission)
 
                             <tr> 
-                                <td width="5%">M{{$mission->code}}</td>
-                                <td><a href="">{{$mission->getStatus()}}</a></td>
+                                <td width="5%"><a href="{{route('admin.missions.show',$mission->id)}}">{{$mission->code}}</a></td>
+                                <td>{{$mission->getStatus()}}</td>
                                 <td>{{$mission->type}}</td>
                                 <td>{{format_price(convert_price($mission->amount))}}</td>
                             </tr>
