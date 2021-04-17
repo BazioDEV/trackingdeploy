@@ -173,6 +173,10 @@
             "update_directory": "resources/views/backend/permissions/shipment_permissions.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/notifications/shipments.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/notifications/shipments.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/2-latest_shipments.blade.php",
             "update_directory": "resources/views/backend/inc/addons/dashboard/2-latest_shipments.blade.php"
         },
@@ -203,6 +207,47 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/controllers/AreaController.php",
             "update_directory": "app/Http/Controllers/AreaController.php"
+        },
+
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendAddShipmenttNotification.php",
+            "update_directory": "app/Http/Listeners/SendAddShipmenttNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendApproveMissionNotification.php",
+            "update_directory": "app/Http/Listeners/SendApproveMissionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendAssignMissionNotification.php",
+            "update_directory": "app/Http/Listeners/SendAssignMissionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendCaptainNotification.php",
+            "update_directory": "app/Http/Listeners/SendCaptainNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendClientNotification.php",
+            "update_directory": "app/Http/Listeners/SendClientNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendCreateMissionNotification.php",
+            "update_directory": "app/Http/Listeners/SendCreateMissionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendMissionActionNotification.php",
+            "update_directory": "app/Http/Listeners/SendMissionActionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendShipmentActionNotification.php",
+            "update_directory": "app/Http/Listeners/SendShipmentActionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendUpdateMissionNotification.php",
+            "update_directory": "app/Http/Listeners/SendUpdateMissionNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendUpdateShipmentNotification.php",
+            "update_directory": "app/Http/Listeners/SendUpdateShipmentNotification.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/Shipment.php",
