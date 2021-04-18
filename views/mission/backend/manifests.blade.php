@@ -63,6 +63,7 @@
     <script type="text/javascript">
         $('.captain_name').select2({
             width: '100%',
+            placeholder: "Select Captain",
         });
         $('#kt_datepicker_3').datepicker({
             orientation: "bottom auto",
@@ -78,6 +79,13 @@
                 document.getElementById('kt_form_1'), {
                     fields: {
                         "manifest_date": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{translate("This is required!")}}'
+                                }
+                            }
+                        },
+                        "captain_name": {
                             validators: {
                                 notEmpty: {
                                     message: '{{translate("This is required!")}}'

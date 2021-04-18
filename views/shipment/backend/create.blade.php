@@ -272,7 +272,7 @@
                                         <div class="col-md-3">
 
                                             <label>{{translate('Package Type')}}:</label>
-                                            <select class="form-control kt-select2 package-type-select" id="package_id" name="package_id">
+                                            <select class="form-control kt-select2 package-type-select" name="package_id">
                                                 <option></option>
                                                 @foreach($packages as $package)
                                                 <option @if(\App\ShipmentSetting::getVal('def_package_type')==$package->id) selected @endif value="{{$package->id}}">{{$package->name}}</option>
@@ -430,19 +430,7 @@
         placeholder: "Payment Type",
     });
 
-    $('.package-type-select').select2({
-        placeholder: "Package Type",
-        language: {
-          noResults: function() {
-            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
-              class="btn btn-primary" >Manage {{translate('Packages')}}</a>
-              </li>`;
-          },
-        },
-        escapeMarkup: function(markup) {
-          return markup;
-        },
-    });
+    
 
     $('.delivery-time').select2({
         placeholder: "Delivery Time",
@@ -582,11 +570,21 @@
             todayHighlight: true,
             startDate: new Date(),
         });
-
-
-
-
-
+        $( document ).ready(function() {
+            $('.package-type-select').select2({
+                placeholder: "Package Type",
+                language: {
+                noResults: function() {
+                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
+                    class="btn btn-primary" >Manage {{translate('Packages')}}</a>
+                    </li>`;
+                },
+                },
+                escapeMarkup: function(markup) {
+                return markup;
+                },
+            });
+        });
 
 
         //Package Types Repeater
@@ -596,6 +594,20 @@
 
             show: function() {
                 $(this).slideDown();
+                
+                $('.package-type-select').select2({
+                    placeholder: "Package Type",
+                    language: {
+                    noResults: function() {
+                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
+                        class="btn btn-primary" >Manage {{translate('Packages')}}</a>
+                        </li>`;
+                    },
+                    },
+                    escapeMarkup: function(markup) {
+                    return markup;
+                    },
+                });
 
                 $('.dimensions_r').TouchSpin({
                     buttondown_class: 'btn btn-secondary',
