@@ -533,54 +533,88 @@ class ShipmentController extends Controller
                 $extra = Package::find($pack['package_id'])->cost;
                 $package_extras += $extra;
             }
-            $shipping_cost =
-                ShipmentSetting::getCost('def_shipping_cost') +
-                (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * $weight) +
-                $covered_cost->shipping_cost + $package_extras;
-            $return_cost =
-                ShipmentSetting::getCost('def_return_cost') +
-                (float) (ShipmentSetting::getCost('def_return_cost_gram') * $weight) +
-                $covered_cost->return_cost;
+            if($weight > 1){
+                $shipping_cost =
+                    (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * $weight) +
+                    $covered_cost->shipping_cost + $package_extras;
+                $shipping_cost = $shipping_cost - ShipmentSetting::getCost('def_shipping_cost_gram');
 
-            $tax =
-                ShipmentSetting::getCost('def_tax') +
-                (float) (ShipmentSetting::getCost('def_tax_gram') * $weight) +
-                $covered_cost->tax;
+                $return_cost =
+                    (float) (ShipmentSetting::getCost('def_return_cost_gram') * $weight) +
+                    $covered_cost->return_cost;
+                $return_cost = $return_cost - ShipmentSetting::getCost('def_return_cost_gram');
 
-            $insurance =
-                ShipmentSetting::getCost('def_insurance') +
-                (float) (ShipmentSetting::getCost('def_insurance_gram') * $weight) +
-                $covered_cost->insurance;
+                $tax =
+                    (($covered_cost->tax * $covered_cost->shipping_cost) / 100 ) + 
+                    (ShipmentSetting::getCost('def_tax_gram') * $weight);
+                $tax = $tax - ShipmentSetting::getCost('def_tax_gram');
+
+                $insurance =
+                    (float) (ShipmentSetting::getCost('def_insurance_gram') * $weight) +
+                    $covered_cost->insurance;
+                $insurance = $insurance - ShipmentSetting::getCost('def_insurance_gram') ;
+            }else{
+                $shipping_cost =
+                    ShipmentSetting::getCost('def_shipping_cost') +
+                    $covered_cost->shipping_cost + $package_extras;
+                $return_cost =
+                    ShipmentSetting::getCost('def_return_cost') +
+                    $covered_cost->return_cost;
+
+                $area_tax = ($covered_cost->tax * $covered_cost->shipping_cost) / 100 ;
+                $tax =
+                    ((ShipmentSetting::getCost('def_tax') * $shipping_cost) / 100 ) + $area_tax ;
+
+                $insurance =
+                    ShipmentSetting::getCost('def_insurance') +
+                    $covered_cost->insurance;
+            }
 
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
             $array['insurance'] = $insurance;
         } else {
+            
             $package_extras = 0;
+            
             foreach ($packages as $pack) {
                 $extra = Package::find($pack['package_id'])->cost;
                 $package_extras += $extra;
             }
-            $shipping_cost =
+            
+            if($weight > 1){
+                
+                $shipping_cost =
                 ShipmentSetting::getCost('def_shipping_cost') +
                 (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * $weight) +
                 0 + $package_extras;
+                $shipping_cost = $shipping_cost - ShipmentSetting::getCost('def_shipping_cost_gram');
 
-            $return_cost =
-                ShipmentSetting::getCost('def_return_cost') +
-                (float) (ShipmentSetting::getCost('def_return_cost_gram') * $weight) +
-                0;
+                $return_cost =
+                    ShipmentSetting::getCost('def_return_cost') +
+                    (float) (ShipmentSetting::getCost('def_return_cost_gram') * $weight) +
+                    0;
+                $return_cost = $return_cost - ShipmentSetting::getCost('def_return_cost_gram');
 
-            $tax =
-                ShipmentSetting::getCost('def_tax') +
-                (float) (ShipmentSetting::getCost('def_tax_gram') * $weight) +
-                0;
+                $tax =
+                    ((ShipmentSetting::getCost('def_tax') * $shipping_cost) / 100 ) + 
+                    (ShipmentSetting::getCost('def_tax_gram') * $weight);
+                $tax = $tax - ShipmentSetting::getCost('def_tax_gram');
 
-            $insurance =
-                ShipmentSetting::getCost('def_insurance') +
-                (float) (ShipmentSetting::getCost('def_insurance_gram') * $weight) +
-                0;
+                $insurance =
+                    ShipmentSetting::getCost('def_insurance') +
+                    (float) (ShipmentSetting::getCost('def_insurance_gram') * $weight);
+                $insurance = $insurance - ShipmentSetting::getCost('def_insurance_gram') ;
+            }else{
+                $shipping_cost = ShipmentSetting::getCost('def_shipping_cost') + $package_extras;
+
+                $return_cost   = ShipmentSetting::getCost('def_return_cost');
+
+                $tax           = ( ShipmentSetting::getCost('def_tax') * $shipping_cost) / 100 ;
+
+                $insurance     = ShipmentSetting::getCost('def_insurance');
+            }
 
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
