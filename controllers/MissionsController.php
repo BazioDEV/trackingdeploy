@@ -166,7 +166,7 @@ class MissionsController extends Controller
     public function getManifestProfile(Request $request)
     {
         $captain = Captain::find($request->captain_id);
-        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
+        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',$request->manifest_date)->get();
         return view('backend.missions.manifest-profile',compact('missions','captain'));
     }
 
