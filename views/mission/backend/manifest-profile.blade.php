@@ -1,4 +1,12 @@
 @extends('backend.layouts.app')
+@section('style')
+    <link href="{{asset('public/assets/dragula/dragula.css')}}" rel="stylesheet">
+    <style>
+        tr{
+            cursor: move !important;
+        }
+    </style>
+@endsection
 
 @section('content')
 
@@ -49,29 +57,28 @@
                                 <thead>
                                     <tr>
                                         <th width="3%"></th>
-                                        <th width="3%">#</th>
                                         <th>{{translate('Code')}}</th>
-                                        <th>{{translate('Status')}}</th>
                                         <th>{{translate('Type')}}</th>
-
                                         <th>{{translate('Amount')}}</th>
+                                        <th>{{translate('Address')}}</th>
+                                        <th>{{translate('Arrived')}}</th>
 
 
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="profile_manifest">
 
                                     @foreach($missions as $key=>$mission)
 
-                                    <tr>
+                                    <tr style="background-color:tomatom">
                                         <td></td>
-                                        <td width="3%">{{ ($key+1) }}</td>
                                         <td width="5%">M{{$mission->code}}</td>
-                                        <td>{{$mission->getStatus()}}</td>
                                         <td>{{$mission->type}}</td>
-
-
                                         <td>{{format_price(convert_price($mission->amount))}}</td>
+                                        <td>{{$mission->address}}</td>
+                                        <td>
+                                            <div style="width: 55%;height: 30px;border: 1px solid;border-radius: 3px;"></div>
+                                        </td>
 
                                        
                                     </tr>
@@ -110,4 +117,11 @@
 @endsection
 @section('modal')
 @include('modals.delete_modal')
+@endsection
+
+@section('script')
+    <script src="{{asset('public/assets/dragula/dragula.js')}}" type="text/javascript"></script>
+    <script type="text/javascript">
+        dragula([document.getElementById('profile_manifest')]);
+    </script>
 @endsection
