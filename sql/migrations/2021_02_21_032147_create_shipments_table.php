@@ -25,6 +25,7 @@ class CreateShipmentsTable extends Migration
             $table->tinyInteger('payment_type')->nullable();
             
             $table->tinyInteger('paid')->default(0);
+            $table->text('payment_integration_id')->default("");
 
             $table->integer('payment_method_id')->nullable();
             $table->double('tax')->default(0);
