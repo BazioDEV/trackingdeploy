@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.47",
+    "version" : "0.48",
 
     "minimum_item_version" : "3.7",
 
@@ -41,6 +41,10 @@
 
     "files"     :
     [
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/AddonEvenListeners/spot-cargo-shipment-addon.json",
+            "update_directory": "app/AddonEvenListeners/spot-cargo-shipment-addon.json"
+        },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/assets/shipment_banner.jpg",
             "update_directory": "public/shipment_banner.jpg"
@@ -248,6 +252,46 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/listeners/SendUpdateShipmentNotification.php",
             "update_directory": "app/Listeners/SendUpdateShipmentNotification.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/AddCaptain.php",
+            "update_directory": "app/Events/AddCaptain.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/AddClient.php",
+            "update_directory": "app/Events/AddClient.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/AddShipment.php",
+            "update_directory": "app/Events/AddShipment.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/ApproveMission.php",
+            "update_directory": "app/Events/ApproveMission.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/AssignMission.php",
+            "update_directory": "app/Events/AssignMission.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/CreateMission.php",
+            "update_directory": "app/Events/CreateMission.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/MissionAction.php",
+            "update_directory": "app/Events/MissionAction.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/ShipmentAction.php",
+            "update_directory": "app/Events/ShipmentAction.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/UpdateMission.php",
+            "update_directory": "app/Events/UpdateMission.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/events/UpdateShipment.php",
+            "update_directory": "app/Events/UpdateShipment.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/Shipment.php",
