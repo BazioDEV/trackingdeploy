@@ -151,6 +151,7 @@
 
                     <th>{{translate('Shipping Cost')}}</th>
                     <th>{{translate('Payment Method')}}</th>
+                    <th>{{translate('Paid')}}</th>
                     <th>{{translate('Shipping Date')}}</th>
                     @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
                     <th>{{translate('Captain')}}</th>
@@ -177,6 +178,7 @@
 
                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                     <td>{{$shipment->pay->name ?? ""}}</td>
+                    <td>@if($shipment->paid == 1) {{translate('Paid')}} @else - @endif</td>
                     <td>{{$shipment->shipping_date}}</td>
                         @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
                             <td><a href="{{route('admin.captains.show', $shipment->captain_id)}}">@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</a></td>

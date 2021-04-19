@@ -198,7 +198,7 @@ $d = new DNS1D();
                                                                         <span class="text-info font-weight-boldest ml-2">{{$shipment->reciver_name}}</span>
                                                                     </div>
                                                                     @if($shipment->barcode != null)
-                                                                    <?=$d->getBarcodeHTML($shipment->barcode, "EAN13");?>
+                                                                    <?=$d->getBarcodeHTML(str_replace(\App\ShipmentSetting::getVal('shipment_code_prefix'),"",$shipment->barcode), "EAN13");?>
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -213,7 +213,7 @@ $d = new DNS1D();
 															<form action="{{ route('payment.checkout') }}" class="form-default" role="form" method="POST" id="checkout-form">
 																@csrf
 																<input type="hidden" name="shipment_id" value="{{$shipment->id}}">
-																<button type="submit" class="btn btn-success btn-md mr-3">{{translate('Buy Now')}} <i class="far fa-credit-card ml-2"></i></button>
+																<button type="submit" class="btn btn-success btn-md mr-3">{{translate('Pay Now')}} <i class="far fa-credit-card ml-2"></i></button>
 															</form>
 														</div>
                                                     </div>
