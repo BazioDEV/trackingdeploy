@@ -34,6 +34,16 @@ class CreateShipmentsTable extends Migration
             $table->double('shipping_cost')->default(0);
             $table->double('total_weight')->default(0);
             $table->integer('employee_user_id')->unsigned()->nullable();
+
+            $table->text('client_street_address_map')->nullable();
+            $table->text('client_lat')->nullable();
+            $table->text('client_lng')->nullable();
+            $table->text('client_url')->nullable();
+            $table->text('reciver_street_address_map')->nullable();
+            $table->text('reciver_lat')->nullable();
+            $table->text('reciver_lng')->nullable();
+            $table->text('reciver_url')->nullable();
+            
             $table->timestamps();
         });
     }

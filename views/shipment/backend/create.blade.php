@@ -1,4 +1,7 @@
 @extends('backend.layouts.app')
+@php
+    $checked_google_map = \App\BusinessSetting::where('type', 'google_map')->first();
+@endphp
 
 @section('content')
 <style>
@@ -12,6 +15,7 @@
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
         </div>
+
         @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
@@ -113,7 +117,7 @@
                                             }else{
                                                 $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
                                             }
-                                            
+
                                         @endphp
                                         <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{ $shipping_data->toDateString() }}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
                                         <div class="input-group-append">
@@ -145,10 +149,27 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Client Address')}}:</label>
-                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control" id="" />
+                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control address" id="" />
 
                                 </div>
                             </div>
+
+                            @if($checked_google_map->value == 1 )
+                                <div class="col-md-12 mb-3">
+                                    <div class="location-client">
+                                        <label>{{translate('Client Location')}}:</label>
+                                        <input type="text" class="form-control address-client " name="Shipment[client_street_address_map]" placeholder="{{translate('Client Location')}}" name="client[street_address_map]"  rel="client" value="" />
+                                        <input type="hidden" class="form-control lat" data-client="lat" name="Shipment[client_lat]" />
+                                        <input type="hidden" class="form-control lng" data-client="lng" name="Shipment[client_lng]" />
+                                        <input type="hidden" class="form-control url" data-client="url" name="Shipment[client_url]" />
+                            
+                                        <div class="mt-2 col-sm-12 map_canvas map-client" style="width:100%;height:300px;"></div>
+                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
+                                    </div>
+                                </div>
+                            @endif
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Name')}}:</label>
@@ -163,6 +184,21 @@
 
                                 </div>
                             </div>
+
+                            @if($checked_google_map->value == 1 )
+                                <div class="col-md-12">
+                                    <div class="location-receiver">
+                                        <label>{{translate('Receiver Location')}}:</label>
+                                        <input type="text" class="form-control address-receiver " placeholder="{{translate('Receiver Location')}}" name="Shipment[reciver_street_address_map]"  rel="receiver" value="" />
+                                        <input type="hidden" class="form-control lat" data-receiver="lat" name="Shipment[reciver_lat]" />
+                                        <input type="hidden" class="form-control lng" data-receiver="lng" name="Shipment[reciver_lng]" />
+                                        <input type="hidden" class="form-control url" data-receiver="url" name="Shipment[reciver_url]" />
+                            
+                                        <div class="mt-2 col-sm-12 map_canvas map-receiver" style="width:100%;height:300px;"></div>
+                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
+                                    </div>
+                                </div>
+                            @endif
 
                         </div>
                         <hr>
@@ -399,7 +435,53 @@
 @endsection
 
 @section('script')
+<script src="{{ static_asset('assets/dashboard/js/geocomplete/jquery.geocomplete.js') }}"></script>
+<script src="//maps.googleapis.com/maps/api/js?libraries=places&key={{$checked_google_map->key}}"></script>
 <script type="text/javascript">
+    $('.address-receiver').each(function(){
+        var address = $(this);
+        address.geocomplete({
+            map: ".map_canvas.map-receiver",
+            mapOptions: {
+                zoom: 18
+            },
+            markerOptions: {
+                draggable: true
+            },
+            details: ".location-receiver",
+            detailsAttribute: 'data-receiver',
+            autoselect: true,
+            restoreValueAfterBlur: true,
+        });
+        address.bind("geocode:dragged", function(event, latLng){
+            $("input[data-receiver=lat]").val(latLng.lat());
+            $("input[data-receiver=lng]").val(latLng.lng());
+        });
+
+    });
+
+    $('.address-client').each(function(){
+        var address = $(this);
+        address.geocomplete({
+            map: ".map_canvas.map-client",
+            mapOptions: {
+                zoom: 18
+            },
+            markerOptions: {
+                draggable: true
+            },
+            details: ".location-client",
+            detailsAttribute: 'data-client',
+            autoselect: true,
+            restoreValueAfterBlur: true,
+        });
+        address.bind("geocode:dragged", function(event, latLng){
+            $("input[data-client=lat]").val(latLng.lat());
+            $("input[data-client=lng]").val(latLng.lng());
+        });
+
+    });
+
     var inputs = document.getElementsByTagName('input');
 
     for (var i = 0; i < inputs.length; i++) {
@@ -430,7 +512,7 @@
         placeholder: "Payment Type",
     });
 
-    
+
 
     $('.delivery-time').select2({
         placeholder: "Delivery Time",
@@ -594,7 +676,7 @@
 
             show: function() {
                 $(this).slideDown();
-                
+
                 $('.package-type-select').select2({
                     placeholder: "Package Type",
                     language: {
