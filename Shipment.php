@@ -362,4 +362,9 @@ class Shipment extends Model
     {
         return $this->belongsTo('App\BusinessSetting', 'payment_method_id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne('App\Payment', 'shipment_id' , 'id');
+    }
 }

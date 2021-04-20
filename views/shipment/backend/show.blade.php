@@ -193,7 +193,7 @@ $d = new DNS1D();
                             <tr class="font-weight-bolder">
                                 <td>{{translate($shipment->pay['name'])}} ({{$shipment->getPaymentType()}})</td>
                                 <td>@if($shipment->paid == 1) {{translate('Paid')}} @else {{translate('Pending')}} @endif</td>
-                                <td>@if($shipment->paid == 1)  @else - @endif</td>
+                                <td>@if($shipment->paid == 1) {{$shipment->payment->payment_date ?? ""}} @else - @endif</td>
                                 <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}<br /><span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span></td>
                             </tr>
                         </tbody>
