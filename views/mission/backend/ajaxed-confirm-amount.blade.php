@@ -12,7 +12,9 @@
         display:none;
     }
 </style>
-
+@php
+    $mission = \App\Mission::where('id', $mission->id)->first();
+@endphp
 <form id="kt_form_1" class="kt_form" action="{{route('admin.missions.action',['to'=>\App\Mission::RECIVED_STATUS])}}" method="POST">
     @csrf
     <div class="modal-header">
@@ -31,9 +33,9 @@
                     @endif
                 </div>
             </div>
-
+ 
         </div>
-        @if(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'seg')
+        @if(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'seg' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE )
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -50,7 +52,7 @@
                 </div>
             </div>
         </div>
-        @elseif(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'otp')
+        @elseif(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'otp' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE)
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -62,7 +64,7 @@
 
         </div>
         @endif
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>{{translate('Attachments After Shipping')}}:</label>
@@ -78,7 +80,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
     </div>
     <div class="modal-footer">
