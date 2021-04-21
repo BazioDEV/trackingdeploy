@@ -159,6 +159,7 @@ class ShipmentController extends Controller
 
             foreach ($request->checked_ids as $shipment_id) {
                 if ($model->id != null) {
+                    $shipment = Shipment::find($shipment_id);
                     $shipment->mission_id = $model->id;
                     $shipment->save();
                 }
