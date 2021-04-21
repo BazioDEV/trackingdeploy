@@ -62,7 +62,6 @@ class MissionsController extends Controller
             $params = array();
             if($to == Mission::RECIVED_STATUS)
             {
-                dd($request);
                 if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
                 {
                     $params['amount'] = $request->amount;
