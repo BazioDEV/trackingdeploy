@@ -84,11 +84,11 @@
 
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Shipment Prefix')}}:</label>
-                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('shipment_prefix')}}" name="Setting[shipment_prefix]" />
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('shipment_prefix') == null ) value="SH" @else value="{{\App\ShipmentSetting::getVal('shipment_prefix')}}" @endif name="Setting[shipment_prefix]" />
                     </div>
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Shipment Number of digits in the tracking')}}:</label>
-                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('shipment_code_count')}}" name="Setting[shipment_code_count]" />
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('shipment_code_count') == null ) value="5" @else  value="{{\App\ShipmentSetting::getVal('shipment_code_count')}}" @endif name="Setting[shipment_code_count]" />
                     </div>
 
                 </div>
@@ -99,11 +99,11 @@
 
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Mission Prefix')}}:</label>
-                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('mission_prefix')}}" name="Setting[mission_prefix]" />
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('mission_prefix') == null ) value="MI" @else value="{{\App\ShipmentSetting::getVal('mission_prefix')}}" @endif name="Setting[mission_prefix]" />
                     </div>
                     <div class="col-lg-6">
                         <label class="col-form-label text-lg-right">{{translate('Mission Number of digits in the tracking')}}:</label>
-                        <input type="text" class="form-control" value="{{\App\ShipmentSetting::getVal('mission_code_count')}}" name="Setting[mission_code_count]" />
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('mission_code_count') == null ) value="7" @else value="{{\App\ShipmentSetting::getVal('mission_code_count')}}" @endif name="Setting[mission_code_count]" />
                     </div>
 
                 </div>
