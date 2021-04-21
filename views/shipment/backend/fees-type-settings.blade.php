@@ -21,7 +21,7 @@
         @csrf
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{translate('Default Costs')}}</h5>
+                <h5 class="mb-0 h6">{{translate('Default Fees For The First kg')}}</h5>
             </div>
 
             <div class="card-body">
