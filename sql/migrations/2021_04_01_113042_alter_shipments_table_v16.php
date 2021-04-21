@@ -18,11 +18,53 @@ class AlterShipmentsTableV16 extends Migration
             $table->string('barcode')->nullable();
         });
 
-        $items = [
-            "type"      =>  "notifications",
-            "key"       =>  "new_shipment",
-            "Name"      =>  "New Shipment",
-        ];
+        $items = array(
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "new_shipment",
+                "Name"      =>  "New Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "aprroved_shipment",
+                "Name"      =>  "Approved Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "assigned_shipment",
+                "Name"      =>  "Assigned Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "received_shipment",
+                "Name"      =>  "Received Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "deliverd_shipment",
+                "Name"      =>  "Deliverd Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "supplied_shipment",
+                "Name"      =>  "Supplied Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "returned_shipment",
+                "Name"      =>  "Returned Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "returned_to_stock_shipment",
+                "Name"      =>  "Returned To Stock",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "returned_to_sender_shipment",
+                "Name"      =>  "Returned To Sender",
+            ],
+        );
         DB::table('business_settings')->insert($items);
     }
 
