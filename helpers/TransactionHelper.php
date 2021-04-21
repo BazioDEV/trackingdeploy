@@ -120,7 +120,14 @@ class TransactionHelper{
                 $cost += $shipment->return_cost;
         }else
         {
-            $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance + $shipment->amount_to_be_collected;
+            if($shipment->payment_type == Shipment::PREPAID )
+            {
+                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance;
+            }
+            elseif($shipment->payment_type == Shipment::POSTPAID )
+            {
+                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance + $shipment->amount_to_be_collected;
+            }
         }
         
         return $cost;

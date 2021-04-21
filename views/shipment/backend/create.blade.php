@@ -260,7 +260,7 @@
                             </div>
                         </div>
                         
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments Before Shipping')}}:</label>
@@ -291,7 +291,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <hr>
 
