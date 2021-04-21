@@ -216,8 +216,8 @@ $d = new DNS1D();
                         <div id="payment-link" style="display: none">{{route('admin.shipments.pay', $shipment->id)}}</div>
                     @endif
 
-                    <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">{{translate('Print Label')}}<i class="la la-box-open ml-2"></i></button>
-                    <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Invoice')}}<i class="la la-file-invoice-dollar ml-2"></i></button>
+                    <a href="{{route('admin.shipments.print', array($shipment->id, 'label'))}}" class="btn btn-light-primary font-weight-bold" target="_blank">{{translate('Print Label')}}<i class="la la-box-open ml-2"></i></a>
+                    <a href="{{route('admin.shipments.print', array($shipment->id, 'invoice'))}}" class="btn btn-light-primary font-weight-bold" target="_blank">{{translate('Print Invoice')}}<i class="la la-file-invoice-dollar ml-2"></i></a>
 
                     @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                     <a href="{{route('admin.shipments.edit', $shipment->id)}}" class="btn btn-light-info btn-sm font-weight-bolder font-size-sm py-3 px-6">{{translate('Edit Shipment')}}</a>

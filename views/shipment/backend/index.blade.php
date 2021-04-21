@@ -190,7 +190,7 @@
                         {{$shipment->created_at->format('Y-m-d')}}
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id])}}" title="{{ translate('Show') }}">
+                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Show') }}">
                             <i class="las la-print"></i>
                         </a>
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('Show') }}">
