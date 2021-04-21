@@ -62,7 +62,7 @@
 
         </div>
         @endif
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>{{translate('Attachments After Shipping')}}:</label>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
     <div class="modal-footer">

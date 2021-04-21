@@ -14,7 +14,7 @@ class TransactionHelper{
     private function pickup_mission_prepaid_shipments_ids($mission_id)
     {
         $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID)->pluck('id');
+        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID)->where("paid",0)->pluck('id');
         return $shipments;
     }
 
@@ -31,7 +31,7 @@ class TransactionHelper{
     private function delivery_mission_postpaid_shipments_ids($mission_id)
     {
         $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID)->pluck('id');
+        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID)->where("paid",0)->pluck('id');
         return $shipments;
     }
 
@@ -48,7 +48,7 @@ class TransactionHelper{
     private function return_mission_shipments_ids($mission_id)
     {
         $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->pluck('id');
+        $shipments = Shipment::whereIn('id',$m_shipments)->where("paid",0)->pluck('id');
         return $shipments;
     }
 
@@ -115,20 +115,12 @@ class TransactionHelper{
 		$cost = 0;
         
         $shipment = Shipment::where('id',$shipment_id)->first();
-        
         if(in_array($shipment->status_id,[Shipment::RETURNED_CLIENT_GIVEN,Shipment::RETURNED_STATUS,Shipment::RETURNED_STOCK]))
         {
                 $cost += $shipment->return_cost;
         }else
         {
-            if($shipment->payment_type == Shipment::PREPAID )
-            {
-                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance;
-            }
-            elseif($shipment->payment_type == Shipment::POSTPAID )
-            {
-                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance + $shipment->amount_to_be_collected;
-            }
+            $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance + $shipment->amount_to_be_collected;
         }
         
         return $cost;
