@@ -31,6 +31,11 @@ class AlterShipmentsTableV16 extends Migration
             ],
             [
                 "type"      =>  "notifications",
+                "key"       =>  "reject_shipment",
+                "Name"      =>  "Reject Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
                 "key"       =>  "assigned_shipment",
                 "Name"      =>  "Assigned Shipment",
             ],
