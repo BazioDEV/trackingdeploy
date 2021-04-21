@@ -157,6 +157,19 @@ class ShipmentController extends Controller
             $helper = new TransactionHelper();
             $helper->calculate_mission_amount($model->id);
 
+            foreach ($request->checked_ids as $shipment_id) {
+                if ($model->id != null && ShipmentMission::check_if_shipment_is_assigned_to_mission($shipment_id, Mission::PICKUP_TYPE) == 0) {
+                    $shipment = Shipment::find($shipment_id);
+                    $shipment_mission = new ShipmentMission();
+                    $shipment_mission->shipment_id = $shipment->id;
+                    $shipment_mission->mission_id = $model->id;
+                    if ($shipment_mission->save()) {
+                        $shipment->mission_id = $model->id;
+                        $shipment->save();
+                    }
+                }
+            }
+
             event(new ShipmentAction( Shipment::REQUESTED_STATUS,$request->checked_ids));
             event(new CreateMission($model));
             DB::commit();
@@ -444,6 +457,17 @@ class ShipmentController extends Controller
         $areas = Area::where('state_id', $state_id)->get();
         return response()->json($areas);
     }
+
+    public function ajaxGetEstimationCost(Request $request)
+    {
+        $request->validate([
+            'total_weight' => 'required|integer|min:0',
+        ]);
+        $costs = $this->applyShipmentCost($request,$request->package_ids);
+        $costs["total_cost"] = $costs["shipping_cost"] + $costs["tax"] + $costs["insurance"] ;
+        return $costs;
+    }
+
     public function feesSettings()
     {
         return view('backend.shipments.fees-type-settings');
@@ -645,7 +669,6 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
-
         try {
             DB::beginTransaction();
             $model = new Shipment();

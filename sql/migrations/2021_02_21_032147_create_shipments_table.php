@@ -44,6 +44,9 @@ class CreateShipmentsTable extends Migration
             $table->text('reciver_lng')->nullable();
             $table->text('reciver_url')->nullable();
             
+            $table->text('attachments_before_shipping')->nullable();
+            $table->text('attachments_after_shipping')->nullable();
+
             $table->timestamps();
         });
     }

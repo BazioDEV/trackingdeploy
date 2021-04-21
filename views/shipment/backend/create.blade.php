@@ -1,7 +1,4 @@
 @extends('backend.layouts.app')
-@php
-    $checked_google_map = \App\BusinessSetting::where('type', 'google_map')->first();
-@endphp
 
 @section('content')
 <style>
@@ -15,7 +12,6 @@
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
         </div>
-
         @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
         <div class="row">
             <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
@@ -117,7 +113,7 @@
                                             }else{
                                                 $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
                                             }
-
+                                            
                                         @endphp
                                         <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{ $shipping_data->toDateString() }}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
                                         <div class="input-group-append">
@@ -149,27 +145,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Client Address')}}:</label>
-                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control address" id="" />
+                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control" id="" />
 
                                 </div>
                             </div>
-
-                            @if($checked_google_map->value == 1 )
-                                <div class="col-md-12 mb-3">
-                                    <div class="location-client">
-                                        <label>{{translate('Client Location')}}:</label>
-                                        <input type="text" class="form-control address-client " name="Shipment[client_street_address_map]" placeholder="{{translate('Client Location')}}" name="client[street_address_map]"  rel="client" value="" />
-                                        <input type="hidden" class="form-control lat" data-client="lat" name="Shipment[client_lat]" />
-                                        <input type="hidden" class="form-control lng" data-client="lng" name="Shipment[client_lng]" />
-                                        <input type="hidden" class="form-control url" data-client="url" name="Shipment[client_url]" />
-                            
-                                        <div class="mt-2 col-sm-12 map_canvas map-client" style="width:100%;height:300px;"></div>
-                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
-                                    </div>
-                                </div>
-                            @endif
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Name')}}:</label>
@@ -184,21 +163,6 @@
 
                                 </div>
                             </div>
-
-                            @if($checked_google_map->value == 1 )
-                                <div class="col-md-12">
-                                    <div class="location-receiver">
-                                        <label>{{translate('Receiver Location')}}:</label>
-                                        <input type="text" class="form-control address-receiver " placeholder="{{translate('Receiver Location')}}" name="Shipment[reciver_street_address_map]"  rel="receiver" value="" />
-                                        <input type="hidden" class="form-control lat" data-receiver="lat" name="Shipment[reciver_lat]" />
-                                        <input type="hidden" class="form-control lng" data-receiver="lng" name="Shipment[reciver_lng]" />
-                                        <input type="hidden" class="form-control url" data-receiver="url" name="Shipment[reciver_url]" />
-                            
-                                        <div class="mt-2 col-sm-12 map_canvas map-receiver" style="width:100%;height:300px;"></div>
-                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
-                                    </div>
-                                </div>
-                            @endif
 
                         </div>
                         <hr>
@@ -295,6 +259,40 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Attachments Before Shipping')}}:</label>
+        
+                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                        </div>
+                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                        <input type="hidden" name="Shipment[attachments_before_shipping]" class="selected-files" value="{{old('Shipment[attachments_before_shipping]')}}" max="3">
+                                    </div>
+                                    <div class="file-preview">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Attachments After Shipping')}}:</label>
+        
+                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                        </div>
+                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                        <input type="hidden" name="Shipment[attachments_after_shipping]" class="selected-files" value="{{old('Shipment[attachments_after_shipping]')}}" max="3">
+                                    </div>
+                                    <div class="file-preview">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr>
 
                         <div id="kt_repeater_1">
@@ -424,7 +422,53 @@
                     {!! hookView('shipment_addon',$currentView) !!}
 
                     <div class="mb-0 text-right form-group">
-                        <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="get_estimation_cost()">{{translate('Save')}}</button>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
+                            {{translate('Save')}}
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">{{translate('Estimation Cost')}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal_close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-left">
+                                        <div class="row">
+                                            <div class="col-6">{{translate('Shipping Cost')}} :</div> 
+                                            <div class="col-6" id="shipping_cost"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">{{translate('Tax & Duty')}} :</div> 
+                                            <div class="col-6" id="tax_duty"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">{{translate('Insurance')}} :</div> 
+                                            <div class="col-6" id="insurance"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">{{translate('Return Cost')}} :</div> 
+                                            <div class="col-6" id="return_cost"></div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-6">{{translate('TOTAL COST')}} :</div> 
+                                            <div class="col-6" id="total_cost"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
+                                        <button type="submit" class="btn btn-primary">{{translate('Save')}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
         </form>
@@ -435,53 +479,7 @@
 @endsection
 
 @section('script')
-<script src="{{ static_asset('assets/dashboard/js/geocomplete/jquery.geocomplete.js') }}"></script>
-<script src="//maps.googleapis.com/maps/api/js?libraries=places&key={{$checked_google_map->key}}"></script>
 <script type="text/javascript">
-    $('.address-receiver').each(function(){
-        var address = $(this);
-        address.geocomplete({
-            map: ".map_canvas.map-receiver",
-            mapOptions: {
-                zoom: 18
-            },
-            markerOptions: {
-                draggable: true
-            },
-            details: ".location-receiver",
-            detailsAttribute: 'data-receiver',
-            autoselect: true,
-            restoreValueAfterBlur: true,
-        });
-        address.bind("geocode:dragged", function(event, latLng){
-            $("input[data-receiver=lat]").val(latLng.lat());
-            $("input[data-receiver=lng]").val(latLng.lng());
-        });
-
-    });
-
-    $('.address-client').each(function(){
-        var address = $(this);
-        address.geocomplete({
-            map: ".map_canvas.map-client",
-            mapOptions: {
-                zoom: 18
-            },
-            markerOptions: {
-                draggable: true
-            },
-            details: ".location-client",
-            detailsAttribute: 'data-client',
-            autoselect: true,
-            restoreValueAfterBlur: true,
-        });
-        address.bind("geocode:dragged", function(event, latLng){
-            $("input[data-client=lat]").val(latLng.lat());
-            $("input[data-client=lng]").val(latLng.lng());
-        });
-
-    });
-
     var inputs = document.getElementsByTagName('input');
 
     for (var i = 0; i < inputs.length; i++) {
@@ -512,7 +510,7 @@
         placeholder: "Payment Type",
     });
 
-
+    
 
     $('.delivery-time').select2({
         placeholder: "Delivery Time",
@@ -588,6 +586,48 @@
 
         });
     });
+
+    function get_estimation_cost() {
+        var total_weight = document.getElementById('kt_touchspin_4').value;
+        var select_packages = document.getElementsByClassName('package-type-select');
+
+        var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
+        var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
+        var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
+        var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;        
+        var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;        
+        var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
+
+        var package_ids = [];
+        for (let index = 0; index < select_packages.length; index++) {
+            if(select_packages[index].value){
+                package_ids[index] = new Object();
+                package_ids[index]["package_id"] = select_packages[index].value;
+            }else{
+                AIZ.plugins.notify('danger', '{{ translate('Please select package type') }} ' + (index+1));
+                return 0;
+            }
+        }
+        var request_data = {_token : '{{ csrf_token() }}', 
+                                package_ids : package_ids, 
+                                total_weight : total_weight, 
+                                from_country_id : from_country_id, 
+                                to_country_id : to_country_id, 
+                                from_state_id : from_state_id, 
+                                to_state_id : to_state_id, 
+                                from_area_id : from_area_id, 
+                                to_area_id : to_area_id, 
+                            };
+        $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response){
+            document.getElementById("shipping_cost").innerHTML = response.shipping_cost;
+            document.getElementById("tax_duty").innerHTML = response.tax;
+            document.getElementById("insurance").innerHTML = response.insurance;
+            document.getElementById("return_cost").innerHTML = response.return_cost;
+            document.getElementById("total_cost").innerHTML = response.total_cost;
+            document.getElementById('modal_open').click();
+            console.log(response);
+        });
+    }
 
     function calcTotalWeight() {
         console.log('sds');
@@ -676,7 +716,7 @@
 
             show: function() {
                 $(this).slideDown();
-
+                
                 $('.package-type-select').select2({
                     placeholder: "Package Type",
                     language: {

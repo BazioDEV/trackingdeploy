@@ -62,7 +62,23 @@
 
         </div>
         @endif
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>{{translate('Attachments After Shipping')}}:</label>
 
+                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                        </div>
+                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                        <input type="hidden" name="Shipment[attachments_after_shipping]" class="selected-files" value="" max="3">
+                    </div>
+                    <div class="file-preview">
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

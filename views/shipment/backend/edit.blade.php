@@ -1,7 +1,4 @@
 @extends('backend.layouts.app')
-@php
-    $checked_google_map = \App\BusinessSetting::where('type', 'google_map')->first();
-@endphp
 
 @section('content')
 <style>
@@ -9,7 +6,7 @@
         font-weight: bold !important;
     }
 </style>
-<div class="mx-auto col-lg-12">
+<div class="col-lg-12 mx-auto">
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
@@ -26,7 +23,7 @@
                             <label class="col-2 col-form-label">{{translate('Shipment Type')}}</label>
                             <div class="col-9 col-form-label">
                                 <div class="radio-inline">
-                                    <label class="radio radio-success btn btn-default">
+                                    <label class="radio radio-success  btn btn-default">
                                         <input type="radio" name="Shipment[type]" @if($shipment->type == \App\Shipment::getType(\App\Shipment::PICKUP)) checked @endif value="{{\App\Shipment::PICKUP}}" />
                                         <span></span>
                                         {{translate("Pickup (For door to door delivery)")}}
@@ -93,23 +90,6 @@
 
                                 </div>
                             </div>
-
-                            @if($checked_google_map->value == 1 )
-                                <div class="mb-3 col-md-12">
-                                    <div class="location-client">
-                                        <label>{{translate('Client Location')}}:</label>
-                                        <input type="text" value="{{$shipment->client_street_address_map}}" class="form-control address-client " name="Shipment[client_street_address_map]" placeholder="{{translate('Client Location')}}" name="client[street_address_map]"  rel="client" value="" />
-                                        <input type="hidden" value="{{$shipment->client_lat}}" class="form-control lat" data-client="lat" name="Shipment[client_lat]" />
-                                        <input type="hidden" value="{{$shipment->client_lng}}" class="form-control lng" data-client="lng" name="Shipment[client_lng]" />
-                                        <input type="hidden" value="{{$shipment->client_url}}" class="form-control url" data-client="url" name="Shipment[client_url]" />
-                            
-                                        <div class="mt-2 col-sm-12 map_canvas map-client" style="width:100%;height:300px;"></div>
-                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
-                                    </div>
-                                </div>
-                            @endif
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Name')}}:</label>
@@ -124,21 +104,6 @@
 
                                 </div>
                             </div>
-
-                            @if($checked_google_map->value == 1 )
-                                <div class="col-md-12">
-                                    <div class="location-receiver">
-                                        <label>{{translate('Receiver Location')}}:</label>
-                                        <input type="text" value="{{$shipment->reciver_street_address_map}}" class="form-control address-receiver " placeholder="{{translate('Receiver Location')}}" name="Shipment[reciver_street_address_map]"  rel="receiver" value="" />
-                                        <input type="hidden" value="{{$shipment->receiver_lat}}" class="form-control lat" data-receiver="lat" name="Shipment[reciver_lat]" />
-                                        <input type="hidden" value="{{$shipment->reciver_lng}}" class="form-control lng" data-receiver="lng" name="Shipment[reciver_lng]" />
-                                        <input type="hidden" value="{{$shipment->reciver_url}}" class="form-control url" data-receiver="url" name="Shipment[reciver_url]" />
-                            
-                                        <div class="mt-2 col-sm-12 map_canvas map-receiver" style="width:100%;height:300px;"></div>
-                                        <span class="form-text text-muted">{{'Change the pin to select the right location'}}</span>
-                                    </div>
-                                </div>
-                            @endif
                             
                         </div>
                         <hr>
@@ -170,6 +135,40 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Attachments Before Shipping')}}:</label>
+        
+                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                        </div>
+                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                        <input type="hidden" name="Shipment[attachments_before_shipping]" class="selected-files" value="{{$shipment->attachments_before_shipping}}" max="3">
+                                    </div>
+                                    <div class="file-preview">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Attachments After Shipping')}}:</label>
+        
+                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                        </div>
+                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                        <input type="hidden" name="Shipment[attachments_after_shipping]" class="selected-files" value="{{$shipment->attachments_after_shipping}}" max="3">
+                                    </div>
+                                    <div class="file-preview">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr>
 
                         <div id="kt_repeater_1">
@@ -190,19 +189,19 @@
                                                 <option @if($pack->package_id == $package->id) selected @endif value="{{$package->id}}">{{$package->name}}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="mb-2 d-md-none"></div>
+                                            <div class="d-md-none mb-2"></div>
                                         </div>
                                         <div class="col-md-3">
                                             <label>{{translate('description')}}:</label>
                                             <input type="text" value="{{$pack->description}}" class="form-control" name="description">
-                                            <div class="mb-2 d-md-none"></div>
+                                            <div class="d-md-none mb-2"></div>
                                         </div>
                                         <div class="col-md-3">
 
                                             <label>{{translate('Quantity')}}:</label>
 
                                             <input id="kt_touchspin_qty" type="text" name="qty" class="form-control" value="{{$pack->qty}}" />
-                                            <div class="mb-2 d-md-none"></div>
+                                            <div class="d-md-none mb-2"></div>
 
                                         </div>
 
@@ -211,7 +210,7 @@
                                             <label>{{translate('Weight')}}:</label>
 
                                             <input id="kt_touchspin_weight" type="text" name="weight" class="form-control" value="{{$pack->weight}}" />
-                                            <div class="mb-2 d-md-none"></div>
+                                            <div class="d-md-none mb-2"></div>
 
                                         </div>
 
@@ -252,7 +251,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="">
-                                    <label class="text-right col-form-label">{{translate('Add')}}</label>
+                                    <label class="col-form-label text-right">{{translate('Add')}}</label>
                                     <div>
                                         <a href="javascript:;" data-repeater-create="" class="btn btn-sm font-weight-bolder btn-light-primary">
                                             <i class="la la-plus"></i>{{translate('Add')}}
@@ -318,7 +317,7 @@
 
                     {!! hookView('shipment_addon',$currentView) !!}
 
-                    <div class="mb-0 text-right form-group">
+                    <div class="form-group mb-0 text-right">
                         <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
                     </div>
                 </div>
@@ -330,53 +329,7 @@
 @endsection
 
 @section('script')
-<script src="{{ static_asset('assets/dashboard/js/geocomplete/jquery.geocomplete.js') }}"></script>
-<script src="//maps.googleapis.com/maps/api/js?libraries=places&key={{$checked_google_map->key}}"></script>
 <script type="text/javascript">
-    $('.address-client').each(function(){
-        var address = $(this);
-        address.geocomplete({
-            map: ".map_canvas.map-client",
-            mapOptions: {
-                zoom: 18
-            },
-            markerOptions: {
-                draggable: true
-            },
-            details: ".location-client",
-            detailsAttribute: 'data-client',
-            autoselect: true,
-            restoreValueAfterBlur: true,
-        });
-        address.bind("geocode:dragged", function(event, latLng){
-            $("input[data-client=lat]").val(latLng.lat());
-            $("input[data-client=lng]").val(latLng.lng());
-        });
-
-    });
-
-    $('.address-receiver').each(function(){
-        var address = $(this);
-        address.geocomplete({
-            map: ".map_canvas.map-receiver",
-            mapOptions: {
-                zoom: 18
-            },
-            markerOptions: {
-                draggable: true
-            },
-            details: ".location-receiver",
-            detailsAttribute: 'data-receiver',
-            autoselect: true,
-            restoreValueAfterBlur: true,
-        });
-        address.bind("geocode:dragged", function(event, latLng){
-            $("input[data-receiver=lat]").val(latLng.lat());
-            $("input[data-receiver=lng]").val(latLng.lng());
-        });
-
-    });
-
     $(document).ready(function() {
         var inputs = document.getElementsByTagName('input');
 
