@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.52",
+    "version" : "0.54",
 
     "minimum_item_version" : "3.7",
 
@@ -170,11 +170,11 @@
             "update_directory": "resources/views/backend/shipments/covered_countries.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/shipment_sidenav.blade.php",
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/shipment_sidenav.blade.php",
             "update_directory": "resources/views/backend/inc/addons/shipment_sidenav.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/topbar/shipment_sidenav.blade.php",
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/topbar/shipment_sidenav.blade.php",
             "update_directory": "resources/views/backend/inc/addons/topbar/shipment_sidenav.blade.php"
         },
         {
@@ -182,15 +182,15 @@
             "update_directory": "resources/views/backend/permissions/shipment_permissions.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/notifications/shipments.blade.php",
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/notifications/shipments.blade.php",
             "update_directory": "resources/views/backend/inc/addons/notifications/shipments.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/2-latest_shipments.blade.php",
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/dashboard/2-latest_shipments.blade.php",
             "update_directory": "resources/views/backend/inc/addons/dashboard/2-latest_shipments.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/inc/dashboard/1-order_count.blade.php",
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/dashboard/1-order_count.blade.php",
             "update_directory": "resources/views/backend/inc/addons/dashboard/1-order_count.blade.php"
         },
         {
@@ -376,10 +376,6 @@
             "update_directory": "resources/views/backend/branchs/index.blade.php"
         },
         {
-            "root_directory"    : "addons/spot-cargo-shipment-addon/views/branch/inc/branch_sidenav.blade.php",
-            "update_directory"  : "resources/views/backend/inc/addons/branch_sidenav.blade.php"
-        },
-        {
             "root_directory"    : "addons/spot-cargo-shipment-addon/views/branch/permissions/branch_permissions.blade.php",
             "update_directory"  : "resources/views/backend/permissions/branch_permissions.blade.php"
         },
@@ -416,10 +412,6 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/captain/backend/index.blade.php",
             "update_directory": "resources/views/backend/captains/index.blade.php"
-        },
-        {
-            "root_directory"    : "addons/spot-cargo-shipment-addon/views/captain/inc/captain_sidenav.blade.php",
-            "update_directory"  : "resources/views/backend/inc/addons/captain_sidenav.blade.php"
         },
         {
             "root_directory"    : "addons/spot-cargo-shipment-addon/views/captain/permissions/captain_permissions.blade.php",
@@ -460,10 +452,6 @@
             "update_directory": "resources/views/backend/clients/index.blade.php"
         },
         {
-            "root_directory"    : "addons/spot-cargo-shipment-addon/views/client/inc/client_sidenav.blade.php",
-            "update_directory"  : "resources/views/backend/inc/addons/client_sidenav.blade.php"
-        },
-        {
             "root_directory"    : "addons/spot-cargo-shipment-addon/views/client/permissions/client_permissions.blade.php",
             "update_directory"  : "resources/views/backend/permissions/client_permissions.blade.php"
         },
@@ -496,10 +484,6 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/mission/backend/manifests.blade.php",
             "update_directory": "resources/views/backend/missions/manifests.blade.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/mission/inc/mission_sidenav.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/mission_sidenav.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/mission/permissions/mission_permissions.blade.php",
@@ -559,10 +543,6 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/transactions/backend/index.blade.php",
             "update_directory": "resources/views/backend/transactions/index.blade.php"
-        },
-        {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/transactions/inc/transaction_addon_sidenav.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/transaction_addon_sidenav.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/transactions/permissions/transaction_addon_permissions.blade.php",
