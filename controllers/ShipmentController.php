@@ -158,15 +158,9 @@ class ShipmentController extends Controller
             $helper->calculate_mission_amount($model->id);
 
             foreach ($request->checked_ids as $shipment_id) {
-                if ($model->id != null && ShipmentMission::check_if_shipment_is_assigned_to_mission($shipment_id, Mission::PICKUP_TYPE) == 0) {
-                    $shipment = Shipment::find($shipment_id);
-                    $shipment_mission = new ShipmentMission();
-                    $shipment_mission->shipment_id = $shipment->id;
-                    $shipment_mission->mission_id = $model->id;
-                    if ($shipment_mission->save()) {
-                        $shipment->mission_id = $model->id;
-                        $shipment->save();
-                    }
+                if ($model->id != null) {
+                    $shipment->mission_id = $model->id;
+                    $shipment->save();
                 }
             }
 
