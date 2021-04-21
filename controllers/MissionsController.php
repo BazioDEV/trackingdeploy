@@ -57,19 +57,37 @@ class MissionsController extends Controller
     {
         if(isset($request->checked_ids))
         {
+            $mission = Mission::where('id',$request->checked_ids[0])->first();
+
             $params = array();
             if($to == Mission::RECIVED_STATUS)
             {
+                dd($request);
                 if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
                 {
                     $params['amount'] = $request->amount;
                 }
-                if(isset($request->seg_img))
+                if(isset($request->signaturePadImg))
                 {
-                    $params['seg_img'] = $request->seg_img;
+                    if($request->signaturePadImg == null || $request->signaturePadImg == " ")
+                    {
+                        flash(translate("Please Confirm The Signature"))->error();
+                        return back();
+                    }
+                    $params['seg_img'] = $request->signaturePadImg;
                 }
                 if(isset($request->otp))
                 {
+                    if($request->otp_confirm == null || $request->otp_confirm == " ")
+                    {
+                        flash(translate("Please enter OTP of mission"))->error();
+                        return back();
+                    }
+                    elseif($mission->otp != $request->otp_confirm )
+                    {
+                        flash(translate("Please enter correct OTP"))->error();
+                        return back();
+                    }
                     $params['otp'] = $request->otp;
                 }
             }

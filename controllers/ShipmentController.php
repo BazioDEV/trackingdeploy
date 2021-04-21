@@ -181,9 +181,10 @@ class ShipmentController extends Controller
             $model->code = -1;
             $model->status_id = Mission::REQUESTED_STATUS;
             $model->type = Mission::DELIVERY_TYPE;
-            if(ShipmentSetting::getVal('def_shipment_conf_type')=='otp'){
-                $model->otp = MissionPRNG::get();
-            }
+            $model->otp  = MissionPRNG::get();
+            // if(ShipmentSetting::getVal('def_shipment_conf_type')=='otp'){
+            //     $model->otp = MissionPRNG::get();
+            // }
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -726,12 +727,9 @@ class ShipmentController extends Controller
         return view('backend.shipments.show', compact('shipment'));
     }
 
-    public function print($shipment, $type = 'invoice')
+    public function print($shipment)
     {
         $shipment = Shipment::find($shipment);
-        if($type == 'label' )
-            return view('backend.shipments.print_label', compact('shipment'));
-
         return view('backend.shipments.print', compact('shipment'));
     }
 

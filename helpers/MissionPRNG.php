@@ -2,17 +2,17 @@
 
 namespace App\Http\Helpers;
 use Illuminate\Support\Facades\DB;
-use App\Models\Missions;
+use App\Mission;
 
 class MissionPRNG{
 
-    private $key; //Key that will be generated 
+    private $key; //Key that will be generated
     private $min; //Min of random numbers
     private $max; //Max of random numbers
 
     private function checkExist()
     {
-        $count = Missions::where('key',$this->key)->count();
+        $count = Mission::where('otp',$this->key)->count();
         return ($count > 0)?true:false;
     }
     private function generatePRNG()

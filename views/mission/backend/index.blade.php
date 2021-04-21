@@ -131,7 +131,7 @@
                                         <div class="form-group">
                                             <label>{{translate('Captain')}}:</label>
                                             
-                                            <select name="Mission[captain_id]" class="form-control">
+                                            <select name="Mission[captain_id]" class="form-control captain_id kt-select2">
                                                 @foreach(\App\Captain::all() as $captain)
                                                 <option value="{{$captain->id}}">{{$captain->name}}</option>
                                                 @endforeach
@@ -141,7 +141,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>{{translate('Due Date')}}:</label>
-                                            <input type="text" id="kt_datepicker_3" class="form-control"  name="Mission[due_date]"/>
+                                            <input type="text" id="kt_datepicker_3" autocomplete="off" class="form-control"  name="Mission[due_date]"/>
                                         </div>
                                     </div>
                                    
@@ -183,6 +183,8 @@
 @endsection
 
 @section('script')
+<script src="//cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<script type='text/javascript' src="//github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
 <script type="text/javascript">
     $('#kt_datepicker_3').datepicker({
         orientation: "bottom auto",
