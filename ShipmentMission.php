@@ -16,10 +16,11 @@ class ShipmentMission extends Model
         return Self::where('shipment_id',$shipment_id)->whereIn('mission_id',$type_missions)->count();
     }
     public function shipment(){
-		return $this->hasOne('App\Shipment', 'id' , 'shipment_id');
-	}
+      return $this->belongsTo('App\Shipment','shipment_id');
+    }
+
     public function mission(){
-		return $this->hasOne('App\Mission', 'id' , 'mission_id');
-	}
-}
+      return $this->hasOne('App\Mission', 'id' , 'mission_id');
+    }
+} 
 

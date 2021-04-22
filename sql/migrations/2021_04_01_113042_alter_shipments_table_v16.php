@@ -26,6 +26,41 @@ class AlterShipmentsTableV16 extends Migration
             ],
             [
                 "type"      =>  "notifications",
+                "key"       =>  "update_shipment",
+                "Name"      =>  "Update Shipment",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "new_captain",
+                "Name"      =>  "New Captain",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "new_client",
+                "Name"      =>  "New Client",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "new_staff",
+                "Name"      =>  "New Staff",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "new_mission",
+                "Name"      =>  "New Mission",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "mission_action",
+                "Name"      =>  "Mission Action",
+            ],
+            [
+                "type"      =>  "notifications",
+                "key"       =>  "shipment_action",
+                "Name"      =>  "Shipment Action",
+            ],
+            [
+                "type"      =>  "notifications",
                 "key"       =>  "aprroved_shipment",
                 "Name"      =>  "Approved Shipment",
             ],
@@ -69,6 +104,7 @@ class AlterShipmentsTableV16 extends Migration
                 "key"       =>  "returned_to_sender_shipment",
                 "Name"      =>  "Returned To Sender",
             ],
+            
         );
         DB::table('business_settings')->insert($items);
     }

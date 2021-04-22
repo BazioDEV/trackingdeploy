@@ -71,6 +71,461 @@
 
         @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
             <div class="form-group">
+                <label class="font-weight-bolder">{{translate('Update Shipments')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','update_shipment')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'update_shipment', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="update_shipment_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'update_shipment', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="update_shipment_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'update_shipment', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="update_shipment_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'update_shipment', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment updeted?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('New Captain')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','new_captain')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_captain', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_captain_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_captain', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_captain_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_captain', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_captain_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_captain', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a new captain created?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('New Client')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','new_client')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_client', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_client_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_client', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_client_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_client', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_client_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_client', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a new client created?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('New Staff')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','new_staff')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_staff', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_staff_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_staff', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_staff_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_staff', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_staff_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_staff', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a new staff?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('New Mission')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','new_mission')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_mission', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_mission_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_mission', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_mission_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_mission', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="new_mission_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'new_mission', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a new Mission?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('Mission Action')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','mission_action')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'mission_action', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="mission_action_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'mission_action', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="mission_action_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'mission_action', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="mission_action_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'mission_action', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a mission action?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
+                <label class="font-weight-bolder">{{translate('Shipment Action')}}</label>
+                @php
+                    $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','shipment_action')->first()->value, true);
+                @endphp
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'shipment_action', 'administrators')" <?php if(isset($notify['administrators'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('System administrators')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="shipment_action_administrators" <?php if(!isset($notify['administrators'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'administrators', false)" >
+                        @foreach(\App\User::where('user_type', 'admin')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['administrators']) && in_array($user->id, $notify['administrators'])) echo "selected";?>>{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'shipment_action', 'roles')" <?php if(isset($notify['roles'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees roles')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="shipment_action_roles" <?php if(!isset($notify['roles'])) echo "disabled";?> data-live-search="true" multiple="multiple" data-actions-box="true" data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'roles', false)">
+                        @foreach(\App\Role::get() as $role)
+                            <option value="{{$role->id}}" <?php if(isset($notify['roles']) && in_array($role->id, $notify['roles'])) echo "selected";?>>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'shipment_action', 'employees')" <?php if(isset($notify['employees'])) echo "checked";?> /><span></span>
+                            </label>
+                        </span>
+                        <span class="input-group-text font-weight-bolder">{{translate('Employees')}}</span>
+                    </div>
+                    <select class="form-control selectpicker" id="shipment_action_employees" <?php if(!isset($notify['employees'])) echo "disabled";?> data-live-search="true" multiple="multiple"  data-actions-box="true"  data-header="{{translate('Select an option')}}" onchange="updateSettings(this, 'new_shipment', 'employees', false)">
+                        @foreach(\App\User::where('user_type', 'staff')->get() as $user)
+                            <option value="{{$user->id}}" <?php if(isset($notify['employees']) && in_array($user->id, $notify['employees'])) echo "selected";?> >{{$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <label class="checkbox checkbox-inline checkbox-success">
+                                <input type="checkbox" onchange="updateSettings(this, 'shipment_action', 'sender', false)" <?php if(isset($notify['sender'])) echo "checked";?> value="true"/><span></span>
+                            </label>
+                        </span>
+                    </div>
+                    <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
+                </div>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment action?')}}</span>
+            </div>
+        @endif
+
+        @if( in_array($user_type,['admin','stuff']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <div class="form-group">
                 <label class="font-weight-bolder">{{translate('Aprroved Shipments')}}</label>
                 @php
                     $notify = json_decode(\App\BusinessSetting::where('type', 'notifications')->where('key','aprroved_shipment')->first()->value, true);

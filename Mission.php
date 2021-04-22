@@ -76,6 +76,10 @@ class Mission extends Model
 		return $this->hasOne('App\Client', 'id' , 'client_id');
 	}
 
+    public function shipment_mission(){
+		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id');
+	}
+
     public function getStatus()
      {
         $result = null;
