@@ -459,7 +459,7 @@ class ShipmentController extends Controller
             'total_weight' => 'required|integer|min:0',
         ]);
         $costs = $this->applyShipmentCost($request,$request->package_ids);
-        $costs["total_cost"] = $costs["shipping_cost"] + $costs["tax"] + $costs["insurance"] ;
+        $costs["total_cost"] = format_price(convert_price($costs["shipping_cost"] + $costs["tax"] + $costs["insurance"]));
         return $costs;
     }
 
@@ -636,7 +636,7 @@ class ShipmentController extends Controller
                 $insurance     = ShipmentSetting::getCost('def_insurance');
             }
 
-            $array['return_cost'] = $return_cost;
+            $array['return_cost'] = format_price(convert_price($return_cost));
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
             $array['insurance'] = $insurance;
