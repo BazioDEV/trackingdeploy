@@ -345,7 +345,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
                 </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is r to received by assigned captain?')}}</span>
             </div>
         @endif
 
@@ -420,7 +420,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
                 </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is delivered to receiver?')}}</span>
             </div>
         @endif
 
@@ -495,7 +495,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
                 </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment COD has been supplied to the sender?')}}</span>
             </div>
         @endif
 
@@ -560,17 +560,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Sender')}}</span>
                 </div>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <label class="checkbox checkbox-inline checkbox-success">
-                                <input type="checkbox" onchange="updateSettings(this, 'returned_shipment', 'captain', false)" <?php if(isset($notify['captain'])) echo "checked";?> value="true"/><span></span>
-                            </label>
-                        </span>
-                    </div>
-                    <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
-                </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a customer request to return shipment?')}}</span>
             </div>
         @endif
 
@@ -645,7 +635,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
                 </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to company stock?')}}</span>
             </div>
         @endif
 
@@ -720,7 +710,7 @@
                     </div>
                     <span class="input-group-text font-weight-bolder form-control">{{translate('Assigned Captain')}}</span>
                 </div>
-                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is assigned to a captain?')}}</span>
+                <span class="form-text text-muted">{{translate('Which one will receive a notification when a shipment is returned to the sender?')}}</span>
             </div>
         @endif
     @endif
