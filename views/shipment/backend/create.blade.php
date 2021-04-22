@@ -1,6 +1,9 @@
 @extends('backend.layouts.app')
 
 @section('content')
+@php
+    $auth_user = Auth::user();    
+@endphp
 <style>
     label {
         font-weight: bold !important;
@@ -132,13 +135,17 @@
                             <div class="col-md-6">
                                 <div class="form-group client-select">
                                     <label>{{translate('Client/Sender')}}:</label>
-                                    <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                        <option></option>
-                                        @foreach($clients as $client)
-                                        <option value="{{$client->id}}">{{$client->name}}</option>
-                                        @endforeach
+                                    @if($auth_user->user_type == "customer")
+                                        <input type="text" placeholder="" class="form-control" name="" value="{{$auth_user->name}}" disabled>
+                                    @else
+                                        <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
+                                            <option></option>
+                                            @foreach($clients as $client)
+                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                            @endforeach
 
-                                    </select>
+                                        </select>
+                                    @endif
 
                                 </div>
                             </div>

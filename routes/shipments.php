@@ -1,17 +1,49 @@
 <?php 
 
 Route::get('admin/shipments/payment/{shipment_id}','ShipmentController@pay')->name('admin.shipments.pay');
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|captain|branch']], function(){
-	//Update Routes
+
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff']], function(){
+    
     Route::get('shipments/settings','ShipmentController@settings')->name('admin.shipments.settings');
     Route::post('shipments/settings/store','ShipmentController@storeSettings')->name('admin.shipments.settings.store');
-    Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
 
     Route::get('shipments/settings/fees','ShipmentController@feesSettings')->name('admin.shipments.settings.fees');
     Route::get('shipments/settings/fees-fixed','ShipmentController@feesFixedSettings')->name('admin.shipments.settings.fees.fixed');
     Route::get('shipments/settings/fees-gram','ShipmentController@feesGramSettings')->name('admin.shipments.settings.fees.gram');
     Route::get('shipments/settings/fees-state-to-state','ShipmentController@feesStateToStateSettings')->name('admin.shipments.settings.fees.state-to-state');
     Route::get('shipments/settings/fees-country-to-country','ShipmentController@feesCountryToCountrySettings')->name('admin.shipments.settings.fees.country-to-country');
+
+    Route::get('/shipments/covered_cities/{country_id}','ShipmentController@covered_cities')->name('admin.shipments.covered_cities');
+    Route::get('/shipments/covered_countries','ShipmentController@covered_countries')->name('admin.shipments.covered_countries');
+    Route::post('/shipments/post_covered_cities/{country_id}','ShipmentController@post_covered_cities')->name('admin.shipments.post_covered_cities');
+    Route::post('/shipments/post_covered_countries','ShipmentController@post_covered_countries')->name('admin.shipments.post_covered_countries');
+    Route::get('/shipments/config/costs','ShipmentController@config_costs')->name('admin.shipments.config.costs');
+    Route::get('/shipments/config/costs/ajax','ShipmentController@ajax_costs_repeter')->name('admin.shipments.config.costs.ajax');
+    Route::post('/shipments/config/costs','ShipmentController@post_config_costs')->name('admin.shipments.post.config.costs');
+    Route::post('/shipments/config/packages/costs','ShipmentController@post_config_package_costs')->name('admin.shipments.post.config.package.costs');
+
+    Route::resource('costs','CostController',[
+        'as' => 'admin'
+    ]);
+    
+    Route::resource('areas','AreaController',[
+        'as' => 'admin'
+    ]);
+
+    Route::resource('packages','PackagesController',[
+        'as' => 'admin'
+    ]);
+    Route::get('packages/delete/{package}','PackagesController@destroy')->name('admin.packages.delete-package');
+
+    Route::get('areas/delete/{area}','AreaController@destroy')->name('admin.areas.delete-area');
+    
+});
+
+
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|captain|branch']], function(){
+	//Update Routes
+    Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
+
     Route::get('shipments/ajaxed-get-states','ShipmentController@ajaxGetStates')->name('admin.shipments.get-states-ajax');
     Route::get('shipments/ajaxed-get-areas','ShipmentController@ajaxGetAreas')->name('admin.shipments.get-areas-ajax');
     Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
@@ -22,15 +54,6 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::post('shipments/action/return_mission/{type}','ShipmentController@createReturnMission')->name('admin.shipments.action.create.return.mission');
     Route::post('shipments/action/transfer_mission/{type}','ShipmentController@createTransferMission')->name('admin.shipments.action.create.transfer.mission');
    
-    Route::get('/shipments/covered_cities/{country_id}','ShipmentController@covered_cities')->name('admin.shipments.covered_cities');
-    Route::get('/shipments/covered_countries','ShipmentController@covered_countries')->name('admin.shipments.covered_countries');
-    Route::post('/shipments/post_covered_cities/{country_id}','ShipmentController@post_covered_cities')->name('admin.shipments.post_covered_cities');
-    Route::post('/shipments/post_covered_countries','ShipmentController@post_covered_countries')->name('admin.shipments.post_covered_countries');
-    Route::get('/shipments/config/costs','ShipmentController@config_costs')->name('admin.shipments.config.costs');
-    Route::get('/shipments/config/costs/ajax','ShipmentController@ajax_costs_repeter')->name('admin.shipments.config.costs.ajax');
-    Route::post('/shipments/config/costs','ShipmentController@post_config_costs')->name('admin.shipments.post.config.costs');
-    Route::post('/shipments/config/packages/costs','ShipmentController@post_config_package_costs')->name('admin.shipments.post.config.package.costs');
-    
     Route::get('shipments/remove-shipment-from-mission/{shipment}/{mission}','ShipmentController@removeShipmentFromMission')->name('admin.shipments.delete-shipment-from-mission');
     
     Route::get('shipments/shipments-report','ShipmentController@shipmentsReport')->name('admin.shipments.report');
@@ -39,12 +62,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::resource('shipments','ShipmentController',[
         'as' => 'admin'
     ]);
-    Route::resource('costs','CostController',[
-        'as' => 'admin'
-    ]);
-    Route::resource('areas','AreaController',[
-        'as' => 'admin'
-    ]);
+    
     Route::get('shipments/delete/{shipment}','ShipmentController@destroy')->name('admin.shipments.delete-shipment');
     Route::patch('shipments/update/{shipment}','ShipmentController@update')->name('admin.shipments.update-shipment');
 
@@ -59,15 +77,4 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
         Route::get('shipments/'.$item['route_url'].'/{status}'.$params,'ShipmentController@statusIndex')
         ->name($item['route_name']);
     }
-
-    
-    
-    Route::resource('packages','PackagesController',[
-        'as' => 'admin'
-    ]);
-    Route::get('packages/delete/{package}','PackagesController@destroy')->name('admin.packages.delete-package');
-
-    Route::get('areas/delete/{area}','AreaController@destroy')->name('admin.areas.delete-area');
-    
-
 });

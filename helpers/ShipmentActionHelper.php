@@ -70,7 +70,7 @@ class ShipmentActionHelper{
                 "permissions"=>1032,
             ],
             [
-                "text"=> translate('Create Pickup Manifest'),
+                "text"=> translate('Create Pickup Mission'),
                 "permissions"=>1033,
             ],
             [
@@ -78,7 +78,7 @@ class ShipmentActionHelper{
                 "permissions"=>1034,
             ],
             [
-                "text"=> translate('Create Return Manifest'),
+                "text"=> translate('Create Return Mission'),
                 "permissions"=>1035,
             ],
             [
@@ -86,11 +86,11 @@ class ShipmentActionHelper{
                 "permissions"=>1036,
             ],
             [
-                "text"=> translate('Create Supply Manifest'),
+                "text"=> translate('Create Supply Mission'),
                 "permissions"=>1040,
             ],
             [
-                "text"=> translate('Create Transfer Manifest'),
+                "text"=> translate('Create Transfer Mission'),
                 "permissions"=>1200,
             ]
         ];  
@@ -217,7 +217,7 @@ class ShipmentActionHelper{
     public function returned_stock()
     {
         $this->actions[count($this->actions)] = array();
-        $this->actions[count($this->actions)-1]['title'] = translate('Create Return Manifest');
+        $this->actions[count($this->actions)-1]['title'] = translate('Create Return Mission');
         $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
         $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.return.mission',['type'=>Mission::RETURN_TYPE]);
         $this->actions[count($this->actions)-1]['method'] = 'POST';
@@ -257,7 +257,7 @@ class ShipmentActionHelper{
     private function accepted()
     {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Create Delivery Manifest');
+            $this->actions[count($this->actions)-1]['title'] = translate('Create Delivery Mission');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.delivery.mission',['type'=>Mission::DELIVERY_TYPE]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
@@ -301,7 +301,7 @@ class ShipmentActionHelper{
     private function deliverd()
     {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Create Supply Manifest');
+            $this->actions[count($this->actions)-1]['title'] = translate('Create Supply Mission');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.supply.mission',['type'=>Mission::SUPPLY_TYPE]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
