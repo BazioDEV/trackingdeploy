@@ -8,6 +8,8 @@ use App\Http\Helpers\MissionActionHelper;
 use App\Http\Helpers\MissionStatusManagerHelper;
 use App\Http\Helpers\StatusManagerHelper;
 use App\Mission;
+use App\Reason;
+use App\MissionReason;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
@@ -143,7 +145,12 @@ class MissionsController extends Controller
     public function show($id)
     {
         $mission = Mission::find($id);
-        return view('backend.missions.show',compact('mission'));
+        if($mission->status_id == Mission::APPROVED_STATUS){
+            $reasons = Reason::where("type","remove_shipment_from_mission")->get();
+            return view('backend.missions.show',compact('mission','reasons'));
+        }else{
+            return view('backend.missions.show',compact('mission'));
+        }
     }
 
     public function approveAndAssign(Request $request,$to)
@@ -191,6 +198,30 @@ class MissionsController extends Controller
     {
         $mission = Mission::find($mission_id);
         return view('backend.missions.ajaxed-confirm-amount',compact('mission'));
+    }
+
+    public function reschedule(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:missions,id',
+            'due_date' => 'required|date',
+            'reason' => 'required|exists:reasons,id',
+        ]);
+        $mission = Mission::find($request->id);
+        if($mission->status_id == Mission::APPROVED_STATUS){
+            $mission->due_date = $request->due_date;
+            $mission->save();
+            
+            $mission_reason = new MissionReason();
+            $mission_reason->mission_id = $mission->id;
+            $mission_reason->reason_id = $request->reason;
+            $mission_reason->save();
+            flash(translate("Reschedule set successfully"))->success();
+            return back();    
+        }else{
+            flash(translate("Invalid Link"))->error();
+            return back();
+        }
     }
 
     /**

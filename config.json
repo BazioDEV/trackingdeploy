@@ -350,6 +350,14 @@
             "update_directory": "app/ClientShipmentLog.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/MissionReason.php",
+            "update_directory": "app/MissionReason.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/Reason.php",
+            "update_directory": "app/Reason.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/helpers/ShipmentActionHelper.php",
             "update_directory": "app/Http/Helpers/ShipmentActionHelper.php"
         },

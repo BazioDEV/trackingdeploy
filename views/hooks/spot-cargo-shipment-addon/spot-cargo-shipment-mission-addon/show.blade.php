@@ -1,8 +1,62 @@
 
 
 <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-    <h1 class="display-4 font-weight-boldest mb-10">{{translate('Mission Shipments')}}</h1>
-    
+    <div class="col-9 row">
+        <div class="col-6">
+            <h1 class="display-4 font-weight-boldest mb-10">{{translate('Mission Shipments')}}</h1>
+        </div>
+        @isset($data['reasons'])
+            <div class="col-6 text-right">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
+                    {{translate('Reschedule')}}
+                </button>
+            
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">{{translate('Reschedule')}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal_close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('admin.missions.reschedule') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$data['mission']->id}}">
+                                <div class="modal-body text-left">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>{{translate('Reason')}}:</label>
+                                                
+                                                <select name="reason" class="form-control captain_id kt-select2">
+                                                    @foreach ($data['reasons'] as $reason)
+                                                        <option value="{{$reason->id}}">{{$reason->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>{{translate('Due Date')}}:</label>
+                                                <input type="text" id="kt_datepicker_3" autocomplete="off" class="form-control"  name="due_date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
+                                    <button type="submit" class="btn btn-primary">{{translate('Save')}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endisset
+    </div>
     <div class="col-md-9">
         <div class="table-responsive">
             <table class="table">

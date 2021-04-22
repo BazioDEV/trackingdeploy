@@ -56,7 +56,7 @@
                 </div>
                 <!-- end: Invoice header-->
                 <!-- begin: Invoice body-->
-                {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission]) !!}
+                {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission,'reasons'=>$reasons ?? null]) !!}
                 
                
                 <!-- end: Invoice body-->
@@ -113,4 +113,18 @@
 @endsection
 @section('modal')
     @include('modals.delete_modal')
+@endsection
+
+@section('script')
+<script type="text/javascript">
+    $('#kt_datepicker_3').datepicker({
+        orientation: "bottom auto",
+        autoclose: true,
+        format: 'yyyy-mm-dd',
+        todayBtn: true,
+        todayHighlight: true,
+        startDate: new Date(),
+    });
+</script>
+
 @endsection

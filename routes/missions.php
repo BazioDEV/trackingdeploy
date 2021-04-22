@@ -5,6 +5,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::get('missions/action/confirm_amount/{mission_id}','MissionsController@getAmountModel')->name('admin.missions.action.confirm_amount');
     Route::get('missions/manifests/','MissionsController@getManifests')->name('admin.missions.manifests');
     Route::post('missions/manifest-profile','MissionsController@getManifestProfile')->name('admin.missions.get.manifest');
+    Route::post('missions/reschedule','MissionsController@reschedule')->name('admin.missions.reschedule');
     
     Route::resource('missions','MissionsController',[
         'as' => 'admin'
