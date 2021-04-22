@@ -158,6 +158,10 @@
             "update_directory": "resources/views/backend/shipments/print.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/print_label.blade.php",
+            "update_directory": "resources/views/backend/shipments/print_label.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/costs-repeter.blade.php",
             "update_directory": "resources/views/backend/shipments/costs-repeter.blade.php"
         },

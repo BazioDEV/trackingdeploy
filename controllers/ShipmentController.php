@@ -745,10 +745,14 @@ class ShipmentController extends Controller
         return view('backend.shipments.show', compact('shipment'));
     }
 
-    public function print($shipment)
+    public function print($shipment, $type = 'invoice')
     {
         $shipment = Shipment::find($shipment);
-        return view('backend.shipments.print', compact('shipment'));
+        if($type == 'label'){
+            return view('backend.shipments.print_label', compact('shipment'));
+        }else{
+            return view('backend.shipments.print', compact('shipment'));
+        }
     }
 
     public function shipmentsReport(Request $request)
