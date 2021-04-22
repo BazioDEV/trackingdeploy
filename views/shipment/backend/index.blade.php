@@ -499,7 +499,11 @@
             selected.push($(this).data('clientid'));
             selected_address.push($(this).data('clientaddress'));
         });
-        if (selected.length == 1) {
+
+        var sum = selected.reduce(function(acc, val) { return acc + val; },0);
+        var check_sum = selected[0] * selected.length;
+
+        if (selected.length == 1 || sum == check_sum ) {
             $('#tableForm').attr('action', $(element).data('url'));
             $('#tableForm').attr('method', $(element).data('method'));
             $('#assign-to-captain-modal').modal('toggle');
@@ -508,8 +512,7 @@
             $('#pick_up_client_id_hidden').val(selected[0]);
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
-        } else if (selected.length > 1) {
-
+        }else{
             Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
         }
     }
@@ -528,7 +531,10 @@
             branchName = $(this).data('branchname');
         });
 
-        if (selected.length == 1) {
+        var sum = selected.reduce(function(acc, val) { return acc + val; },0);
+        var check_sum = selected[0] * selected.length;
+
+        if (selected.length == 1 || sum == check_sum ) {
             $('#assign-to-captain-modal').remove();
             $('#tableForm').attr('action', $(element).data('url'));
             $('#tableForm').attr('method', $(element).data('method'));
@@ -540,11 +546,11 @@
             
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
-        } else if (selected.length > 1) {
-
+        }else{
             Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
         }
     }
+
     $(document).ready(function() {
         $('.action-caller').on('click', function(e) {
             e.preventDefault();

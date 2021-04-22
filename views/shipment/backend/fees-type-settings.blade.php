@@ -21,6 +21,30 @@
         @csrf
         <div class="card">
             <div class="card-header">
+                <h5 class="mb-0 h6">{{translate('Default Pickup Cost')}}</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>{{translate('Default Pickup Cost')}}({{currency_symbol()}}):</label>
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_pickup_cost'))}}" name="Setting[def_pickup_cost]">
+                            </div>
+                        </div>
+                        <hr>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
                 <h5 class="mb-0 h6">{{translate('Default Fees For The First kg')}}</h5>
             </div>
 
