@@ -50,6 +50,10 @@
             "update_directory": "public/shipment_banner.jpg"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/assets/cut-line.gif",
+            "update_directory": "public/assets/img/cut-line.gif"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/hooks/spot-cargo-shipment-addon/spot-cargo-shipment-client-addon/create.blade.php",
             "update_directory": "resources/views/hooks/spot-cargo-shipment-addon/spot-cargo-shipment-client-addon/create.blade.php"
         },
