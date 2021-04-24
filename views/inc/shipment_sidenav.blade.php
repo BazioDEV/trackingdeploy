@@ -336,59 +336,57 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 <!--Settings-->
 @if ($addon != null)
     @if($addon->activated)
-        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            @if($user_type == 'admin')
-                <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.shipments.settings','admin.shipments.covered_countries','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
-                    <a href="javascript:;" class="menu-link menu-toggle">
-                        <i class="menu-icon fas fa-cogs"></i>
-                        <span class="menu-text">{{translate('Shipment Settings')}}</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="menu-submenu">
-                        <i class="menu-arrow"></i>
-                        <ul class="menu-subnav">
-                            <li class="menu-item menu-item-parent" aria-haspopup="true">
-                                <span class="menu-link">
-                                    <span class="menu-text">{{translate('Shipment Settings')}}</span>
-                                </span>
-                            </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.packages.index'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.packages.index') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Package Types')}}</span>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.covered_countries'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.shipments.covered_countries') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Covered Areas')}}</span>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings.fees'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.shipments.settings.fees') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Fees Settings')}}</span>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.shipments.settings') }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('General Settings')}}</span>
-                                </a>
-                            </li>
+        @if($user_type == 'admin' || in_array('1105', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.shipments.settings','admin.shipments.covered_countries','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-cogs"></i>
+                    <span class="menu-text">{{translate('Shipment Settings')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Shipment Settings')}}</span>
+                            </span>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.packages.index'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.packages.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Package Types')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.covered_countries'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.shipments.covered_countries') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Covered Areas')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings.fees'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.shipments.settings.fees') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Fees Settings')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.settings'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.shipments.settings') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('General Settings')}}</span>
+                            </a>
+                        </li>
 
-                        </ul>
-                    </div>
-                </li>
-            @endif
+                    </ul>
+                </div>
+            </li>
         @endif
     @endif
 @endif

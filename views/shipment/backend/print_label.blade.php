@@ -3,11 +3,7 @@ use \Milon\Barcode\DNS1D;
 $d = new DNS1D();
 ?>
 @php
-    $number = '';
-    for($x = 0; $x < \App\ShipmentSetting::getVal('shipment_code_count'); $x++){
-        $number .= '0';
-    }
-    $code = substr($number, strlen($shipment->code)).$shipment->code;
+    $code = filter_var($shipment->code, FILTER_SANITIZE_NUMBER_INT);
 @endphp
 <style type="text/css">
 	<!--
@@ -95,7 +91,7 @@ $d = new DNS1D();
                                                                                     <br />
                                                                                         @if($shipment->barcode != null)
                                                                                             @php
-                                                                                                echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($code, "EAN13") . '" alt="barcode"   />';
+                                                                                                echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($shipment->barcode, "EAN13") . '" alt="barcode"   />';
                                                                                             @endphp
                                                                                         @endif
                                                                                     <br />
@@ -222,7 +218,7 @@ $d = new DNS1D();
                                                                                     <br />
                                                                                         @if($shipment->barcode != null)
                                                                                             @php
-                                                                                                echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($code, "EAN13") . '" alt="barcode"   />';
+                                                                                                echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($shipment->barcode, "EAN13") . '" alt="barcode"   />';
                                                                                             @endphp
                                                                                         @endif
                                                                                     <br />
@@ -456,7 +452,7 @@ $d = new DNS1D();
                         @if($shipment->barcode != null)
                             <div class="float-right margin-top barcode-container">
                                 @php
-                                    echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($code, "EAN13") . '" alt="barcode"   />';
+                                    echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($shipment->barcode, "EAN13") . '" alt="barcode"   />';
                                 @endphp
                             </div>
                         @endif
@@ -466,3 +462,10 @@ $d = new DNS1D();
         </div>
     </div>
 </div>
+@section('script')
+<script>
+window.onload = function() {
+	javascript:window.print();
+};
+</script>
+@endsection

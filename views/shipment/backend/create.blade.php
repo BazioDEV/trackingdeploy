@@ -4,6 +4,13 @@
 @php
     $auth_user = Auth::user();    
 @endphp
+
+@php
+    $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+    $countries = \App\Country::where('covered',1)->get();
+    $packages = \App\Package::all();
+@endphp
 <style>
     label {
         font-weight: bold !important;
@@ -15,54 +22,65 @@
         <div class="card-header">
             <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
         </div>
-        @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Configure Fees Settings , Costs in creation will be zero without configuration')}},
-                <a class="alert-link" href="{{ route('admin.shipments.settings.fees') }}">{{ translate('Configure Now') }}</a>
-            </div>
-        </div>
-        @endif
-        @if(count($countries = \App\Country::where('covered',1)->get()) == 0 || \App\State::where('covered', 1)->count() == 0)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Configure Your covered countries and cities')}},
-                <a class="alert-link" href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
-            </div>
-        </div>
-        @endif
-        @if(\App\Area::count() == 0)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Add areas before creating your first shipment')}},
-                <a class="alert-link" href="{{ route('admin.areas.create') }}">{{ translate('Configure Now') }}</a>
-            </div>
-        </div>
-        @endif
-        @if(count($packages = \App\Package::all()) == 0)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Add package types before creating your first shipment')}},
-                <a class="alert-link" href="{{ route('admin.packages.create') }}">{{ translate('Configure Now') }}</a>
-            </div>
-        </div>
-        @endif
-        @if($branchs->count() == 0)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Add branches before creating your first shipment')}},
-                <a class="alert-link" href="{{ route('admin.branchs.index') }}">{{ translate('Configure Now') }}</a>
-            </div>
-        </div>
-        @endif
 
-        @if($clients->count() == 0)
-        <div class="row">
-            <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                {{translate('Please Add clients before creating your first shipment')}},
-                <a class="alert-link" href="{{ route('admin.clients.index') }}">{{ translate('Configure Now') }}</a>
+        @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+            @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Configure Fees Settings , Costs in creation will be zero without configuration')}},
+                    <a class="alert-link" href="{{ route('admin.shipments.settings.fees') }}">{{ translate('Configure Now') }}</a>
+                </div>
             </div>
-        </div>
+            @endif
+            @if(count($countries) == 0 || \App\State::where('covered', 1)->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Configure Your covered countries and cities')}},
+                    <a class="alert-link" href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+            @endif
+            @if(\App\Area::count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Add areas before creating your first shipment')}},
+                    <a class="alert-link" href="{{ route('admin.areas.create') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+            @endif
+            @if(count($packages) == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Add package types before creating your first shipment')}},
+                    <a class="alert-link" href="{{ route('admin.packages.create') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+            @endif
+            @if($branchs->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Add branches before creating your first shipment')}},
+                    <a class="alert-link" href="{{ route('admin.branchs.index') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+            @endif
+
+            @if($clients->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{translate('Please Add clients before creating your first shipment')}},
+                    <a class="alert-link" href="{{ route('admin.clients.index') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+            @endif
+        @else
+            @if( \App\ShipmentSetting::getVal('def_shipping_cost') == null || count($countries) == 0 || \App\State::where('covered', 1)->count() == 0 || \App\Area::count() == 0 || count($packages) == 0 || $branchs->count() == 0 || $clients->count() == 0)
+                <div class="row">
+                    <div class="alert alert-danger col-lg-8 text-center" style="margin: auto;margin-top:10px;" role="alert">
+                        {{translate('Please ask your administrator to configure shipment settings first, before you can create a new shipment!')}}
+                    </div>
+                </div>
+            @endif
         @endif
 
         <form class="form-horizontal" action="{{ route('admin.shipments.store') }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
@@ -369,7 +387,7 @@
                                             <div class="col-md-12">
 
                                                 <div>
-                                                    <a href="javascript:;" data-repeater-delete="" class="btn btn-sm font-weight-bolder btn-light-danger">
+                                                    <a href="javascript:;" data-repeater-delete="" class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
                                                         <i class="la la-trash-o"></i>{{translate('Delete')}}
                                                     </a>
                                                 </div>
@@ -770,7 +788,7 @@
                     maxboostedstep: 10000000,
                     initval: 1,
                 });
-
+                calcTotalWeight();
             },
 
             hide: function(deleteElement) {
@@ -779,6 +797,10 @@
         });
 
 
+        $('body').on('click', '.delete_item', function(){
+            $('.total-weight').val("{{translate('Calculated...')}}");
+            setTimeout(function(){ calcTotalWeight(); }, 500);
+        });
         $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',

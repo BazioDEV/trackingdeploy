@@ -48,5 +48,10 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                 <input type="checkbox" name="permissions[]" class="" value="1104" @php if(isset($permissions) && in_array(1104, $permissions)) echo "checked"; @endphp>
                 <span></span>{{ translate('Shipment Packages') }}
             </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="permissions[]" class="" value="1105" @php if(isset($permissions) && in_array(1105, $permissions)) echo "checked"; @endphp>
+                <span></span>{{ translate('Shipment Settings') }}
+            </label>
     @endif
 @endif

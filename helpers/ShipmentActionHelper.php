@@ -142,7 +142,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Print Barcode');
+            $this->actions[count($this->actions)-1]['title'] = translate('Print Barcodes');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-print';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');
             $this->actions[count($this->actions)-1]['method'] = 'POST';

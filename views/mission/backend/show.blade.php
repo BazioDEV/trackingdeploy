@@ -70,6 +70,8 @@
                                        
                                         @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
                                         <th class="font-weight-bold text-muted text-uppercase">{{translate('Client/Sender Pickup Cost')}}</th>
+                                        @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                        <th class="font-weight-bold text-muted text-uppercase">{{translate('Client/Sender Pickup Cost')}}</th>
                                         @endif
                                         
                                         <th class="font-weight-bold text-muted text-uppercase">{{translate('TOTAL AMOUNT')}}</th>
@@ -80,6 +82,8 @@
                                         
                                         @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
                                             <td>{{format_price(convert_price($mission->client->pickup_cost))}}</td>
+                                        @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                            <td>{{format_price(convert_price($mission->client->supply_cost))}}</td>
                                         @endif
                                        
                                        
@@ -96,7 +100,6 @@
                 <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">{{translate('Download Mission Details')}}</button>
                             <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Mission Details')}}</button>
                         </div>
                     </div>

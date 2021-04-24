@@ -35,6 +35,7 @@ class AlterClientsTableV1Rollback extends Migration
     {
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('pickup_cost');
+            $table->dropColumn('supply_cost');
         });
     }
 }

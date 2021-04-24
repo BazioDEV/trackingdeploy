@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.62",
+    "version" : "0.64",
 
     "minimum_item_version" : "3.7",
 
@@ -52,6 +52,10 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/assets/cut-line.gif",
             "update_directory": "public/assets/img/cut-line.gif"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/assets/cut-hr-line.gif",
+            "update_directory": "public/assets/img/cut-hr-line.gif"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/hooks/spot-cargo-shipment-addon/spot-cargo-shipment-client-addon/create.blade.php",
@@ -194,8 +198,8 @@
             "update_directory": "resources/views/backend/inc/addons/notifications/shipments.blade.php"
         },
         {
-            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/dashboard/2-latest_shipments.blade.php",
-            "update_directory": "resources/views/backend/inc/addons/dashboard/2-latest_shipments.blade.php"
+            "root_directory": "addons/spot-cargo-shipment-addon/views/inc/dashboard/2-latest_lists.blade.php",
+            "update_directory": "resources/views/backend/inc/addons/dashboard/2-latest_lists.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/inc/dashboard/1-order_count.blade.php",

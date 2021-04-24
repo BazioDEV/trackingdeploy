@@ -16,13 +16,9 @@ $d = new DNS1D();
             <div class="col-md-10">
                 <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
                     @php
-                        $number = '';
-                        for($x = 0; $x < \App\ShipmentSetting::getVal('shipment_code_count'); $x++){
-                            $number .= '0';
-                        }
-                        $code = substr($number, strlen($shipment->code)).$shipment->code;
+                        $code = filter_var($shipment->code, FILTER_SANITIZE_NUMBER_INT);
                     @endphp
-                    <h1 class="display-4 font-weight-boldest mb-10">{{translate('Shipment')}}: {{\App\ShipmentSetting::getVal('shipment_prefix')}}{{$code}}</h1>
+                    <h1 class="display-4 font-weight-boldest mb-10">{{translate('Shipment')}}: {{$shipment->code}}</h1>
                     <div class="d-flex flex-column align-items-md-end px-0">
                         <span class="d-flex flex-column align-items-md-end opacity-70">
                             @if($shipment->barcode != null)

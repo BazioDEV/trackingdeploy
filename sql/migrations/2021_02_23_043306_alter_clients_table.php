@@ -15,6 +15,7 @@ class AlterClientsTable extends Migration
     {
         Schema::table('clients', function (Blueprint $table) {
             $table->double('pickup_cost')->default(0);
+            $table->double('supply_cost')->default(0);
         });
     }
 

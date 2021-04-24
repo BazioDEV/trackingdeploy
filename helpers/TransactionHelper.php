@@ -104,6 +104,11 @@ class TransactionHelper{
         }elseif($mission->getOriginal('type') == Mission::RETURN_TYPE)
         {
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
+        }elseif($mission->getOriginal('type') == Mission::SUPPLY_TYPE)
+        {
+            $client = Client::find($mission->client_id);
+            $amount += $client->supply_cost;
+            $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
         }
         
         $mission->amount = $amount;

@@ -72,7 +72,7 @@
 
                                     <tr style="background-color:tomatom">
                                         <td></td>
-                                        <td width="5%">M{{$mission->code}}</td>
+                                        <td width="5%">{{$mission->code}}</td>
                                         <td>{{$mission->type}}</td>
                                         <td>{{format_price(convert_price($mission->amount))}}</td>
                                         <td>{{$mission->address}}</td>
