@@ -65,7 +65,7 @@
                     <div class="card-body d-flex flex-column p-0">
                         <div class="d-flex align-items-center justify-content-between card-spacer">
                             <div class="d-flex flex-column mr-2">
-                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bolder font-size-h5">{{translate('Delivered Shipments Count')}}</a>
+                                <a href="#" class="text-dark-75 font-weight-bolder font-size-h5">{{translate('Delivered Shipments Count')}}</a>
                                 <span class="text-dark-75 font-weight-bold mt-2">{{translate('All shipments which is totally closed')}}</span>
                             </div>
                             <span class="symbol symbol-light-primary symbol-45">
@@ -109,7 +109,7 @@
                     <div class="card-body d-flex flex-column p-0">
                         <div class="d-flex align-items-center justify-content-between card-spacer">
                             <div class="d-flex flex-column mr-2">
-                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bolder font-size-h5">{{translate('Pending Missions Count')}}</a>
+                                <a href="#" class="text-dark-75 font-weight-bolder font-size-h5">{{translate('Pending Missions Count')}}</a>
                                 <span class="text-dark-75 font-weight-bold mt-2">{{translate('All missions that need an action to be done')}}</span>
                             </div>
                             <span class="symbol symbol-light-primary symbol-45">
@@ -257,7 +257,7 @@
                 <div class="card-body d-flex flex-column p-0">
                     <div class="d-flex align-items-center justify-content-between card-spacer">
                         <div class="d-flex flex-column mr-2">
-                            <a href="#" class="text-dark-75 text-hover-primary font-weight-bolder font-size-h5">{{translate('Delivered Shipments Count')}}</a>
+                            <a href="#" class="text-dark-75 font-weight-bolder font-size-h5">{{translate('Delivered Shipments Count')}}</a>
                             <span class="text-dark-75 font-weight-bold mt-2">{{translate('All shipments which is totally closed')}}</span>
                         </div>
                         <span class="symbol symbol-light-primary symbol-45">

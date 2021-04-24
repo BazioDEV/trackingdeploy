@@ -102,8 +102,9 @@ class ClientController extends Controller
     public function show($id)
     {
         $client = Client::where('id', $id)->first();
+        $shipments = \App\Shipment::where('client_id', $id)->paginate(15);
         if($client != null){
-            return view('backend.clients.show',compact('client'));
+            return view('backend.clients.show',compact('client','shipments'));
         }
         abort(404);
     }

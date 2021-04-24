@@ -462,10 +462,8 @@ $d = new DNS1D();
         </div>
     </div>
 </div>
-@section('script')
 <script>
 window.onload = function() {
 	javascript:window.print();
 };
 </script>
-@endsection

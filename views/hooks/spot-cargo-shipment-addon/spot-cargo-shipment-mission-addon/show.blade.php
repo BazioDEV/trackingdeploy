@@ -68,13 +68,14 @@
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Branch')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Client')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase">{{translate('Actions')}}</th>
+                        <th class="text-center font-weight-bold text-muted text-uppercase print-only">{{translate('Check')}}</th>
                     </tr>
                 </thead>
                 <tbody>
                    
                 @foreach(\App\ShipmentMission::where('mission_id',$data['mission']->id)->get() as $shipment_mission)
                     <tr class="font-weight-boldest @if(in_array($shipment_mission->shipment->status_id ,[\App\Shipment::RETURNED_STATUS,\App\Shipment::RETURNED_STOCK,\App\Shipment::RETURNED_CLIENT_GIVEN])) table-danger @endif">
-                        <td class="pl-5 pt-7">D {{$shipment_mission->shipment->code}}</td>
+                        <td class="pl-5 pt-7"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment_mission->shipment->id])}}">{{$shipment_mission->shipment->code}}</a></td>
                         <td class="pl-5 pt-7">{{$shipment_mission->shipment->getStatus()}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->type}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
@@ -82,12 +83,13 @@
                         <td class="text-danger pr-5 pt-7 text-right">
                             @if(in_array($shipment_mission->mission->status_id , [\App\Mission::DONE_STATUS,\App\Mission::APPROVED_STATUS,\App\Mission::RECIVED_STATUS]))
                             <a href="#" class="btn btn-danger  btn-sm confirm-delete" data-href="{{route('admin.shipments.delete-shipment-from-mission', ['shipment'=>$shipment_mission->shipment->id,'mission'=>$shipment_mission->mission_id])}}" title="{{ translate('Remove Shipment From Mission') }}">
-		                        <i class="las la-trash"></i> {{translate('Remove From')}} M {{$shipment_mission->mission_id}}
+		                        <i class="las la-trash"></i> {{translate('Remove From')}} {{$data['mission']->code}}
 		                    </a>
                             @else
-                            <p class="text-success"><i class="fa fa-check text-success"></i> {{translate('No actions')}}</p>
+                            {{translate('No actions')}}
                             @endif
                         </td>
+                        <td class="text-center print-only"><input type="checkbox" class="form-control" /></td>
                     </tr>
                 @endforeach
                 

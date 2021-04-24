@@ -31,7 +31,7 @@ class Mission extends Model
             'route_name' => 'admin.missions.requested.index',
             'route_url'=>'requested',
             'optional_params'=>'/{type?}',
-            'color'=>'text-info',
+            'color'=>'info',
         'permissions'=>1009],
 
             ['status' => Self::APPROVED_STATUS,
@@ -39,7 +39,7 @@ class Mission extends Model
             'route_name' => 'admin.missions.approved.index',
             'route_url'=>'approved',
             'optional_params'=>'/{type?}',
-            'color'=>'text-primary',
+            'color'=>'primary',
         'permissions'=>1010],
 
             ['status' => Self::RECIVED_STATUS,
@@ -47,7 +47,7 @@ class Mission extends Model
             'route_name' => 'admin.missions.recived.index',
             'route_url'=>'recived',
             'optional_params'=>'/{type?}',
-            'color'=>'text-primary',
+            'color'=>'primary',
         'permissions'=>1011],
 
             ['status' => Self::DONE_STATUS,
@@ -55,7 +55,7 @@ class Mission extends Model
             'route_name' => 'admin.missions.done.index',
             'route_url'=>'done',
             'optional_params'=>'/{type?}',
-            'color'=>'text-success',
+            'color'=>'success',
         'permissions'=>1012],
 
             ['status' => Self::CLOSED_STATUS,
@@ -63,7 +63,7 @@ class Mission extends Model
             'route_name' => 'admin.missions.closed.index',
             'route_url'=>'closed',
             'optional_params'=>'/{type?}',
-            'color'=>'text-danger',
+            'color'=>'danger',
         'permissions'=>1013],
        ];
        return $array;

@@ -132,7 +132,6 @@ class ShipmentController extends Controller
             DB::beginTransaction();
             $model = new Mission();
             $model->fill($request['Mission']);
-            $model->code = -1;
             $model->status_id = Mission::REQUESTED_STATUS;
             $model->type = Mission::PICKUP_TYPE;
             if (!$model->save()) {
@@ -144,6 +143,7 @@ class ShipmentController extends Controller
                 $code .= '0';
             }
             $code   =   substr($code, 0, -strlen($model->id));
+            $model->code = $code.$model->id;
             $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
 
             if (!$model->save()) {
@@ -678,14 +678,14 @@ class ShipmentController extends Controller
             if (!$model->save()) {
                 throw new \Exception();
             }
-            $model->code = $model->id;
 
             $code = '';
             for($n = 0; $n < ShipmentSetting::getVal('shipment_code_count'); $n++){
                 $code .= '0';
             }
             $code   =   substr($code, 0, -strlen($model->id));
-            $model->barcode = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
+            $model->barcode = $code.$model->id;
+            $model->code = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
 
             if (!$model->save()) {
                 throw new \Exception();

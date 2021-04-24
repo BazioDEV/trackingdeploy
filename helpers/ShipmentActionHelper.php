@@ -133,15 +133,6 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Approve');
-            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::APPROVED_STATUS]);
-            $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['permissions'] = 1031; 
-            $this->actions[count($this->actions)-1]['type'] = 1; 
-            $this->actions[count($this->actions)-1]['index'] = true;
-
-            $this->actions[count($this->actions)] = array();
             $this->actions[count($this->actions)-1]['title'] = translate('Print Barcodes');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-print';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');

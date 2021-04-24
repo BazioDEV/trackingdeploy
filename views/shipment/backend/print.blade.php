@@ -56,7 +56,7 @@ $d = new DNS1D();
                         <div class="d-flex justify-content-between pt-6">
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder d-block mb-2">{{translate('DATE')}}<span>
-                                <span class="opacity-70 d-block">{{ date('d/m/Y') }}</span>
+                                <span class="opacity-70 d-block">{{ $shipment->created_at->format('Y-m-d') }}</span>
                             </div>
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder mb-2">{{translate('SHIPMENT CODE')}}.</span>

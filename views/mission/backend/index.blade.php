@@ -87,9 +87,9 @@
 
                 <tr>
                     <td><label class="checkbox checkbox-success"><input class="ms-check" type="checkbox" name="checked_ids[]" value="{{$mission->id}}" /><span></span></label></td>
-                    <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
-                    <td width="5%">{{$mission->code}}</td>
-                    <td><a href="">{{$mission->getStatus()}}</a></td>
+                    <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
+                    <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
+                    <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>
                     <td>{{$mission->type}}</td>
                     
                     
@@ -141,7 +141,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>{{translate('Due Date')}}:</label>
-                                            <input type="text" id="kt_datepicker_3" autocomplete="off" class="form-control"  name="Mission[due_date]"/>
+                                            <input type="text" id="kt_datepicker_3" autocomplete="off" class="form-control"  name="Mission[due_date]" value="{{ date('Y-m-d') }}"/>
                                         </div>
                                     </div>
                                    

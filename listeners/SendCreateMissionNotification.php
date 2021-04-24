@@ -27,7 +27,8 @@ class SendCreateMissionNotification
      */
     public function handle(CreateMission $event)
     {
-        $missions = Mission::find($event->mission_ids ?? []);
+        $mission =  $event->mission;
+        $mission = \App\Mission::find($mission->id ?? []);
 
         $gateways = [];
         if(env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null && env('MAIL_DRIVER') != 'sendmail'){
@@ -51,19 +52,57 @@ class SendCreateMissionNotification
         if(isset($notify['employees'])){
             $users  =   array_merge($users, $notify['employees']);
         }
+    
+        if(isset($notify['sender'])){
+            $users  =   array_merge($users, array($mission->client_id));
+        }
+        if(isset($notify['captain'])){
+            $users  =   array_merge($users, array($mission->captain_id));
+        }
 
-        foreach ($missions as $mission)
-        {       
+        $title      = translate('There is a new mission created');
+        $content    = translate('Please check the a mission which is just created right now!');
+        $url        = url('admin/missions').'/'.$mission->id;
+
+        foreach($users as $user){
+            $available_gateways = $gateways;
+            $recevier   =   \App\User::find($user);
+            if($recevier->phone == null){
+                if (($key = array_search('sms', $available_gateways)) !== false) {
+                    unset($available_gateways[$key]);
+                }
+            }
+            if($recevier->email == null){
+                if (($key = array_search('email', $available_gateways)) !== false) {
+                    unset($available_gateways[$key]);
+                }
+            }
+
+            $data = array(
+                'sender'    =>  \Auth::user(),
+                'message'   =>  array(
+                        'subject'   =>  $title,
+                        'content'   =>  $content,
+                        'url'       =>  $url,
+                ),
+                'icon'      =>  'flaticon2-bell-4',
+                'type'      =>  'new_mission',
+            );
+            $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
+
+        }
+
+        foreach ($mission->shipment_mission as $shipment_mission)
+        {
+            $shipment = $shipment_mission->shipment;
+            
             if(isset($notify['sender'])){
-                $users  =   array_merge($users, array($mission->client_id));
-            }
-            if(isset($notify['captain'])){
-                $users  =   array_merge($users, array($mission->captain_id));
+                $users  =   array_merge($users, array($shipment->client_id));
             }
 
-            $title      = translate('There is a new mission created');
-            $content    = translate('Please check the a mission which is just created right now!');
-            $url        = url('admin/missions').'/'.$shipment->id;
+            $title      = translate('There is update shipment');
+            $content    = translate('Please check the a shipment which is just updated right now!');
+            $url        = url('admin/shipments').'/'.$shipment->id;
 
             foreach($users as $user){
                 $available_gateways = $gateways;
@@ -87,54 +126,10 @@ class SendCreateMissionNotification
                             'url'       =>  $url,
                     ),
                     'icon'      =>  'flaticon2-bell-4',
-                    'type'      =>  'new_mission',
+                    'type'      =>  'update_shipment',
                 );
                 $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
 
-            }
-
-            foreach ($mission->shipment_mission as $shipment_mission)
-            {
-                $shipment = $shipment_mission->shipment;
-                
-                if(isset($notify['sender'])){
-                    $users  =   array_merge($users, array($shipment->client_id));
-                }
-                if(isset($notify['captain'])){
-                    $users  =   array_merge($users, array($shipment->captain_id));
-                }
-
-                $title      = translate('There is update shipment');
-                $content    = translate('Please check the a shipment which is just updated right now!');
-                $url        = url('admin/shipments').'/'.$shipment->id;
-
-                foreach($users as $user){
-                    $available_gateways = $gateways;
-                    $recevier   =   \App\User::find($user);
-                    if($recevier->phone == null){
-                        if (($key = array_search('sms', $available_gateways)) !== false) {
-                            unset($available_gateways[$key]);
-                        }
-                    }
-                    if($recevier->email == null){
-                        if (($key = array_search('email', $available_gateways)) !== false) {
-                            unset($available_gateways[$key]);
-                        }
-                    }
-
-                    $data = array(
-                        'sender'    =>  \Auth::user(),
-                        'message'   =>  array(
-                                'subject'   =>  $title,
-                                'content'   =>  $content,
-                                'url'       =>  $url,
-                        ),
-                        'icon'      =>  'flaticon2-bell-4',
-                        'type'      =>  'update_shipment',
-                    );
-                    $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
-
-                }
             }
         }
     }

@@ -1,7 +1,28 @@
+<?php 
+use \Milon\Barcode\DNS1D;
+$d = new DNS1D();
+?>
+
+@php
+    $code = filter_var($mission->code, FILTER_SANITIZE_NUMBER_INT);
+@endphp
 @extends('backend.layouts.app')
 
 @section('content')
 
+<style>
+    .print-only{
+        display: none;
+    }
+</style>
+<style media="print">
+    .print-only{
+        display: block;
+    }
+    .no-print, div#kt_header_mobile, div#kt_header, div#kt_footer{
+        display: none;
+    }
+</style>
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -14,42 +35,44 @@
                 <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                            <h1 class="display-4 font-weight-boldest mb-10">{{translate('Mission Details')}}</h1>
+                            <h1 class="display-4 font-weight-boldest mb-10">
+                                @if(get_setting('system_logo_white') != null)
+                                    <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" class="d-block mb-5">
+                                @else
+                                    <img src="{{ static_asset('assets/img/logo.svg') }}" class="d-block mb-5">
+                                @endif
+                                {{translate('MISSION DETAILS')}}
+                            </h1>
                             <div class="d-flex flex-column align-items-md-end px-0">
                                 <!--begin::Logo-->
-                                <a href="#" class="mb-5">
-                                    <img src="assets/media/logos/logo-dark.png" alt="" />
+                                <a href="#">
+                                    @if($code != null)
+                                        @php
+                                            echo '<img src="data:image/png;base64,' . $d->getBarcodePNG($code, "EAN13") . '" alt="barcode"   />';
+                                        @endphp
+                                    @endif
                                 </a>
                                 <!--end::Logo-->
                                 <span class="d-flex flex-column align-items-md-end opacity-70">
-                                   
+                                    <br />
+                                    <span><span class="font-weight-bolder">{{translate('CREATED DATE')}}:</span> {{$mission->created_at->format('Y-m-d')}}</span>
+                                    <span><span class="font-weight-bolder">{{translate('CODE')}}:</span> {{$mission->code}}</span>
                                 </span>
                             </div>
                         </div>
                         <div class="border-bottom w-100"></div>
                         <div class="d-flex justify-content-between pt-6">
                             <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">{{translate('Mission Created Date')}}</span>
-                                <span class="opacity-70">{{$mission->created_at}}</span>
+                                <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
+                                <span class="opacity-70 d-block">{{$mission->address}}</span>
                             </div>
                             <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">{{translate('Mission Code')}}</span>
-                                <span class="opacity-70">{{$mission->code}}</span>
+                                <span class="font-weight-bolder d-block mb-2">{{translate('MISSION TYPE')}}<span>
+                                <span class="opacity-70 d-block">{{$mission->type}}</span>
                             </div>
                             <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">{{translate('Mission Address.')}}</span>
-                                <span class="opacity-70">{{$mission->address}}
-                                    <br /></span>
-                            </div>
-                            <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">{{translate('Mission Type.')}}</span>
-                                <span class="font-weight-bolder opacity-70" >{{$mission->type}}
-                                    <br /></span>
-                            </div>
-                            <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2 {{\App\Mission::getStatusColor($mission->status_id)}}">{{translate('Mission Status.')}}</span>
-                                <span class="font-weight-bolder {{\App\Mission::getStatusColor($mission->status_id)}}" >{{$mission->getStatus()}}
-                                    <br /></span>
+                                <span class="font-weight-bolder d-block mb-2">{{translate('MISSION STATUS')}}<span>
+                                <span class="opacity-70 d-block text-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span>
                             </div>
                         </div>
                     </div>
@@ -57,8 +80,6 @@
                 <!-- end: Invoice header-->
                 <!-- begin: Invoice body-->
                 {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission,'reasons'=>$reasons ?? null]) !!}
-                
-               
                 <!-- end: Invoice body-->
                 <!-- begin: Invoice footer-->
                 <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
@@ -67,28 +88,20 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                       
                                         @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                        <th class="font-weight-bold text-muted text-uppercase">{{translate('Client/Sender Pickup Cost')}}</th>
+                                            <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('PICKUP COST')}}</th>
                                         @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                        <th class="font-weight-bold text-muted text-uppercase">{{translate('Client/Sender Pickup Cost')}}</th>
+                                            <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('SUPPLY COST')}}</th>
                                         @endif
-                                        
-                                        <th class="font-weight-bold text-muted text-uppercase">{{translate('TOTAL AMOUNT')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="font-weight-bolder">
-                                        
                                         @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                            <td>{{format_price(convert_price($mission->client->pickup_cost))}}</td>
+                                            <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->pickup_cost)) }}</td>
                                         @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                            <td>{{format_price(convert_price($mission->client->supply_cost))}}</td>
+                                            <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->supply_cost)) }}</td>
                                         @endif
-                                       
-                                       
-                                        <td class="text-danger font-size-h3 font-weight-boldest">{{format_price(convert_price($mission->amount))}}</td>
-                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -97,10 +110,10 @@
                 </div>
                 <!-- end: Invoice footer-->
                 <!-- begin: Invoice action-->
-                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 no-print">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Mission Details')}}</button>
+                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Invoice')}}</button>
                         </div>
                     </div>
                 </div>
@@ -114,20 +127,10 @@
 </div>
 <!--end::Entry-->
 @endsection
-@section('modal')
-    @include('modals.delete_modal')
-@endsection
-
 @section('script')
-<script type="text/javascript">
-    $('#kt_datepicker_3').datepicker({
-        orientation: "bottom auto",
-        autoclose: true,
-        format: 'yyyy-mm-dd',
-        todayBtn: true,
-        todayHighlight: true,
-        startDate: new Date(),
-    });
+<script>
+window.onload = function() {
+	javascript:window.print();
+};
 </script>
-
 @endsection

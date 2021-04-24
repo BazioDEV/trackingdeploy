@@ -33,7 +33,7 @@ $d = new DNS1D();
                 <div class="d-flex justify-content-between pb-6">
                     <div class="d-flex flex-column flex-root">
                         <span class="text-dark font-weight-bold mb-4">{{translate('Client/Sender')}}</span>
-                        <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->client->name}}</span>
+                        <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
                         <span class="text-muted font-size-md">{{$shipment->client_address}}</span>
                     </div>
                     <div class="d-flex flex-column flex-root">
@@ -56,7 +56,7 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="font-weight-bolder mb-2">{{translate('Current branch')}}</span>
-                        <span class="opacity-70">{{$shipment->branch->name}}</span>
+                        <a class="opacity-70" href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a>
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="font-weight-bolder mb-2">{{translate('Created date')}}</span>
@@ -126,13 +126,13 @@ $d = new DNS1D();
                     @if($shipment->captain_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="text-dark font-weight-bold mb-4">{{translate('Captain')}}</span>
-                            <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->captain->name}} </span>
+                            <ش class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->captain->name}} </a>
                         </div>
                     @endif
                     @if ($shipment->mission_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="text-dark font-weight-bold mb-4">{{translate('Mission')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->current_mission->code}}</span>
+                            <a class="text-muted font-weight-bolder font-size-lg" href="{{route('admin.missions.show',$shipment->mission_id)}}">{{$shipment->current_mission->code}}</a>
                         </div>
                     @endif
                 </div>

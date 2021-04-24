@@ -23,6 +23,7 @@
                 {{$page_name}}
             </h3>
         </div>
+        @if(count($actions) > 0)
         <div class="card-toolbar">
             <!--begin::Dropdown-->
             <div class="mr-2 dropdown dropdown-inline">
@@ -45,16 +46,16 @@
                         <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
                         <li class="navi-item">
                             @foreach($actions as $action)
-                            @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                            @if($action['index'] == true)
-                            <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
-                                <span class="navi-icon">
-                                    <i class="{{$action['icon']}}"></i>
-                                </span>
-                                <span class="navi-text">{{$action['title']}}</span>
-                            </a>
-                            @endif
-                            @endif
+                                @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                                    @if($action['index'] == true)
+                                        <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
+                                            <span class="navi-icon">
+                                                <i class="{{$action['icon']}}"></i>
+                                            </span>
+                                            <span class="navi-text">{{$action['title']}}</span>
+                                        </a>
+                                    @endif
+                                @endif
                             @endforeach
                         </li>
 
@@ -65,6 +66,7 @@
             </div>
             <!--end::Dropdown-->
         </div>
+        @endif
     </div>
 
     <div class="card-body">
