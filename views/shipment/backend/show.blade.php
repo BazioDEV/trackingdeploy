@@ -4,6 +4,38 @@ $d = new DNS1D();
 ?>
 @extends('backend.layouts.app')
 
+
+@section('sub_title'){{translate('Shipment')}} {{$shipment->code}}@endsection
+@section('subheader')
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{translate('Shipment')}} {{$shipment->code}}</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm mr-5">
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('admin.dashboard')}}" class="text-muted">{{translate('Dashboard')}}</a>
+                        </li>
+                        <li class="breadcrumb-item text-muted">
+                            <a href="#" class="text-muted">{{$shipment->code}}</a>
+                        </li>
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+@endsection
+
 @section('content')
 
 
@@ -40,6 +72,10 @@ $d = new DNS1D();
                         <span class="text-dark font-weight-bold mb-4">{{translate('Receiver')}}</span>
                         <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->reciver_name}}</span>
                         <span class="text-muted font-size-md">{{$shipment->reciver_address}}</span>
+                    </div>
+                    <div class="d-flex flex-column flex-root">
+                        <span class="text-dark font-weight-bold mb-4">{{translate('Status')}}</span>
+                        <span class="opacity-70 d-block">{{$shipment->getStatus()}}</span>
                     </div>
                     @if ($shipment->amount_to_be_collected && $shipment->amount_to_be_collected  > 0)
                         <div class="d-flex flex-column flex-root">
