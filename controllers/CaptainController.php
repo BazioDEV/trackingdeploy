@@ -112,8 +112,9 @@ class CaptainController extends Controller
     public function show($id)
     {
         $captain = Captain::where('id', $id)->first();
+        $shipments  = \App\Shipment::where('captain_id', $captain->id)->paginate(15);
         if($captain != null){
-            return view('backend.captains.show',compact('captain'));
+            return view('backend.captains.show',compact('captain', 'shipments'));
         }
         abort(404);
     }

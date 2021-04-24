@@ -1,16 +1,37 @@
 @extends('backend.layouts.app')
 
-@section('content')
 
-<div class="aiz-titlebar text-left mt-2 mb-3">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <h1 class="h3">{{translate('Missions')}}</h1>
+@section('sub_title'){{translate('Missions')}}@endsection
+@section('subheader')
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Page Heading-->
+                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                    <!--begin::Page Title-->
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{translate('Missions')}}</h5>
+                    <!--end::Page Title-->
+                    <!--begin::Breadcrumb-->
+                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm mr-5">
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('admin.dashboard')}}" class="text-muted">{{translate('Dashboard')}}</a>
+                        </li>
+                        <li class="breadcrumb-item text-muted">
+                            <a href="#" class="text-muted">{{ translate('Missions') }}</a>
+                        </li>
+                    </ul>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Page Heading-->
+            </div>
+            <!--end::Info-->
         </div>
-       
     </div>
-</div>
-
+    <!--end::Subheader-->
+@endsection
+@section('content')
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="card-header flex-wrap py-3">
