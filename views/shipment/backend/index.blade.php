@@ -190,7 +190,7 @@
                 @foreach($shipments as $key=>$shipment)
 
                 <tr>
-                    <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                    <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientcountry="{{$shipment->to_state->name ?? '' }}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                     <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
                     <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                     <td>{{$shipment->getStatus()}}</td>
@@ -218,9 +218,12 @@
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('Show') }}">
                             <i class="las la-eye"></i>
                         </a>
-                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.edit', $shipment->id)}}" title="{{ translate('Edit') }}">
-                            <i class="las la-edit"></i>
-                        </a>
+
+                        @if($status != \App\Shipment::APPROVED_STATUS && $status != \App\Shipment::CAPTAIN_ASSIGNED_STATUS && $status != \App\Shipment::CLOSED_STATUS && $status != \App\Shipment::RECIVED_STATUS && $status != \App\Shipment::IN_STOCK_STATUS && $status != \App\Shipment::DELIVERED_STATUS && $status != \App\Shipment::SUPPLIED_STATUS && $status != \App\Shipment::RETURNED_STATUS )
+                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.edit', $shipment->id)}}" title="{{ translate('Edit') }}">
+                                <i class="las la-edit"></i>
+                            </a>
+                        @endif
 
                     </td>
                 </tr>
@@ -286,7 +289,7 @@
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
                                     <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
-                                    <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
+                                    <select style="background:#f3f6f9;color:#3f4254;" name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
                                         @foreach(\App\Client::all() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
@@ -296,9 +299,28 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label>{{translate('Reciver')}}:</label>
+                                    <input style="background:#f3f6f9;color:#3f4254;" type="text" name="Mission[name]" class="form-control" id="delivery_name" disabled />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label>{{translate('Delivery Address')}}:</label>
                                     <input type="text" name="Mission[address]" class="form-control" id="delivery_address" />
 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Country')}}:</label>
+                                    <input type="text" name="Mission[country]" class="form-control" id="delivery_country" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Area')}}:</label>
+                                    <input type="text" name="Mission[area]" class="form-control" id="delivery_area" />
                                 </div>
                             </div>
 
@@ -517,9 +539,15 @@
     function openAssignShipmentCaptainModel(element, e) {
         var selected = [];
         var selected_address = [];
+        var selected_name = [];
+        var selected_country = [];
+        var selected_area = [];
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
             selected_address.push($(this).data('clientaddress'));
+            selected_name.push($(this).data('clientname'));
+            selected_country.push($(this).data('clientcountry'));
+            selected_area.push($(this).data('clientarea'));
         });
 
         var sum = selected.reduce(function(acc, val) { return acc + val; },0);
@@ -530,6 +558,9 @@
             $('#tableForm').attr('method', $(element).data('method'));
             $('#assign-to-captain-modal').modal('toggle');
             $('#delivery_address').val(selected_address[0]);
+            $('#delivery_name').val(selected_name[0]);
+            $('#delivery_country').val(selected_country[0]);
+            $('#delivery_area').val(selected_area[0]);
             $('#pick_up_client_id').val(selected[0]);
             $('#pick_up_client_id_hidden').val(selected[0]);
         } else if (selected.length == 0) {

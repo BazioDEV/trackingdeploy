@@ -191,6 +191,17 @@ class MissionStatusManagerHelper
                             }
                         }
                     }
+
+                    if ($to == Mission::CLOSED_STATUS) 
+                    {
+                        $shipments = \App\Shipment::where('mission_id',$mission_id)->get();
+                        foreach ($shipments as $shipment) 
+                        {
+                            $shipment->mission_id = null ;
+                            $shipment->save();
+                        }
+                    }
+
                 } else {
                     throw new \Exception("There is no mission with this Code");
                 }
