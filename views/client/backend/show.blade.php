@@ -89,9 +89,12 @@
                         <span class="mr-4">
                             <i class="flaticon-piggy-bank display-4 text-muted font-weight-bold"></i>
                         </span>
+                        @php
+                            $client_tran = App\Transaction::where('client_id' , $client->id)->sum('value');
+                        @endphp
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">{{translate('Transacations')}}</span>
-                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price($client->supply_cost))}}</span>
+                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price($client_tran))}}</span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -101,7 +104,7 @@
                             <i class="flaticon-chat-1 display-4 text-muted font-weight-bold"></i>
                         </span>
                         <div class="d-flex flex-column">
-                            <span class="text-dark-75 font-weight-bolder font-size-sm">0 {{translate('Shipments')}}</span>
+                            <span class="text-dark-75 font-weight-bolder font-size-sm">{{$shipments->count()}} {{translate('Shipments')}}</span>
                             <a href="" class="text-primary font-weight-bolder">{{translate('View all')}}</a>
                         </div>
                     </div>

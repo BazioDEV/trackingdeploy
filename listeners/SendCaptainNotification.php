@@ -28,15 +28,8 @@ class SendCaptainNotification
     public function handle(AddCaptain $event)
     {
         $captain = $event->captain;
-        
-        /*********************
-         * Sample for using Notification
-         * Params:
-         *  id: the receiver id
-         *  title: the notification, which will appear as email subject and full notification on system and also will be sent via SMS
-         *  content: the message content which can be HTML and it will be used in the email
-         *  type: [add_captain, update_captain, administration_message, general as default]
-        */
+        $captain = \App\Captain::find($captain->id ?? []);
+
         $gateways = [];
         if(env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null && env('MAIL_DRIVER') != 'sendmail'){
             $gateways[] = 'mail';

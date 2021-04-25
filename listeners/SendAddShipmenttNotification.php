@@ -29,15 +29,8 @@ class SendAddShipmenttNotification
     public function handle(AddShipment $event)
     {
         $shipment = $event->shipment;
+        $shipment = \App\Shipment::find($shipment->id ?? []);
         
-        /*********************
-         * Sample for using Notification
-         * Params:
-         *  id: the receiver id
-         *  title: the notification, which will appear as email subject and full notification on system and also will be sent via SMS
-         *  content: the message content which can be HTML and it will be used in the email
-         *  type: [add_shipment, update_shipment, administration_message, general as default]
-        */
         $gateways = [];
         if(env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null && env('MAIL_DRIVER') != 'sendmail'){
             $gateways[] = 'mail';

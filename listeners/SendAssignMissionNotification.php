@@ -54,6 +54,9 @@ class SendAssignMissionNotification
             $users  =   array_merge($users, $notify['employees']);
         }
 
+        $title      = translate('There is assign mission');
+        $content    = translate('Please check the mission which is just assigned right now!');
+
         foreach ($missions as $mission)
         { 
             if(isset($notify['sender'])){
@@ -63,8 +66,6 @@ class SendAssignMissionNotification
                 $users  =   array_merge($users, array($mission->captain_id));
             }
 
-            $title      = translate('There is assign mission');
-            $content    = translate('Please check the mission which is just assigned right now!');
             $url        = url('admin/missions').'/'.$mission->id;
 
             foreach($users as $user){

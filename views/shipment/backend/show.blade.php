@@ -1,4 +1,4 @@
-<?php 
+<?php
 use \Milon\Barcode\DNS1D;
 $d = new DNS1D();
 ?>
@@ -162,7 +162,7 @@ $d = new DNS1D();
                     @if($shipment->captain_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="text-dark font-weight-bold mb-4">{{translate('Captain')}}</span>
-                            <ش class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->captain->name}} </a>
+                            <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->captain->name}} </a>
                         </div>
                     @endif
                     @if ($shipment->mission_id != null)
@@ -283,8 +283,8 @@ $d = new DNS1D();
         <!--begin::Body-->
         <div class="card-body pt-2" style="padding-bottom: 0;overflow:hidden">
             <div class="timeline timeline-6 mt-3 scroll scroll-pull" style="overflow:hidden" data-scroll="true" data-wheel-propagation="true">
-        
-            @foreach($shipment->logs()->orderBy('id','desc')->get() as $log)    
+
+            @foreach($shipment->logs()->orderBy('id','desc')->get() as $log)
                 <!--begin::Item-->
                 <div class="timeline-item align-items-start">
                     <!--begin::Label-->
@@ -302,18 +302,18 @@ $d = new DNS1D();
                         {{translate('Changed from')}}: "{{\App\Shipment::getStatusByStatusId($log->from)}}" {{translate('To')}}: "{{\App\Shipment::getStatusByStatusId($log->to)}}"
                     </div>
                     <!--end::Text-->
-                    
+
                 </div>
                 <!--end::Item-->
-                
+
             @endforeach
 
-                
+
             </div>
         </div>
     </div>
 @endif
-    
+
 @endsection
 
 @section('modal')

@@ -28,15 +28,8 @@ class SendClientNotification
     public function handle(AddClient $event)
     {
         $client = $event->client;
+        $client = \App\Client::find($client->id ?? []);
         
-        /*********************
-         * Sample for using Notification
-         * Params:
-         *  id: the receiver id
-         *  title: the notification, which will appear as email subject and full notification on system and also will be sent via SMS
-         *  content: the message content which can be HTML and it will be used in the email
-         *  type: [add_client, update_client, administration_message, general as default]
-        */
         $gateways = [];
         if(env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null && env('MAIL_DRIVER') != 'sendmail'){
             $gateways[] = 'mail';

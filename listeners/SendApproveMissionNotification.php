@@ -53,6 +53,9 @@ class SendApproveMissionNotification
             $users  =   array_merge($users, $notify['employees']);
         }
 
+        $title      = translate('There is Approve mission');
+        $content    = translate('Please check the mission which is just approved right now!');
+
         foreach ($missions as $mission)
         { 
             if(isset($notify['sender'])){
@@ -62,10 +65,7 @@ class SendApproveMissionNotification
                 $users  =   array_merge($users, array($mission->captain_id));
             }
 
-            $title      = translate('There is Approve mission');
-            $content    = translate('Please check the mission which is just approved right now!');
             $url        = url('admin/missions').'/'.$mission->id;
-
             foreach($users as $user){
                 $available_gateways = $gateways;
                 $recevier   =   \App\User::find($user);
