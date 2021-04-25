@@ -1,5 +1,10 @@
 @extends('backend.layouts.app')
-
+@php
+    $captain_wallet   = App\Transaction::where('captain_id' , $captain->id)->sum('value');
+    $captain_wallet   = abs($captain_wallet);
+    
+    $captain_missions = App\Mission::where('captain_id' , $captain->id)->count();
+@endphp
 
 @section('sub_title'){{$captain->name}}@endsection
 @section('subheader')
@@ -88,7 +93,7 @@
                         </span>
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">{{translate('Wallet')}}</span>
-                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price(0))}}</span>
+                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price($captain_wallet))}}</span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -98,7 +103,7 @@
                             <i class="flaticon-chat-1 display-4 text-muted font-weight-bold"></i>
                         </span>
                         <div class="d-flex flex-column">
-                            <span class="text-dark-75 font-weight-bolder font-size-sm">0 {{translate('Missions')}}</span>
+                            <span class="text-dark-75 font-weight-bolder font-size-sm">{{$captain_missions }} {{translate('Missions')}}</span>
                             <a href="" class="text-primary font-weight-bolder">{{translate('View all')}}</a>
                         </div>
                     </div>
