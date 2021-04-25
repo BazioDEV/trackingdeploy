@@ -192,7 +192,7 @@ class MissionStatusManagerHelper
                         }
                     }
 
-                    if ($to == Mission::CLOSED_STATUS) 
+                    if ($to == Mission::CLOSED_STATUS || $to == Mission::DONE_STATUS ) 
                     {
                         $shipments = \App\Shipment::where('mission_id',$mission_id)->get();
                         foreach ($shipments as $shipment) 
