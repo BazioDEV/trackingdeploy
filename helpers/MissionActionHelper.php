@@ -45,7 +45,7 @@ class MissionActionHelper{
                 "permissions"=>1028,
             ],
             [
-                "text"=> translate('Confirm Manifest / Done Action'),
+                "text"=> translate('Confirm Mission / Done Action'),
                 "permissions"=>1029,
             ],
             [
@@ -125,7 +125,7 @@ class MissionActionHelper{
             $this->actions[count($this->actions)-1]['index'] = true;
 
             // $this->actions[count($this->actions)] = array();
-            // $this->actions[count($this->actions)-1]['title'] = translate('Receive Manifest');
+            // $this->actions[count($this->actions)-1]['title'] = translate('Receive Mission');
             // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             // $this->actions[count($this->actions)-1]['url'] = route('admin.missions.action',['to'=>Mission::RECIVED_STATUS]);
             // $this->actions[count($this->actions)-1]['js_function_caller'] = 'openCaptainModel(this,event)';
@@ -139,7 +139,7 @@ class MissionActionHelper{
     private function received()
     {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Confirm Manifest / Done');
+            $this->actions[count($this->actions)-1]['title'] = translate('Confirm Mission / Done');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             $this->actions[count($this->actions)-1]['url'] = route('admin.missions.action',['to'=>Mission::DONE_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';

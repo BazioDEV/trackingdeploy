@@ -79,7 +79,7 @@ $d = new DNS1D();
                 </div>
                 <!-- end: Invoice header-->
                 <!-- begin: Invoice body-->
-                {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission,'reasons'=>$reasons ?? null]) !!}
+                {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission,'reasons'=>$reasons ?? null,'reschedule'=>$reschedule ?? false]) !!}
                 <!-- end: Invoice body-->
                 <!-- begin: Invoice footer-->
                 <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
@@ -127,6 +127,11 @@ $d = new DNS1D();
 </div>
 <!--end::Entry-->
 @endsection
+
+@section('modal')
+    @include('modals.delete_modal')
+@endsection
+
 @section('script')
 <script>
 window.onload = function() {

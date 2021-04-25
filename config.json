@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.66",
+    "version" : "0.67",
 
     "minimum_item_version" : "3.7",
 
@@ -360,6 +360,10 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/Reason.php",
             "update_directory": "app/Reason.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/ShipmentReason.php",
+            "update_directory": "app/ShipmentReason.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/helpers/ShipmentActionHelper.php",

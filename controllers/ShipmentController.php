@@ -22,6 +22,7 @@ use App\Http\Helpers\MissionPRNG;
 use Excel;
 use App\State;
 use App\Transaction;
+use App\ShipmentReason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Milon\Barcode\DNS1D;
@@ -394,24 +395,48 @@ class ShipmentController extends Controller
         }
     }
 
-    public function removeShipmentFromMission($shipment, $mission)
+    public function removeShipmentFromMission(Request $request)
     {
+        $shipment_id = $request->shipment_id;
+        $mission_id = $request->mission_id;
         try {
             DB::beginTransaction();
 
-            //change shipment status to requested
-            $action = new StatusManagerHelper();
-            $response = $action->change_shipment_status([$shipment], Shipment::SAVED_STATUS, $mission);
+            $mission = Mission::find($mission_id);
+            $shipment = Shipment::find($shipment_id);
+            if($mission && $shipment && in_array($mission->status_id , [Mission::APPROVED_STATUS,Mission::REQUESTED_STATUS,Mission::RECIVED_STATUS])){
+                //change shipment status to requested
+                // return $mission->shipment_mission_by_shipment_id($shipment_id);
+                $action = new StatusManagerHelper();
+                if($mission->type == Mission::getType(Mission::PICKUP_TYPE)){
+                    $response = $action->change_shipment_status([$shipment_id], Shipment::SAVED_STATUS, $mission_id);
+                }elseif($mission->type == Mission::getType(Mission::DELIVERY_TYPE) && $mission->status_id == Mission::RECIVED_STATUS){
+                    $response = $action->change_shipment_status([$shipment_id], Shipment::RETURNED_STATUS, $mission_id);
+                }elseif($mission->type == Mission::getType(Mission::DELIVERY_TYPE) && in_array($mission->status_id , [Mission::APPROVED_STATUS,Mission::REQUESTED_STATUS]) ){
+                    $response = $action->change_shipment_status([$shipment_id], Shipment::APPROVED_STATUS, $mission_id);
+                }
 
-            //Calaculate Amount 
-            $helper = new TransactionHelper();
-            $helper->calculate_mission_amount($mission);
+                if($shipment_mission = $mission->shipment_mission_by_shipment_id($shipment_id)){
+                    $shipment_mission->delete();
+                }
+                $shipment_reason = new ShipmentReason();
+                $shipment_reason->reason_id = $request->reason;
+                $shipment_reason->shipment_id = $request->shipment_id;
+                $shipment_reason->type = "Delete From Mission";
+                $shipment_reason->save();
+                //Calaculate Amount 
+                $helper = new TransactionHelper();
+                $helper->calculate_mission_amount($mission_id);
 
-            event(new UpdateMission( $mission));
-            // event(new ShipmentAction( Shipment::SAVED_STATUS,[$shipment]));
-            DB::commit();
-            flash(translate("Shipment removed from mission successfully"))->success();
-            return back();
+                event(new UpdateMission( $mission_id));
+                // event(new ShipmentAction( Shipment::SAVED_STATUS,[$shipment]));
+                DB::commit();
+                flash(translate("Shipment removed from mission successfully"))->success();
+                return back();   
+            }else{
+                flash(translate("Invalid Shipment"))->error();
+                return back();
+            }
         } catch (\Exception $e) {
             DB::rollback();
             print_r($e->getMessage());

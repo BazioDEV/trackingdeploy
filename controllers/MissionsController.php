@@ -145,11 +145,12 @@ class MissionsController extends Controller
     public function show($id)
     {
         $mission = Mission::find($id);
+        $reasons = Reason::where("type","remove_shipment_from_mission")->get();
         if($mission->status_id == Mission::APPROVED_STATUS){
-            $reasons = Reason::where("type","remove_shipment_from_mission")->get();
-            return view('backend.missions.show',compact('mission','reasons'));
+            $reschedule = true;
+            return view('backend.missions.show',compact('mission','reasons','reschedule'));
         }else{
-            return view('backend.missions.show',compact('mission'));
+            return view('backend.missions.show',compact('mission','reasons'));
         }
     }
 
@@ -215,6 +216,7 @@ class MissionsController extends Controller
             $mission_reason = new MissionReason();
             $mission_reason->mission_id = $mission->id;
             $mission_reason->reason_id = $request->reason;
+            $mission_reason->type = "reschedule";
             $mission_reason->save();
             flash(translate("Reschedule set successfully"))->success();
             return back();    

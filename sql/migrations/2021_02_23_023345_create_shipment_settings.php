@@ -24,59 +24,59 @@ class CreateShipmentSettings extends Migration
         $items = array(
             [
                 "key"       =>  "def_tax",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_insurance",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_return_cost",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_shipping_cost_gram",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_tax_gram",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_insurance_gram",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "def_return_cost_gram",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "latest_shipment_count",
-                "Name"      =>  "10",
+                "value"      =>  "10",
             ],
             [
                 "key"       =>  "is_date_required",
-                "Name"      =>  "1",
+                "value"      =>  "1",
             ],
             [
                 "key"       =>  "def_shipping_date",
-                "Name"      =>  "0",
+                "value"      =>  "0",
             ],
             [
                 "key"       =>  "shipment_prefix",
-                "Name"      =>  "SH",
+                "value"      =>  "SH",
             ],
             [
                 "key"       =>  "shipment_code_count",
-                "Name"      =>  "5",
+                "value"      =>  "5",
             ],
             [
                 "key"       =>  "mission_prefix",
-                "Name"      =>  "MI",
+                "value"      =>  "MI",
             ],
             [
                 "key"       =>  "mission_code_count",
-                "Name"      =>  "7",
+                "value"      =>  "7",
             ],
             
         );

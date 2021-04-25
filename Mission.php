@@ -80,6 +80,10 @@ class Mission extends Model
 		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id');
 	}
 
+    public function shipment_mission_by_shipment_id($shipment_id){
+		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id')->where('shipment_id',$shipment_id)->get()->first();
+	}
+
     public function getStatus()
      {
         $result = null;

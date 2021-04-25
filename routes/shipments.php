@@ -54,7 +54,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::post('shipments/action/return_mission/{type}','ShipmentController@createReturnMission')->name('admin.shipments.action.create.return.mission');
     Route::post('shipments/action/transfer_mission/{type}','ShipmentController@createTransferMission')->name('admin.shipments.action.create.transfer.mission');
    
-    Route::get('shipments/remove-shipment-from-mission/{shipment}/{mission}','ShipmentController@removeShipmentFromMission')->name('admin.shipments.delete-shipment-from-mission');
+    Route::post('shipments/remove-shipment-from-mission','ShipmentController@removeShipmentFromMission')->name('admin.shipments.delete-shipment-from-mission');
     
     Route::get('shipments/shipments-report','ShipmentController@shipmentsReport')->name('admin.shipments.report');
     Route::post('shipments/shipments-report/results','ShipmentController@exportShipmentsReport')->name('admin.shipments.post.report');

@@ -5,7 +5,7 @@
         <div class="col-6">
             <h1 class="display-4 font-weight-boldest mb-10">{{translate('Mission Shipments')}}</h1>
         </div>
-        @isset($data['reasons'])
+        @if($data['reschedule'])
             <div class="col-6 text-right">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-        @endisset
+        @endif
     </div>
     <div class="col-md-9">
         <div class="table-responsive">
@@ -81,12 +81,13 @@
                         <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
                         <td class=" pt-7 text-right">{{$shipment_mission->shipment->client->name}}</td>
                         <td class="text-danger pr-5 pt-7 text-right">
-                            @if(in_array($shipment_mission->mission->status_id , [\App\Mission::DONE_STATUS,\App\Mission::APPROVED_STATUS,\App\Mission::RECIVED_STATUS]))
-                            <a href="#" class="btn btn-danger  btn-sm confirm-delete" data-href="{{route('admin.shipments.delete-shipment-from-mission', ['shipment'=>$shipment_mission->shipment->id,'mission'=>$shipment_mission->mission_id])}}" title="{{ translate('Remove Shipment From Mission') }}">
-		                        <i class="las la-trash"></i> {{translate('Remove From')}} {{$data['mission']->code}}
-		                    </a>
+                            @if(in_array($shipment_mission->mission->status_id , [\App\Mission::APPROVED_STATUS,\App\Mission::REQUESTED_STATUS,\App\Mission::RECIVED_STATUS]))
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter2" id="modal_open_delete_shipment" onclick="set_shipment_id({{$shipment_mission->shipment->id}})">
+                                    {{translate('Remove From')}} {{$data['mission']->code}}
+                                </button>
                             @else
-                            {{translate('No actions')}}
+                                {{translate('No actions')}}
                             @endif
                         </td>
                         <td class="text-center print-only"><input type="checkbox" class="form-control" /></td>
@@ -98,3 +99,49 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter2Title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{translate('Remove From')}} {{$data['mission']->code}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal_close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('admin.shipments.delete-shipment-from-mission') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="mission_id" value="{{$data['mission']->id}}">
+                <input type="hidden" name="shipment_id" id="delete_shipment_id" value="">
+                <div class="modal-body text-left">
+                    @isset($data['reasons'])
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{translate('Reason')}}:</label>
+                                
+                                <select name="reason" class="form-control captain_id kt-select2" required>
+                                    @foreach ($data['reasons'] as $reason)
+                                        <option value="{{$reason->id}}">{{$reason->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    @endisset
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
+                    <button type="submit" class="btn btn-danger  btn-sm">{{translate('Remove')}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function set_shipment_id(shipment_id){
+        document.getElementById('delete_shipment_id').value = shipment_id;
+    }
+</script>
