@@ -120,17 +120,19 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="my-2 col-md-4 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
-                                    <select name="client_id" class="form-control" id="kt_datatable_search_status">
-                                        <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Client::all() as $client)
-                                        <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
-                                        @endforeach
-                                    </select>
+                            @if($auth_user->user_type != "customer")
+                                <div class="my-2 col-md-4 my-md-0">
+                                    <div class="d-flex align-items-center">
+                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
+                                        <select name="client_id" class="form-control" id="kt_datatable_search_status">
+                                            <option value="">{{translate('All')}}</option>
+                                            @foreach(\App\Client::all() as $client)
+                                            <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
                                     <label class="mb-0 mr-3 d-none d-md-block">{{translate('Type')}}:</label>
@@ -145,21 +147,20 @@
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row align-items-center">
-
-                            <div class="my-2 col-md-4 my-md-5">
-                                <div class="d-flex align-items-center">
-                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
-                                    <select name="branch_id" class="form-control" id="kt_datatable_search_type">
-                                        <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Branch::all() as $Branch)
-                                        <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
-                                        @endforeach
-                                    </select>
+                            @if($auth_user->user_type != "branch")
+                                <div class="my-2 col-md-4 my-md-5">
+                                    <div class="d-flex align-items-center">
+                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
+                                        <select name="branch_id" class="form-control" id="kt_datatable_search_type">
+                                            <option value="">{{translate('All')}}</option>
+                                            @foreach(\App\Branch::all() as $Branch)
+                                            <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
                         </div>
                     </div>
                     <div class="mt-5 col-lg-3 col-xl-4 mt-lg-0">
@@ -181,8 +182,8 @@
                     <th>{{translate('Code')}}</th>
                     <th>{{translate('Status')}}</th>
                     <th>{{translate('Type')}}</th>
-                    <th>{{translate('Client')}}</th>
-                    <th>{{translate('Branch')}}</th>
+                    @if($auth_user->user_type != "customer") <th>{{translate('Client')}}</th> @endif
+                    @if($auth_user->user_type != "branch") <th>{{translate('Branch')}}</th> @endif 
 
                     <th>{{translate('Shipping Cost')}}</th>
                     <th>{{translate('Payment Method')}}</th>
@@ -208,8 +209,8 @@
                     <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                     <td>{{$shipment->getStatus()}}</td>
                     <td>{{$shipment->type}}</td>
-                    <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                    <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                    @if($auth_user->user_type != "customer") <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td> @endif 
+                    @if($auth_user->user_type != "branch") <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td> @endif
 
                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                     <td>{{$shipment->pay->name ?? ""}}</td>
