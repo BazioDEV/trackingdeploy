@@ -285,10 +285,10 @@
                             </div>
                         </div>
                         
-                        {{-- <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{translate('Attachments Before Shipping')}}:</label>
+                                    <label>{{translate('Attachments')}}:</label>
         
                                     <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
                                         <div class="input-group-prepend">
@@ -301,7 +301,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments After Shipping')}}:</label>
         
@@ -315,8 +315,8 @@
                                     <div class="file-preview">
                                     </div>
                                 </div>
-                            </div>
-                        </div> --}}
+                            </div> --}}
+                        </div>
 
                         <hr>
 

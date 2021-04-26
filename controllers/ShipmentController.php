@@ -130,6 +130,11 @@ class ShipmentController extends Controller
     public function createPickupMission(Request $request, $type)
     {
         try {
+            $auth_user = Auth::user(); // In case auth user is client . confirm client user id = auth id 
+            if($auth_user->user_type == "customer" && $auth_user->userClient->client_id != $request['Mission']['client_id']){
+                flash(translate("Error"))->error();
+                return back();
+            }
             DB::beginTransaction();
             $model = new Mission();
             $model->fill($request['Mission']);
@@ -293,6 +298,11 @@ class ShipmentController extends Controller
     public function createSupplyMission(Request $request, $type)
     {
         try {
+            $auth_user = Auth::user(); // In case auth user is client . confirm client user id = auth id 
+            if($auth_user->user_type == "customer" && $auth_user->userClient->client_id != $request['Mission']['client_id']){
+                flash(translate("Error"))->error();
+                return back();
+            }
             DB::beginTransaction();
             $model = new Mission();
             $model->fill($request['Mission']);

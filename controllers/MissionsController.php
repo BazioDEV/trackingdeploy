@@ -48,11 +48,13 @@ class MissionsController extends Controller
         }
         $missions = $missions->paginate(20);
         
+        $show_due_date = ($status == Mission::APPROVED_STATUS) ? true : false;
+
         $actions = new MissionActionHelper();
         $actions = $actions->get($status,$type);
         $page_name = Mission::getStatusByStatusId($status)." ".Mission::getType($type);
         
-        return view('backend.missions.index',compact('missions','actions','page_name','type','status'));
+        return view('backend.missions.index',compact('missions','actions','page_name','type','status','show_due_date'));
     }
 
     public function change(Request $request,$to)
@@ -146,11 +148,12 @@ class MissionsController extends Controller
     {
         $mission = Mission::find($id);
         $reasons = Reason::where("type","remove_shipment_from_mission")->get();
+        $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
-            return view('backend.missions.show',compact('mission','reasons','reschedule'));
+            return view('backend.missions.show',compact('mission','reasons','due_date','reschedule'));
         }else{
-            return view('backend.missions.show',compact('mission','reasons'));
+            return view('backend.missions.show',compact('mission','reasons','due_date'));
         }
     }
 

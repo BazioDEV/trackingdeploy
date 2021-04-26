@@ -32,6 +32,9 @@
     <!--end::Subheader-->
 @endsection
 @section('content')
+@php
+    $auth_user = Auth::user();
+@endphp
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="card-header flex-wrap py-3">
@@ -40,31 +43,38 @@
                 {{$page_name}}
             </h3>
         </div>
-        <div class="card-toolbar">
-            <!--begin::Dropdown-->
-            <div class="dropdown dropdown-inline mr-2">
-                <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="svg-icon svg-icon-md">
-                        <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="24" height="24" />
-                                <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
-                                <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
-                            </g>
-                        </svg>
-                        <!--end::Svg Icon-->
-                    </span>{{translate('Actions')}}</button>
-                <!--begin::Dropdown Menu-->
-                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                    <!--begin::Navigation-->
-                    <ul class="navi flex-column navi-hover py-2">
-                        <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
-                        
-                        <li class="navi-item">
-                          @foreach($actions as $action)
-                                @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+        @if(count($actions) > 0)
+            <div class="card-toolbar" id="actions-button">
+                <!--begin::Dropdown-->
+                <div class="dropdown dropdown-inline mr-2">
+                    <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="svg-icon svg-icon-md">
+                            <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
+                                    <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>{{translate('Actions')}}</button>
+                    <!--begin::Dropdown Menu-->
+                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                        <!--begin::Navigation-->
+                        <ul class="navi flex-column navi-hover py-2">
+                            <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
+                            
+                            <li class="navi-item">
+                            @php
+                                $action_counter = 0;
+                            @endphp
+                            @foreach($actions as $action)
+                                @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($item['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
                                     @if($action['index'] == true)
+                                    @php
+                                        $action_counter++;
+                                    @endphp
                                     <a href="#" class="navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}"  @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
                                         <span class="navi-icon">
                                             <i class="{{$action['icon']}}"></i>
@@ -74,15 +84,21 @@
                                     @endif
                                 @endif
                             @endforeach
-                        </li>
-                        
-                    </ul>
-                    <!--end::Navigation-->
+                            </li>
+                            
+                        </ul>
+                        <!--end::Navigation-->
+                    </div>
+                    <!--end::Dropdown Menu-->
                 </div>
-                <!--end::Dropdown Menu-->
+                <!--end::Dropdown-->
             </div>
-            <!--end::Dropdown-->
-        </div>
+            @if($action_counter == 0)
+                <script>
+                    document.getElementById("actions-button").style.display = "none";
+                </script>
+            @endif
+        @endif
     </div>
     
     <div class="card-body">
@@ -99,6 +115,8 @@
                     <th>{{translate('Type')}}</th>
       
                     <th>{{translate('Amount')}}</th>
+
+                    @if($show_due_date) <th>{{translate('Due Date')}}</th> @endif
                     
                     <th class="text-center">{{translate('Options')}}</th>
                 </tr>
@@ -121,6 +139,8 @@
                     
                     
                     <td>{{format_price(convert_price($mission->amount))}}</td>
+
+                    @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
                 
                     <td class="text-center">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
@@ -128,7 +148,7 @@
                         </a>
                         @if(isset($status))
                             @if($status == \App\Mission::APPROVED_STATUS)
-                            {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
+                            {{-- @if($auth_user->user_type == 'admin' || in_array(1030, json_decode($auth_user->staff->role->permissions ?? "[]"))) --}}
                             <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                                 <i class="fa fa-check"></i> {{translate('Receive Mission')}}
                             </a>

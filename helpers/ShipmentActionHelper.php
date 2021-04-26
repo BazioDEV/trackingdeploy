@@ -104,6 +104,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['permissions'] = 1031; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
             
             $this->actions[count($this->actions)] = array();
@@ -112,6 +113,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
             
@@ -129,6 +131,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openCaptainModel(this,event)';
             $this->actions[count($this->actions)-1]['permissions'] = 1033; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch','customer']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
@@ -138,6 +141,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch','customer']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
             
@@ -147,6 +151,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
@@ -163,6 +168,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::APPROVED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1031; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
             
@@ -172,6 +178,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
@@ -180,16 +187,16 @@ class ShipmentActionHelper{
 
     private function assigned()
     {
-            $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Return');
-            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::RETURNED_STATUS]);
-            $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['permissions'] = 1034; 
-            $this->actions[count($this->actions)-1]['type'] = 1; 
-            $this->actions[count($this->actions)-1]['index'] = true;
+        // $this->actions[count($this->actions)] = array();
+        // $this->actions[count($this->actions)-1]['title'] = translate('Return');
+        // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+        // $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::RETURNED_STATUS]);
+        // $this->actions[count($this->actions)-1]['method'] = 'POST';
+        // $this->actions[count($this->actions)-1]['permissions'] = 1034; 
+        // $this->actions[count($this->actions)-1]['type'] = 1; 
+        // $this->actions[count($this->actions)-1]['index'] = true;
 
-            return $this->actions;
+        return $this->actions;
     }
 
     private function returned()
@@ -199,6 +206,7 @@ class ShipmentActionHelper{
         $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
         $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::RETURNED_STOCK]);
         $this->actions[count($this->actions)-1]['method'] = 'POST';
+        $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
         $this->actions[count($this->actions)-1]['type'] = 1; 
         $this->actions[count($this->actions)-1]['index'] = true;
 
@@ -215,6 +223,7 @@ class ShipmentActionHelper{
         $this->actions[count($this->actions)-1]['js_function_caller'] = 'openCaptainModel(this,event)';
         $this->actions[count($this->actions)-1]['type'] = 1; 
         $this->actions[count($this->actions)-1]['permissions'] = 1035; 
+        $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
         $this->actions[count($this->actions)-1]['index'] = true;
         return $this->actions;
     }
@@ -222,27 +231,27 @@ class ShipmentActionHelper{
     private function requestedPickup()
     {
 
-            $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Approve');
-            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
-            $this->actions[count($this->actions)-1]['permissions'] = 1031; 
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::APPROVED_STATUS]);
-            $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['type'] = 1; 
-            $this->actions[count($this->actions)-1]['index'] = true;
-            
-            $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Close');
-            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-trash';
-            $this->actions[count($this->actions)-1]['permissions'] = 1032; 
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
-            $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['type'] = 1; 
-            $this->actions[count($this->actions)-1]['index'] = true;
+        // $this->actions[count($this->actions)] = array();
+        // $this->actions[count($this->actions)-1]['title'] = translate('Approve');
+        // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+        // $this->actions[count($this->actions)-1]['permissions'] = 1031; 
+        // $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::APPROVED_STATUS]);
+        // $this->actions[count($this->actions)-1]['method'] = 'POST';
+        // $this->actions[count($this->actions)-1]['type'] = 1; 
+        // $this->actions[count($this->actions)-1]['index'] = true;
+        
+        // $this->actions[count($this->actions)] = array();
+        // $this->actions[count($this->actions)-1]['title'] = translate('Close');
+        // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-trash';
+        // $this->actions[count($this->actions)-1]['permissions'] = 1032; 
+        // $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
+        // $this->actions[count($this->actions)-1]['method'] = 'POST';
+        // $this->actions[count($this->actions)-1]['type'] = 1; 
+        // $this->actions[count($this->actions)-1]['index'] = true;
 
-            
+        
 
-            return $this->actions;
+        return $this->actions;
     }
 
     private function accepted()
@@ -255,6 +264,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openAssignShipmentCaptainModel(this,event)';
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['permissions'] = 1036; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();
@@ -265,6 +275,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCaptainModel(this,event)';
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['permissions'] = 1200; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();
@@ -274,6 +285,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::CLOSED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
             return $this->actions;
     }
@@ -286,6 +298,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action',['to'=>Shipment::APPROVED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch','customer']; 
             $this->actions[count($this->actions)-1]['index'] = true;
             return $this->actions;
     }
@@ -299,6 +312,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openCaptainModel(this,event)';
             $this->actions[count($this->actions)-1]['permissions'] = 1040; 
             $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch','customer']; 
             $this->actions[count($this->actions)-1]['index'] = true;
             return $this->actions;
     }

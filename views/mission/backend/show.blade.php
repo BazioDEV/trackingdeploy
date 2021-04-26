@@ -80,6 +80,12 @@ $d = new DNS1D();
                                     <span class="opacity-70 d-block">{{$mission->captain->name}}</span>
                                 </div>
                             @endif
+                            @if($due_date)
+                                <div class="d-flex flex-column flex-root">
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('DUE DATE')}}<span>
+                                    <span class="opacity-70 d-block">{{$due_date ?? ""}}</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -140,6 +146,16 @@ $d = new DNS1D();
 
 @section('script')
 <script>
-
+// window.onload = function() {
+// 	javascript:window.print();
+// };
+$('#kt_datepicker_3').datepicker({
+    orientation: "bottom auto",
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    todayBtn: true,
+    todayHighlight: true,
+    startDate: new Date(),
+});
 </script>
 @endsection
