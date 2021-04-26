@@ -34,9 +34,7 @@
 @endsection
 
 @section('content')
-@php
-    $auth_user = Auth::user();
-@endphp
+
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="flex-wrap py-3 card-header">
@@ -46,59 +44,48 @@
             </h3>
         </div>
         @if(count($actions) > 0)
-            <div class="card-toolbar" id="actions-button">
-                <!--begin::Dropdown-->
-                <div class="mr-2 dropdown dropdown-inline">
-                    <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="svg-icon svg-icon-md">
-                            <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24" />
-                                    <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
-                                    <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
-                                </g>
-                            </svg>
-                            <!--end::Svg Icon-->
-                        </span>{{translate('Actions')}}</button>
-                    <!--begin::Dropdown Menu-->
-                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                        <!--begin::Navigation-->
-                        <ul class="py-2 navi flex-column navi-hover">
-                            <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
-                            <li class="navi-item">
-                                @php
-                                    $action_counter = 0;
-                                @endphp
-                                @foreach($actions as $action)
-                                    @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($item['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
-                                        @if($action['index'] == true)
-                                            @php
-                                                $action_counter++;
-                                            @endphp
-                                            <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
-                                                <span class="navi-icon">
-                                                    <i class="{{$action['icon']}}"></i>
-                                                </span>
-                                                <span class="navi-text">{{$action['title']}}</span>
-                                            </a>
-                                        @endif
+        <div class="card-toolbar">
+            <!--begin::Dropdown-->
+            <div class="mr-2 dropdown dropdown-inline">
+                <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="svg-icon svg-icon-md">
+                        <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24" />
+                                <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
+                                <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>{{translate('Actions')}}</button>
+                <!--begin::Dropdown Menu-->
+                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <!--begin::Navigation-->
+                    <ul class="py-2 navi flex-column navi-hover">
+                        <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
+                        <li class="navi-item">
+                            @foreach($actions as $action)
+                                @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                                    @if($action['index'] == true)
+                                        <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
+                                            <span class="navi-icon">
+                                                <i class="{{$action['icon']}}"></i>
+                                            </span>
+                                            <span class="navi-text">{{$action['title']}}</span>
+                                        </a>
                                     @endif
-                                @endforeach
-                            </li>
+                                @endif
+                            @endforeach
+                        </li>
 
-                        </ul>
-                        <!--end::Navigation-->
-                    </div>
-                    <!--end::Dropdown Menu-->
+                    </ul>
+                    <!--end::Navigation-->
                 </div>
-                <!--end::Dropdown-->
+                <!--end::Dropdown Menu-->
             </div>
-            @if($action_counter == 0)
-                <script>
-                    document.getElementById("actions-button").style.display = "none";
-                </script>
-            @endif
+            <!--end::Dropdown-->
+        </div>
         @endif
     </div>
 
@@ -120,19 +107,17 @@
                                     </span>
                                 </div>
                             </div>
-                            @if($auth_user->user_type != "customer")
-                                <div class="my-2 col-md-4 my-md-0">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
-                                        <select name="client_id" class="form-control" id="kt_datatable_search_status">
-                                            <option value="">{{translate('All')}}</option>
-                                            @foreach(\App\Client::all() as $client)
-                                            <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                            <div class="my-2 col-md-4 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
+                                    <select name="client_id" class="form-control" id="kt_datatable_search_status">
+                                        <option value="">{{translate('All')}}</option>
+                                        @foreach(\App\Client::all() as $client)
+                                        <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            @endif
+                            </div>
                             <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
                                     <label class="mb-0 mr-3 d-none d-md-block">{{translate('Type')}}:</label>
@@ -147,20 +132,21 @@
                                     </select>
                                 </div>
                             </div>
-                            @if($auth_user->user_type != "branch")
-                                <div class="my-2 col-md-4 my-md-5">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
-                                        <select name="branch_id" class="form-control" id="kt_datatable_search_type">
-                                            <option value="">{{translate('All')}}</option>
-                                            @foreach(\App\Branch::all() as $Branch)
-                                            <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            @endif
 
+                        </div>
+                        <div class="row align-items-center">
+
+                            <div class="my-2 col-md-4 my-md-5">
+                                <div class="d-flex align-items-center">
+                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
+                                    <select name="branch_id" class="form-control" id="kt_datatable_search_type">
+                                        <option value="">{{translate('All')}}</option>
+                                        @foreach(\App\Branch::all() as $Branch)
+                                        <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mt-5 col-lg-3 col-xl-4 mt-lg-0">
@@ -182,8 +168,8 @@
                     <th>{{translate('Code')}}</th>
                     <th>{{translate('Status')}}</th>
                     <th>{{translate('Type')}}</th>
-                    @if($auth_user->user_type != "customer") <th>{{translate('Client')}}</th> @endif
-                    @if($auth_user->user_type != "branch") <th>{{translate('Branch')}}</th> @endif 
+                    <th>{{translate('Client')}}</th>
+                    <th>{{translate('Branch')}}</th>
 
                     <th>{{translate('Shipping Cost')}}</th>
                     <th>{{translate('Payment Method')}}</th>
@@ -204,13 +190,13 @@
                 @foreach($shipments as $key=>$shipment)
 
                 <tr>
-                    <td><label class="checkbox checkbox-success"><input data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                    <td><label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                     <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
                     <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                     <td>{{$shipment->getStatus()}}</td>
                     <td>{{$shipment->type}}</td>
-                    @if($auth_user->user_type != "customer") <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td> @endif 
-                    @if($auth_user->user_type != "branch") <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td> @endif
+                    <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
+                    <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
 
                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                     <td>{{$shipment->pay->name ?? ""}}</td>
@@ -495,7 +481,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
@@ -533,29 +519,36 @@
         var selected_address_sender = [];
         var selected_address = [];
         var selected_branch_hidden = [];
+        var mission_id = [];
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
             selected_address_sender.push($(this).data('clientaddresssender'));
             selected_address.push($(this).data('clientaddress'));
             selected_branch_hidden.push($(this).data('branchid'));
+            mission_id.push($(this).data('missionid'));
         });
 
-        var sum = selected.reduce(function(acc, val) { return acc + val; },0);
-        var check_sum = selected[0] * selected.length;
 
-        if (selected.length == 1 || sum == check_sum) {
-            $('#tableForm').attr('action', $(element).data('url'));
-            $('#tableForm').attr('method', $(element).data('method'));
-            $('#pick_up_address').val(selected_address[0]);
-            $('#assign-to-captain-modal').modal('toggle');
-            $('#supply_address').val(selected_address_sender[0]);
-            $('#pick_up_client_id').val(selected[0]);
-            $('#pick_up_client_id_hidden').val(selected[0]);
-            $('.branch_hidden').val(selected_branch_hidden[0]);
-        } else if (selected.length == 0) {
-            Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+        if(mission_id[0] == ""){
+            var sum = selected.reduce(function(acc, val) { return acc + val; },0);
+            var check_sum = selected[0] * selected.length;
+
+            if (selected.length == 1 || sum == check_sum) {
+                $('#tableForm').attr('action', $(element).data('url'));
+                $('#tableForm').attr('method', $(element).data('method'));
+                $('#pick_up_address').val(selected_address[0]);
+                $('#assign-to-captain-modal').modal('toggle');
+                $('#supply_address').val(selected_address_sender[0]);
+                $('#pick_up_client_id').val(selected[0]);
+                $('#pick_up_client_id_hidden').val(selected[0]);
+                $('.branch_hidden').val(selected_branch_hidden[0]);
+            } else if (selected.length == 0) {
+                Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+            }else{
+                Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            }
         }else{
-            Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            Swal.fire("{{translate('This Shipment Already In Mission')}}", "", "error");
         }
 
     }
@@ -569,6 +562,7 @@
         var selected_area = [];
         var selected_area_hidden = [];
         var selected_branch_hidden = [];
+        var mission_id = [];
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
             selected_address.push($(this).data('clientaddress'));
@@ -578,35 +572,44 @@
             selected_area.push($(this).data('clientarea'));
             selected_area_hidden.push($(this).data('clientareahidden'));
             selected_branch_hidden.push($(this).data('branchid'));
+            
+            mission_id.push($(this).data('missionid'));
         });
 
-        var sum = selected.reduce(function(acc, val) { return acc + val; },0);
-        var check_sum = selected[0] * selected.length;
+        if(mission_id[0] == ""){
+            var sum = selected.reduce(function(acc, val) { return acc + val; },0);
+            var check_sum = selected[0] * selected.length;
 
-        if (selected.length == 1 || sum == check_sum ) {
-            $('#tableForm').attr('action', $(element).data('url'));
-            $('#tableForm').attr('method', $(element).data('method'));
-            $('#assign-to-captain-modal').modal('toggle');
-            $('#delivery_address').val(selected_address[0]);
-            $('#delivery_name').val(selected_name[0]);
-            $('#delivery_state').val(selected_state[0]);
-            $('#delivery_state_hidden').val(selected_state_hidden[0]);
-            $('#delivery_area').val(selected_area[0]);
-            $('#delivery_area_hidden').val(selected_area_hidden[0]);
-            $('.branch_hidden').val(selected_branch_hidden[0]);
-            $('#pick_up_client_id').val(selected[0]);
-            $('#pick_up_client_id_hidden').val(selected[0]);
-        } else if (selected.length == 0) {
-            Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+            if (selected.length == 1 || sum == check_sum ) {
+                $('#tableForm').attr('action', $(element).data('url'));
+                $('#tableForm').attr('method', $(element).data('method'));
+                $('#assign-to-captain-modal').modal('toggle');
+                $('#delivery_address').val(selected_address[0]);
+                $('#delivery_name').val(selected_name[0]);
+                $('#delivery_state').val(selected_state[0]);
+                $('#delivery_state_hidden').val(selected_state_hidden[0]);
+                $('#delivery_area').val(selected_area[0]);
+                $('#delivery_area_hidden').val(selected_area_hidden[0]);
+                $('.branch_hidden').val(selected_branch_hidden[0]);
+                $('#pick_up_client_id').val(selected[0]);
+                $('#pick_up_client_id_hidden').val(selected[0]);
+            } else if (selected.length == 0) {
+                Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+            }else{
+                Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            }
         }else{
-            Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            Swal.fire("{{translate('This Shipment Already In Mission')}}", "", "error");
         }
+
+        
     }
 
     function openTransferShipmentCaptainModel(element, e) {
         var selected = [];
         var branchId = '';
         var branchName = '';
+        var mission_id = [];
 
         $('#to_branch_id option').css("display","block");
 
@@ -615,25 +618,30 @@
             selected.push($(this).data('clientid'));
             branchId = $(this).data('branchid');
             branchName = $(this).data('branchname');
+            mission_id.push($(this).data('missionid'));
         });
 
-        var sum = selected.reduce(function(acc, val) { return acc + val; },0);
-        var check_sum = selected[0] * selected.length;
+        if(mission_id[0] == ""){
+            var sum = selected.reduce(function(acc, val) { return acc + val; },0);
+            var check_sum = selected[0] * selected.length;
 
-        if (selected.length == 1 || sum == check_sum ) {
-            $('#assign-to-captain-modal').remove();
-            $('#tableForm').attr('action', $(element).data('url'));
-            $('#tableForm').attr('method', $(element).data('method'));
+            if (selected.length == 1 || sum == check_sum ) {
+                $('#assign-to-captain-modal').remove();
+                $('#tableForm').attr('action', $(element).data('url'));
+                $('#tableForm').attr('method', $(element).data('method'));
 
-            document.getElementById("from_branch_transfer").value = branchName;
-            $('#to_branch_id option[value='+ branchId +']').css("display","none");
-            $('#to_branch_id option[value='+ branchId +']').find('option:selected').remove();
-            $('#transfer-to-branch-modal').modal('toggle');
+                document.getElementById("from_branch_transfer").value = branchName;
+                $('#to_branch_id option[value='+ branchId +']').css("display","none");
+                $('#to_branch_id option[value='+ branchId +']').find('option:selected').remove();
+                $('#transfer-to-branch-modal').modal('toggle');
 
-        } else if (selected.length == 0) {
-            Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+            } else if (selected.length == 0) {
+                Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
+            }else{
+                Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            }
         }else{
-            Swal.fire("{{translate('Select shipments of the same client to Assign')}}", "", "error");
+            Swal.fire("{{translate('This Shipment Already In Mission')}}", "", "error");
         }
     }
 
