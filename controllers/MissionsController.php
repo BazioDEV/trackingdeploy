@@ -183,15 +183,29 @@ class MissionsController extends Controller
     {
         if(Auth::user()->user_type == 'captain'){
             $captain = Captain::find(Auth::user()->userCaptain->captain_id);
-            $missions = Mission::where('captain_id',Auth::user()->userCaptain->captain_id)->where('due_date',Carbon::today()->format('Y-m-d'))->get();
+            $missions = Mission::where('captain_id',Auth::user()->userCaptain->captain_id)->where('due_date',Carbon::today()->format('Y-m-d'))->orderBy('order')->get();
             return view('backend.missions.manifest-profile',compact('missions','captain'));
         }
         return view('backend.missions.manifests');
     }
+    public function ajax_change_order(Request $request)
+    {
+        $ids = $request['missions_ids'];
+        $missions = Mission::whereIn('id', $ids)
+        ->orderByRaw("field(id,".implode(',',$ids).")")
+        ->get();
+        
+        foreach ($missions as $key => $mission) {
+            $mission->order = $key;
+            $mission->save();
+        }
+        return "Done";
+    }
+
     public function getManifestProfile(Request $request)
     {
         $captain = Captain::find($request->captain_id);
-        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',$request->manifest_date)->get();
+        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',$request->manifest_date)->orderBy('order')->get();
         return view('backend.missions.manifest-profile',compact('missions','captain'));
     }
 

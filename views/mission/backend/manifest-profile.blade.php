@@ -15,15 +15,15 @@
     <!--begin::Container-->
     <div class="container">
         <!-- begin::Card-->
-        <div class="card card-custom overflow-hidden">
-            <div class="card-body p-0">
+        <div class="overflow-hidden card card-custom">
+            <div class="p-0 card-body">
                 <!-- begin: Invoice-->
                 <!-- begin: Invoice header-->
-                <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
+                <div class="px-8 py-8 row justify-content-center py-md-27 px-md-0">
                     <div class="col-md-9">
-                        <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                            <h1 class="display-4 font-weight-boldest mb-10">{{translate('Manifest Profile')}}</h1>
-                            <div class="d-flex flex-column align-items-md-end px-0">
+                        <div class="pb-10 d-flex justify-content-between pb-md-20 flex-column flex-md-row">
+                            <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Manifest Profile')}}</h1>
+                            <div class="px-0 d-flex flex-column align-items-md-end">
                                 <!--begin::Logo-->
                                 <a href="#" class="mb-5">
                                     <img src="assets/media/logos/logo-dark.png" alt="" />
@@ -35,9 +35,9 @@
                             </div>
                         </div>
                         <div class="border-bottom w-100"></div>
-                        <div class="d-flex justify-content-between pt-6">
+                        <div class="pt-6 d-flex justify-content-between">
                             <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">{{translate('Captain')}}</span>
+                                <span class="mb-2 font-weight-bolder">{{translate('Captain')}}</span>
                                 <span class="opacity-70">{{$captain->name}}</span>
                             </div>
 
@@ -48,8 +48,8 @@
                 <!-- begin: Invoice body-->
 
 
-                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                    <h1 class="display-4 font-weight-boldest mb-10">{{translate('Manifest Missions')}}</h1>
+                <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
+                    <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Manifest Missions')}}</h1>
 
                     <div class="col-md-9">
                         <div class="table-responsive">
@@ -70,7 +70,7 @@
 
                                     @foreach($missions as $key=>$mission)
 
-                                    <tr style="background-color:tomatom">
+                                    <tr data-missionid="{{$mission->id}}" class="mission" style="background-color:tomatom">
                                         <td></td>
                                         <td width="5%">{{$mission->code}}</td>
                                         <td>{{$mission->type}}</td>
@@ -97,7 +97,7 @@
 
                 <!-- end: Invoice footer-->
                 <!-- begin: Invoice action-->
-                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
                             <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">{{translate('Download Manifest Details')}}</button>
@@ -122,6 +122,25 @@
 @section('script')
     <script src="{{asset('public/assets/dragula/dragula.js')}}" type="text/javascript"></script>
     <script type="text/javascript">
-        dragula([document.getElementById('profile_manifest')]);
+        dragula([document.getElementById('profile_manifest')]).on('drop', function (el, container, source) {
+            if(container){
+                var missions = container.getElementsByClassName('mission');
+                var missions_order = [];
+                for (let index = 0; index < missions.length; index++) {
+                    missions_order.push(missions[index].dataset.missionid);
+                }
+                $.ajax({
+                    url:'{{ route("admin.missions.manifests.order") }}',
+                    type:'POST',
+                    data:  { _token: AIZ.data.csrf, missions_ids:missions_order},
+                    dataTy:'json',
+                    success:function(response){
+                    },
+                    error: function(returnval) {
+                        // console.log(returnval);
+                    }
+                });
+            }
+        });
     </script>
 @endsection

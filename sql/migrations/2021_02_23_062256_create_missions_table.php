@@ -22,6 +22,7 @@ class CreateMissionsTable extends Migration
             $table->string('address')->nullable();
             $table->integer('state')->nullable();
             $table->integer('area')->nullable();
+            $table->unsignedInteger('order')->default('0');;
             $table->timestamps();
         });
     }
