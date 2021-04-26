@@ -4,17 +4,17 @@
 @section('sub_title'){{translate('Shipments')}}@endsection
 @section('subheader')
     <!--begin::Subheader-->
-    <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
-        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+    <div class="py-2 subheader py-lg-6 subheader-solid" id="kt_subheader">
+        <div class="flex-wrap container-fluid d-flex align-items-center justify-content-between flex-sm-nowrap">
             <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-1">
+            <div class="flex-wrap mr-1 d-flex align-items-center">
                 <!--begin::Page Heading-->
-                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                <div class="flex-wrap mr-5 d-flex align-items-baseline">
                     <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{translate('Shipments')}}</h5>
+                    <h5 class="my-1 mr-5 text-dark font-weight-bold">{{translate('Shipments')}}</h5>
                     <!--end::Page Title-->
                     <!--begin::Breadcrumb-->
-                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm mr-5">
+                    <ul class="p-0 my-2 mr-5 breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold font-size-sm">
                         <li class="breadcrumb-item text-muted">
                             <a href="{{ route('admin.dashboard')}}" class="text-muted">{{translate('Dashboard')}}</a>
                         </li>
@@ -190,7 +190,7 @@
                 @foreach($shipments as $key=>$shipment)
 
                 <tr>
-                    <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientcountry="{{$shipment->to_state->name ?? '' }}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                    <td><label class="checkbox checkbox-success"><input data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                     <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
                     <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                     <td>{{$shipment->getStatus()}}</td>
@@ -244,6 +244,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <input type="hidden" name="Mission[to_branch_id]" class="form-control branch_hidden" />
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
@@ -284,7 +285,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-
+                            <input type="hidden" name="Mission[to_branch_id]" class="form-control branch_hidden" />
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
@@ -304,23 +305,26 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>{{translate('Delivery Address')}}:</label>
-                                    <input type="text" name="Mission[address]" class="form-control" id="delivery_address" />
-
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{translate('Country')}}:</label>
-                                    <input type="text" name="Mission[country]" class="form-control" id="delivery_country" />
+                                    <label>{{translate('State')}}:</label>
+                                    <input type="hidden" name="Mission[state]" class="form-control" id="delivery_state_hidden" />
+                                    <input style="background:#f3f6f9;color:#3f4254;" type="text" class="form-control" id="delivery_state" disabled />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Area')}}:</label>
-                                    <input type="text" name="Mission[area]" class="form-control" id="delivery_area" />
+                                    <input type="hidden" name="Mission[area]" class="form-control" id="delivery_state_hidden" />
+                                    <input style="background:#f3f6f9;color:#3f4254;" type="text" class="form-control" id="delivery_area_hidden" disabled />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>{{translate('Delivery Address')}}:</label>
+                                    <input type="text" name="Mission[address]" class="form-control" id="delivery_address" />
+
                                 </div>
                             </div>
 
@@ -345,7 +349,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-
+                            <input type="hidden" name="Mission[to_branch_id]" class="form-control branch_hidden" />
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client/Sender')}}:</label>
@@ -361,7 +365,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Supply Address')}}:</label>
-                                    <input type="text" name="Mission[address]" class="form-control" />
+                                    <input type="text" name="Mission[address]" class="form-control" id="supply_address" />
 
                                 </div>
                             </div>
@@ -477,7 +481,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
@@ -512,10 +516,14 @@
 
     function openCaptainModel(element, e) {
         var selected = [];
+        var selected_address_sender = [];
         var selected_address = [];
+        var selected_branch_hidden = [];
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
+            selected_address_sender.push($(this).data('clientaddresssender'));
             selected_address.push($(this).data('clientaddress'));
+            selected_branch_hidden.push($(this).data('branchid'));
         });
 
         var sum = selected.reduce(function(acc, val) { return acc + val; },0);
@@ -524,10 +532,12 @@
         if (selected.length == 1 || sum == check_sum) {
             $('#tableForm').attr('action', $(element).data('url'));
             $('#tableForm').attr('method', $(element).data('method'));
-            $('#assign-to-captain-modal').modal('toggle');
             $('#pick_up_address').val(selected_address[0]);
+            $('#assign-to-captain-modal').modal('toggle');
+            $('#supply_address').val(selected_address_sender[0]);
             $('#pick_up_client_id').val(selected[0]);
             $('#pick_up_client_id_hidden').val(selected[0]);
+            $('.branch_hidden').val(selected_branch_hidden[0]);
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
         }else{
@@ -540,14 +550,20 @@
         var selected = [];
         var selected_address = [];
         var selected_name = [];
-        var selected_country = [];
+        var selected_state = [];
+        var selected_state_hidden = [];
         var selected_area = [];
+        var selected_area_hidden = [];
+        var selected_branch_hidden = [];
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
             selected_address.push($(this).data('clientaddress'));
             selected_name.push($(this).data('clientname'));
-            selected_country.push($(this).data('clientcountry'));
+            selected_state.push($(this).data('clientstate'));
+            selected_state_hidden.push($(this).data('clientstatehidden'));
             selected_area.push($(this).data('clientarea'));
+            selected_area_hidden.push($(this).data('clientareahidden'));
+            selected_branch_hidden.push($(this).data('branchid'));
         });
 
         var sum = selected.reduce(function(acc, val) { return acc + val; },0);
@@ -559,8 +575,11 @@
             $('#assign-to-captain-modal').modal('toggle');
             $('#delivery_address').val(selected_address[0]);
             $('#delivery_name').val(selected_name[0]);
-            $('#delivery_country').val(selected_country[0]);
+            $('#delivery_state').val(selected_state[0]);
+            $('#delivery_state_hidden').val(selected_state_hidden[0]);
             $('#delivery_area').val(selected_area[0]);
+            $('#delivery_area_hidden').val(selected_area_hidden[0]);
+            $('.branch_hidden').val(selected_branch_hidden[0]);
             $('#pick_up_client_id').val(selected[0]);
             $('#pick_up_client_id_hidden').val(selected[0]);
         } else if (selected.length == 0) {
@@ -576,7 +595,7 @@
         var branchName = '';
 
         $('#to_branch_id option').css("display","block");
-        
+
 
         $('.sh-check:checked').each(function() {
             selected.push($(this).data('clientid'));
@@ -596,7 +615,7 @@
             $('#to_branch_id option[value='+ branchId +']').css("display","none");
             $('#to_branch_id option[value='+ branchId +']').find('option:selected').remove();
             $('#transfer-to-branch-modal').modal('toggle');
-            
+
         } else if (selected.length == 0) {
             Swal.fire("{{translate('Please Select Shipments')}}", "", "error");
         }else{

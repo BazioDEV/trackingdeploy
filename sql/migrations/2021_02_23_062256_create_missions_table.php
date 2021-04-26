@@ -20,6 +20,8 @@ class CreateMissionsTable extends Migration
             $table->double('amount');
             $table->integer('captain_id')->unsigned();
             $table->string('address')->nullable();
+            $table->integer('state')->nullable();
+            $table->integer('area')->nullable();
             $table->timestamps();
         });
     }
