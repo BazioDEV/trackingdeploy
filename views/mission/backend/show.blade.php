@@ -74,6 +74,12 @@ $d = new DNS1D();
                                 <span class="font-weight-bolder d-block mb-2">{{translate('MISSION STATUS')}}<span>
                                 <span class="opacity-70 d-block text-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span>
                             </div>
+                            @if($mission->captain_id)
+                                <div class="d-flex flex-column flex-root">
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('MISSION CAPTAIN')}}<span>
+                                    <span class="opacity-70 d-block">{{$mission->captain->name}}</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -134,8 +140,6 @@ $d = new DNS1D();
 
 @section('script')
 <script>
-window.onload = function() {
-	javascript:window.print();
-};
+
 </script>
 @endsection

@@ -95,6 +95,7 @@
                     <th width="3%">#</th>
                     <th>{{translate('Code')}}</th>
                     <th>{{translate('Status')}}</th>
+                    <th>{{translate('Captain')}}</th>
                     <th>{{translate('Type')}}</th>
       
                     <th>{{translate('Amount')}}</th>
@@ -111,6 +112,11 @@
                     <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
                     <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
                     <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>
+                    @if ($mission->captain_id)
+                        <td><a href="{{route('admin.captains.show', $mission->captain->id)}}">{{$mission->captain->name}}</a></td>
+                    @else
+                        <td>{{translate('No Captain')}}</td>
+                    @endif
                     <td>{{$mission->type}}</td>
                     
                     
