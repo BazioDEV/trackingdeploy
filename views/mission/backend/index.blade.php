@@ -32,6 +32,9 @@
     <!--end::Subheader-->
 @endsection
 @section('content')
+@php
+    $auth_user = Auth::user();
+@endphp
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="card-header flex-wrap py-3">
@@ -41,7 +44,7 @@
             </h3>
         </div>
         @if(count($actions) > 0)
-        <div class="card-toolbar">
+        <div class="card-toolbar" id="actions-button">
             <!--begin::Dropdown-->
             <div class="dropdown dropdown-inline mr-2">
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,11 +64,17 @@
                     <!--begin::Navigation-->
                     <ul class="navi flex-column navi-hover py-2">
                         <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
-                        
+
                         <li class="navi-item">
-                          @foreach($actions as $action)
-                                @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @php
+                            $action_counter = 0;
+                        @endphp
+                        @foreach($actions as $action)
+                            @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($item['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
                                     @if($action['index'] == true)
+                                    @php
+                                        $action_counter++;
+                                    @endphp
                                     <a href="#" class="navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}"  @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
                                         <span class="navi-icon">
                                             <i class="{{$action['icon']}}"></i>
@@ -84,6 +93,11 @@
             </div>
             <!--end::Dropdown-->
         </div>
+        @if($action_counter == 0)
+            <script>
+                document.getElementById("actions-button").style.display = "none";
+            </script>
+        @endif
         @endif
     </div>
     
@@ -101,6 +115,7 @@
                     <th>{{translate('Type')}}</th>
       
                     <th>{{translate('Amount')}}</th>
+                    @if($show_due_date) <th>{{translate('Due Date')}}</th> @endif
                     
                     <th class="text-center">{{translate('Options')}}</th>
                 </tr>
@@ -123,6 +138,7 @@
                     
                     
                     <td>{{format_price(convert_price($mission->amount))}}</td>
+                    @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
                 
                     <td class="text-center">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">

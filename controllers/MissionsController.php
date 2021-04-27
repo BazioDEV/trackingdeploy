@@ -48,11 +48,13 @@ class MissionsController extends Controller
         }
         $missions = $missions->paginate(20);
         
+        $show_due_date = ($status == Mission::APPROVED_STATUS) ? true : false;
+
         $actions = new MissionActionHelper();
         $actions = $actions->get($status,$type);
         $page_name = Mission::getStatusByStatusId($status)." ".Mission::getType($type);
         
-        return view('backend.missions.index',compact('missions','actions','page_name','type','status'));
+        return view('backend.missions.index',compact('missions','actions','page_name','type','status','show_due_date'));
     }
 
     public function change(Request $request,$to)
@@ -66,7 +68,7 @@ class MissionsController extends Controller
 
             if($to == Mission::DONE_STATUS)
             {
-                if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
+                if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin','branch']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
                 {
                     $params['amount'] = $request->amount;
                 }
@@ -92,6 +94,11 @@ class MissionsController extends Controller
                         return back();
                     }
                     $params['otp'] = $request->otp;
+                }
+
+                $missions = Mission::find($request->checked_ids);
+                foreach ($missions as $mission) {
+                    
                 }
             }
             
@@ -148,11 +155,12 @@ class MissionsController extends Controller
     {
         $mission = Mission::find($id);
         $reasons = Reason::where("type","remove_shipment_from_mission")->get();
+        $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
-            return view('backend.missions.show',compact('mission','reasons','reschedule'));
+            return view('backend.missions.show',compact('mission','reasons','due_date','reschedule'));
         }else{
-            return view('backend.missions.show',compact('mission','reasons'));
+            return view('backend.missions.show',compact('mission','reasons','due_date'));
         }
     }
 
