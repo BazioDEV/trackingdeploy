@@ -15,7 +15,7 @@
 @php
     $mission = \App\Mission::where('id', $mission->id)->first();
 @endphp
-<form id="kt_form_1" class="kt_form" action="{{route('admin.missions.action',['to'=>\App\Mission::RECIVED_STATUS])}}" method="POST">
+<form id="kt_form_1" class="kt_form" action="{{route('admin.missions.action',['to'=>\App\Mission::DONE_STATUS])}}" method="POST">
     @csrf
     <div class="modal-header">
         <h4 class="modal-title h6">{{translate('Confirm Mission Amount')}}</h4>
@@ -27,15 +27,16 @@
                     <label>{{translate('Amount')}}({{currency_symbol()}}):</label>
                     <input type="hidden" class="form-control" value="{{$mission->id}}" name="checked_ids[]" />
                     @if(in_array(Auth::user()->user_type,['admin']) || in_array('1030', json_decode(Auth::user()->staff->role->permissions ?? "[]")) )
-                        <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount" />
+                        <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount"
+                        @if($mission->getOriginal('type') != \App\Mission::PICKUP_TYPE ) style="background:#f3f6f9;color:#3f4254;" disabled @endif/>
                     @else
                         <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount" disabled/>
                     @endif
                 </div>
             </div>
- 
+
         </div>
-        @if(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'seg' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE )
+        @if(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'seg' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE || $mission->getOriginal('type') ==  \App\Mission::SUPPLY_TYPE )
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -52,7 +53,7 @@
                 </div>
             </div>
         </div>
-        @elseif(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'otp' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE)
+        @elseif(\App\ShipmentSetting::getVal('def_shipment_conf_type') == 'otp' && $mission->getOriginal('type') ==  \App\Mission::DELIVERY_TYPE || $mission->getOriginal('type') ==  \App\Mission::SUPPLY_TYPE)
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -85,7 +86,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
-        <button type="submit" id="confirm" class="btn btn-primary">{{translate('Confirm amount and Receive')}}</button>
+        <button type="submit" id="confirm" class="btn btn-primary">{{translate('Confirm amount and Done')}}</button>
     </div>
 </form>
 <script>

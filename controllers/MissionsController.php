@@ -48,23 +48,23 @@ class MissionsController extends Controller
         }
         $missions = $missions->paginate(20);
         
-        $show_due_date = ($status == Mission::APPROVED_STATUS) ? true : false;
-
         $actions = new MissionActionHelper();
         $actions = $actions->get($status,$type);
         $page_name = Mission::getStatusByStatusId($status)." ".Mission::getType($type);
         
-        return view('backend.missions.index',compact('missions','actions','page_name','type','status','show_due_date'));
+        return view('backend.missions.index',compact('missions','actions','page_name','type','status'));
     }
 
     public function change(Request $request,$to)
     {
+        
         if(isset($request->checked_ids))
         {
             $mission = Mission::where('id',$request->checked_ids[0])->first();
 
             $params = array();
-            if($to == Mission::RECIVED_STATUS)
+
+            if($to == Mission::DONE_STATUS)
             {
                 if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
                 {
@@ -148,12 +148,11 @@ class MissionsController extends Controller
     {
         $mission = Mission::find($id);
         $reasons = Reason::where("type","remove_shipment_from_mission")->get();
-        $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
-            return view('backend.missions.show',compact('mission','reasons','due_date','reschedule'));
+            return view('backend.missions.show',compact('mission','reasons','reschedule'));
         }else{
-            return view('backend.missions.show',compact('mission','reasons','due_date'));
+            return view('backend.missions.show',compact('mission','reasons'));
         }
     }
 

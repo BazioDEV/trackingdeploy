@@ -21,7 +21,6 @@ class MissionStatusManagerHelper
         $response['error_msg'] = '';
         try {
             DB::beginTransaction();
-            
             $transaction = new TransactionHelper();
             foreach ($missions as $mission_id) {
                 $mission = Mission::find($mission_id);
@@ -46,9 +45,62 @@ class MissionStatusManagerHelper
                             throw new \Exception("Captain is required in this step");
                         }
                         
+                    }    
+                    if ($to == Mission::RECIVED_STATUS) {
+
+                        // comment this after moveing Move confirm amount and signature and otp to be in "Received Missions" 
+
+
+                        // if(isset($params['amount']))
+                        // {
+                        //     $mission->amount = $params['amount'];
+                        //     $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                        //     if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                        //         $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
+                        //     }
+                        //     if(isset($params['seg_img']))
+                        //     {
+                        //         $mission->seg_img = $params['seg_img'];
+                        //     }
+                        //     if(isset($params['otp']))
+                        //     {
+                        //         if($params['otp'] != $mission->otp)
+                        //         {
+                        //             throw new \Exception("Please write the right OTP");
+                        //         }
+                        //     }
+                            
+                        // }
+                        // if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
+                        //     foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                        //         $shipment = \App\Shipment::find($shipment_id);
+                        //         $oldClientStatus = $shipment->client_status;
+                        //         $shipment->client_status = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
+                        //         $log = new ClientShipmentLog();
+                        //         $log->from = $oldClientStatus;
+                        //         $log->to = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
+                        //         $log->shipment_id = $shipment->id;
+                        //         $log->created_by = \Auth::user()->id;
+                        //         $log->save();
+                        //     }
+                        // }
+                        // if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
+                        //     if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
+                        //         foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                        //             $shipment = \App\Shipment::find($shipment_id);
+                        //             $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
+                        //             $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RECIVED_STATUS);
+                        //         }
+                        //     }
+                        // }
+                        
+                        // $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                     }
 
-                    if ($to == Mission::RECIVED_STATUS) {
+                    
+
+                    if ($to == Mission::DONE_STATUS) {
+                        
                         if(isset($params['amount']))
                         {
                             $mission->amount = $params['amount'];
@@ -91,13 +143,8 @@ class MissionStatusManagerHelper
                                 }
                             }
                         }
-                        // $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+
                         
-                    }
-
-                    
-
-                    if ($to == Mission::DONE_STATUS) {
                         if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
                             if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
                                 //Hook shipment backend in Mission status changed
