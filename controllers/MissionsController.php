@@ -10,6 +10,9 @@ use App\Http\Helpers\StatusManagerHelper;
 use App\Mission;
 use App\Reason;
 use App\MissionReason;
+use App\BusinessSetting;
+use App\Shipment;
+use App\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
@@ -59,7 +62,6 @@ class MissionsController extends Controller
 
     public function change(Request $request,$to)
     {
-        
         if(isset($request->checked_ids))
         {
             $mission = Mission::where('id',$request->checked_ids[0])->first();
@@ -96,9 +98,34 @@ class MissionsController extends Controller
                     $params['otp'] = $request->otp;
                 }
 
-                $missions = Mission::find($request->checked_ids);
-                foreach ($missions as $mission) {
-                    
+                if(in_array($mission->type,[Mission::getType(Mission::PICKUP_TYPE),Mission::getType(Mission::DELIVERY_TYPE)])){
+                    $cash = BusinessSetting::where("type","cash_payment")->get()->first();
+                    $payment_method_id = $cash->id;
+                    if($mission->type == Mission::getType(Mission::PICKUP_TYPE)){
+                        $payment_type = Shipment::PREPAID;
+                        $mission = Mission::where('id',$request->checked_ids[0])->where('type',Mission::PICKUP_TYPE)
+                                    ->with('shipment_mission')->get()->first();
+                        $shipment_ids = $mission->shipment_mission->pluck('shipment_id');
+                        
+                    }elseif($mission->type == Mission::getType(Mission::DELIVERY_TYPE)){
+                        $payment_type = Shipment::POSTPAID;
+                        $mission = Mission::where('id',$request->checked_ids[0])->where('type',Mission::DELIVERY_TYPE)
+                                    ->with('shipment_mission')->get()->first();
+                        $shipment_ids = $mission->shipment_mission->pluck('shipment_id');
+                    }
+                    $shipments = Shipment::whereIn("id",$shipment_ids)->where('payment_method_id',$payment_method_id)->where('payment_type',$payment_type)->get();
+                    foreach ($shipments as $shipment) {
+                        $payment = new Payment();
+                        $payment->shipment_id = $shipment->id;
+                        $payment->seller_id = $shipment->client_id;
+                        $payment->amount = convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance);
+                        $payment->payment_method = $shipment->pay->type;
+                        $payment->payment_date = Carbon::now()->toDateTimeString();;
+                        $payment->save();
+                        
+                        $shipment->paid = 1;
+                        $shipment->save();
+                    }
                 }
             }
             

@@ -57,17 +57,18 @@ class MissionStatusManagerHelper
                             }
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                         }
-                        $mission->amount = $params['amount'];
-                        $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
-                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
-                            $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
-                        }
+                        
 
                         // comment this after moveing Move confirm amount and signature and otp to be in "Received Missions" 
 
 
                         // if(isset($params['amount']))
                         // {
+                        //     $mission->amount = $params['amount'];
+                        // $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                        // if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                        //     $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
+                        // }
 
                         //     if(isset($params['seg_img']))
                         //     {

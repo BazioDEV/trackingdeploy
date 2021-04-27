@@ -84,6 +84,12 @@ class Mission extends Model
 		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id')->where('shipment_id',$shipment_id)->get()->first();
 	}
 
+    public function shipment_mission_by_payment_type($payment_integration_id,$payment_type){
+		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id')->with('shipment', function ($query) use ($payment_integration_id,$payment_type) {
+            $query->where('payment_integration_id',$payment_integration_id)->where('payment_type',$payment_type);
+        })->get();
+	}
+
     public function getStatus()
      {
         $result = null;
