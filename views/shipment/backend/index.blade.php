@@ -186,47 +186,59 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $client_id = 0;
+                @endphp
 
                 @foreach($shipments as $key=>$shipment)
-
-                <tr>
-                    <td><label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
-                    <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
-                    <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
-                    <td>{{$shipment->getStatus()}}</td>
-                    <td>{{$shipment->type}}</td>
-                    <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                    <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
-
-                    <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
-                    <td>{{$shipment->pay->name ?? ""}}</td>
-                    <td>@if($shipment->paid == 1) {{translate('Paid')}} @else - @endif</td>
-                    <td>{{$shipment->shipping_date}}</td>
-                        @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
-                            <td><a href="{{route('admin.captains.show', $shipment->captain_id)}}">@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</a></td>
-                        @endif
-                    @if($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS )
-                        <td>@isset($shipment->current_mission->id) <a href="{{route('admin.missions.show', $shipment->current_mission->id)}}"> {{$shipment->current_mission->code}}</a> @endisset</td>
+                    @if($client_id != $shipment->client_id)
+                        <tr class="bg-light">
+                            <td><label class="checkbox checkbox-success"><input type="checkbox" onclick="check_client(this,{{$shipment->client_id}})"/><span></span></label></td>
+                            <td></td>
+                            <th><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></th>
+                        </tr>
+                        @php
+                            $client_id = $shipment->client_id;
+                        @endphp
                     @endif
-                    <td class="text-center">
-                        {{$shipment->created_at->format('Y-m-d')}}
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Show') }}">
-                            <i class="las la-print"></i>
-                        </a>
-                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('Show') }}">
-                            <i class="las la-eye"></i>
-                        </a>
+                    <tr>
+                        <td><label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check checkbox-client-id-{{$shipment->client_id}}" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                        <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
+                        <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
+                        <td>{{$shipment->getStatus()}}</td>
+                        <td>{{$shipment->type}}</td>
+                        <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
+                        <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
 
-                        @if($status != \App\Shipment::APPROVED_STATUS && $status != \App\Shipment::CAPTAIN_ASSIGNED_STATUS && $status != \App\Shipment::CLOSED_STATUS && $status != \App\Shipment::RECIVED_STATUS && $status != \App\Shipment::IN_STOCK_STATUS && $status != \App\Shipment::DELIVERED_STATUS && $status != \App\Shipment::SUPPLIED_STATUS && $status != \App\Shipment::RETURNED_STATUS )
-                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.edit', $shipment->id)}}" title="{{ translate('Edit') }}">
-                                <i class="las la-edit"></i>
-                            </a>
+                        <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
+                        <td>{{$shipment->pay->name ?? ""}}</td>
+                        <td>@if($shipment->paid == 1) {{translate('Paid')}} @else - @endif</td>
+                        <td>{{$shipment->shipping_date}}</td>
+                            @if($status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS)
+                                <td><a href="{{route('admin.captains.show', $shipment->captain_id)}}">@isset($shipment->captain_id) {{$shipment->captain->name}} @endisset</a></td>
+                            @endif
+                        @if($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::CAPTAIN_ASSIGNED_STATUS || $status == \App\Shipment::RECIVED_STATUS )
+                            <td>@isset($shipment->current_mission->id) <a href="{{route('admin.missions.show', $shipment->current_mission->id)}}"> {{$shipment->current_mission->code}}</a> @endisset</td>
                         @endif
+                        <td class="text-center">
+                            {{$shipment->created_at->format('Y-m-d')}}
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Show') }}">
+                                <i class="las la-print"></i>
+                            </a>
+                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('Show') }}">
+                                <i class="las la-eye"></i>
+                            </a>
 
-                    </td>
-                </tr>
+                            @if($status != \App\Shipment::APPROVED_STATUS && $status != \App\Shipment::CAPTAIN_ASSIGNED_STATUS && $status != \App\Shipment::CLOSED_STATUS && $status != \App\Shipment::RECIVED_STATUS && $status != \App\Shipment::IN_STOCK_STATUS && $status != \App\Shipment::DELIVERED_STATUS && $status != \App\Shipment::SUPPLIED_STATUS && $status != \App\Shipment::RETURNED_STATUS )
+                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.edit', $shipment->id)}}" title="{{ translate('Edit') }}">
+                                    <i class="las la-edit"></i>
+                                </a>
+                            @endif
+
+                        </td>
+                    </tr>
 
                 @endforeach
 
@@ -642,6 +654,16 @@
             }
         }else{
             Swal.fire("{{translate('This Shipment Already In Mission')}}", "", "error");
+        }
+    }
+
+    function check_client(parent_checkbox,client_id) {
+        // if(parent_checkbox.checked){
+        //     console.log("checked");
+        // }
+        checkboxs = document.getElementsByClassName("checkbox-client-id-"+client_id);
+        for (let index = 0; index < checkboxs.length; index++) {
+            checkboxs[index].checked = parent_checkbox.checked;
         }
     }
 

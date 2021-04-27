@@ -65,7 +65,7 @@ class ShipmentController extends Controller
         }elseif(Auth::user()->user_type == 'branch'){
             $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
-        $shipments = $shipments->with('pay')->paginate(20);
+        $shipments = $shipments->with('pay')->orderBy('client_id')->paginate(20);
         $actions = new ShipmentActionHelper();
         $actions = $actions->get('all');
         $page_name = translate('All Shipments');
@@ -112,7 +112,7 @@ class ShipmentController extends Controller
         }elseif(Auth::user()->user_type == 'branch'){
             $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
-        $shipments = $shipments->paginate(20);
+        $shipments = $shipments->with('pay')->orderBy('client_id')->paginate(20);
 
         $actions = new ShipmentActionHelper();
         $actions = $actions->get($status, $type);
