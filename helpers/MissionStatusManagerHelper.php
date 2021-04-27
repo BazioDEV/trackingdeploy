@@ -47,17 +47,28 @@ class MissionStatusManagerHelper
                         
                     }    
                     if ($to == Mission::RECIVED_STATUS) {
+                        
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
+                        {
+                            $amount_to_bo_collected = 0 ;
+                            foreach ($mission->shipment_mission as $shipment_mission)
+                            {
+                                $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
+                            }
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                        }
+                        $mission->amount = $params['amount'];
+                        $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                            $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
+                        }
 
                         // comment this after moveing Move confirm amount and signature and otp to be in "Received Missions" 
 
 
                         // if(isset($params['amount']))
                         // {
-                        //     $mission->amount = $params['amount'];
-                        //     $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
-                        //     if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
-                        //         $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
-                        //     }
+
                         //     if(isset($params['seg_img']))
                         //     {
                         //         $mission->seg_img = $params['seg_img'];
@@ -100,14 +111,25 @@ class MissionStatusManagerHelper
                     
 
                     if ($to == Mission::DONE_STATUS) {
+
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
+                        {
+                            $amount_to_bo_collected = 0 ;
+                            foreach ($mission->shipment_mission as $shipment_mission)
+                            {
+                                $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
+                            }
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                        }
                         
                         if(isset($params['amount']))
                         {
                             $mission->amount = $params['amount'];
-                            $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
                             if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
                                 $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
                             }
+
                             if(isset($params['seg_img']))
                             {
                                 $mission->seg_img = $params['seg_img'];
