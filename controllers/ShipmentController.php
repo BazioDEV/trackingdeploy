@@ -73,6 +73,22 @@ class ShipmentController extends Controller
         return view('backend.shipments.index', compact('shipments', 'page_name', 'type', 'actions', 'status'));
     }
 
+    public function track()
+    {
+        return view('backend.shipments.track');
+    }
+
+    public function tracking($code)
+    {
+        $shipment = Shipment::find($shipment_id);
+        if(!$shipment || $shipment->paid == 1){
+            flash(translate("Invalid Link"))->error();
+            return back();
+        }
+        // return $shipment;
+        return view('backend.shipments.tracking',["shipment"=>$shipment]);
+    }
+
     public function pay($shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
@@ -494,13 +510,8 @@ class ShipmentController extends Controller
             'total_weight' => 'required|integer|min:0',
         ]);
         $costs = $this->applyShipmentCost($request,$request->package_ids);
-        
-        $formated_cost["return_cost"] = format_price(convert_price($costs["return_cost"]));
-        $formated_cost["shipping_cost"] = format_price(convert_price($costs["shipping_cost"]));
-        $formated_cost["tax"] = format_price(convert_price($costs["tax"]));
-        $formated_cost["insurance"] = format_price(convert_price($costs["insurance"]));
-        $formated_cost["total_cost"] = format_price(convert_price($costs["shipping_cost"] + $costs["tax"] + $costs["insurance"]));
-        return $formated_cost;
+        $costs["total_cost"] = format_price(convert_price($costs["shipping_cost"] + $costs["tax"] + $costs["insurance"]));
+        return $costs;
     }
 
     public function feesSettings()
@@ -676,7 +687,7 @@ class ShipmentController extends Controller
                 $insurance     = ShipmentSetting::getCost('def_insurance');
             }
 
-            $array['return_cost'] = $return_cost;
+            $array['return_cost'] = format_price(convert_price($return_cost));
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
             $array['insurance'] = $insurance;
@@ -785,6 +796,7 @@ class ShipmentController extends Controller
     public function show($id)
     {
         $shipment = Shipment::find($id);
+        // echo '<pre>';print_r($shipment->attachments_before_shipping);exit;
         return view('backend.shipments.show', compact('shipment'));
     }
 

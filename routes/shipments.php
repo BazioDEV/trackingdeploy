@@ -1,6 +1,8 @@
 <?php 
 
 Route::get('admin/shipments/payment/{shipment_id}','ShipmentController@pay')->name('admin.shipments.pay');
+Route::get('shipment/tracking','ShipmentController@track')->name('admin.shipments.track');
+Route::get('shipment/tracking/{code?}','ShipmentController@tracking')->name('admin.shipments.tracking');
 
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff']], function(){
     
