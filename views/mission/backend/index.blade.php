@@ -152,7 +152,7 @@
                                 </a> --}}
                                 {{-- @endif --}}
                                 
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}})">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{$mission->amount}} , {{$mission->getOriginal('type')}})">
                                     {{ translate('Receive Mission') }}
                                 </button>
                             @endif
@@ -246,17 +246,24 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
+        <div class="modal-body" id="mission_modal_body" style="display:none">
+            <h5 class="modal-title mb-2" id="exampleModalLabel">{{translate('Mission Amount')}}</h5>
+            <input type="number" id="amount_pickup" class="form-control" name="amount"/>
+        </div> 
+
         <div class="modal-footer">
             <form action="{{route('admin.missions.action',['to'=>\App\Mission::RECIVED_STATUS])}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="checked_ids[]"  id="selected_mission_id" />
+                <input type="hidden" name="amount"  id="selected_mission_amount" />
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
                 <button type="submit" class="btn btn-primary">{{translate('Confirm')}}</button>
             </form>
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 
 @endsection
@@ -274,8 +281,16 @@
         startDate: new Date(),
     });
 
-    function set_mission_id(mission_id){
+    function set_mission_id(mission_id , mission_amount , mission_type){
         document.getElementById("selected_mission_id").value = mission_id;
+        if(mission_type == {{\App\Mission::PICKUP_TYPE}})
+        {
+            document.getElementById("amount_pickup").value              = mission_amount;
+            document.getElementById("selected_mission_amount").value    = mission_amount;
+            document.getElementById("mission_modal_body").style.display = "block";
+        }
+        
+        
     }
 
     function show_ajax_loder_in_button(element){

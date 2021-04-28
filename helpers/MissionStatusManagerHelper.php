@@ -45,44 +45,35 @@ class MissionStatusManagerHelper
                             throw new \Exception("Captain is required in this step");
                         }
                         
-                    }    
+                    }   
+                     
                     if ($to == Mission::RECIVED_STATUS) {
+
+                        if(isset($params['amount']))
+                        {
+                            $mission->amount = $params['amount'];
+                            
+                            if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
+                                $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            }
+                            
+                            
+                        }
                         
-                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE || $mission->getOriginal('type')  == Mission::DELIVERY_TYPE )
                         {
                             $amount_to_bo_collected = 0 ;
                             foreach ($mission->shipment_mission as $shipment_mission)
                             {
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
-                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
                         }
                         
 
                         // comment this after moveing Move confirm amount and signature and otp to be in "Received Missions" 
 
 
-                        // if(isset($params['amount']))
-                        // {
-                        //     $mission->amount = $params['amount'];
-                        // $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
-                        // if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
-                        //     $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
-                        // }
-
-                        //     if(isset($params['seg_img']))
-                        //     {
-                        //         $mission->seg_img = $params['seg_img'];
-                        //     }
-                        //     if(isset($params['otp']))
-                        //     {
-                        //         if($params['otp'] != $mission->otp)
-                        //         {
-                        //             throw new \Exception("Please write the right OTP");
-                        //         }
-                        //     }
-                            
-                        // }
                         // if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
                         //     foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
                         //         $shipment = \App\Shipment::find($shipment_id);
@@ -109,9 +100,11 @@ class MissionStatusManagerHelper
                         // $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                     }
 
-                    
-
                     if ($to == Mission::DONE_STATUS) {
+
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
+                            $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                        }
 
                         if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
                         {
@@ -120,30 +113,12 @@ class MissionStatusManagerHelper
                             {
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
-                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
                         }
                         
-                        if(isset($params['amount']))
-                        {
-                            $mission->amount = $params['amount'];
-                            $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
-                            if ($mission->getOriginal('type') == Mission::PICKUP_TYPE || $mission->getOriginal('type') == Mission::RETURN_TYPE) {
-                                $transaction->create_mission_transaction($mission->id,$params['amount'],Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
-                            }
 
-                            if(isset($params['seg_img']))
-                            {
-                                $mission->seg_img = $params['seg_img'];
-                            }
-                            if(isset($params['otp']))
-                            {
-                                if($params['otp'] != $mission->otp)
-                                {
-                                    throw new \Exception("Please write the right OTP");
-                                }
-                            }
-                            
-                        }
                         if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
                             foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
                                 $shipment = \App\Shipment::find($shipment_id);
@@ -158,6 +133,16 @@ class MissionStatusManagerHelper
                             }
                         }
                         if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
+
+                            $amount_to_bo_collected = 0 ;
+                            foreach ($mission->shipment_mission as $shipment_mission)
+                            {
+                                $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
+                            }
+
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
+
                             if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
                                 foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
                                     $shipment = \App\Shipment::find($shipment_id);
@@ -228,15 +213,12 @@ class MissionStatusManagerHelper
                                 }
                             }
                         }
-                        if(in_array($mission->getOriginal('type'),[Mission::PICKUP_TYPE,Mission::DELIVERY_TYPE,Mission::RETURN_TYPE,Mission::SUPPLY_TYPE]))
-                        {
-                            $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
-                            $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
-                        }
+                        // if(in_array($mission->getOriginal('type'),[Mission::PICKUP_TYPE,Mission::DELIVERY_TYPE,Mission::RETURN_TYPE,Mission::SUPPLY_TYPE]))
+                        // {
+                        //     $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                        //     $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
+                        // }
 
-                        
-                        
-                        
                     }
 
                     $mission->status_id = $to;

@@ -146,10 +146,11 @@ class TransactionHelper{
 
             if($operation == Transaction::DEBIT)
             {
-                $value = -$value;
+                $value = $value;
+                
             }elseif($operation == Transaction::CREDIT)
             {
-                $value = $value;
+                $value = -$value;
             }
             
             
@@ -188,10 +189,10 @@ class TransactionHelper{
 			DB::beginTransaction();
             if($operation == Transaction::DEBIT)
             {
-                $value = -$value;
+                $value = $value;
             }elseif($operation == Transaction::CREDIT)
             {
-                $value = $value;
+                $value = -$value;
             }
             
             

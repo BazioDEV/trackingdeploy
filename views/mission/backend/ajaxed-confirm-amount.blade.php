@@ -28,7 +28,7 @@
                     <input type="hidden" class="form-control" value="{{$mission->id}}" name="checked_ids[]" />
                     @if(in_array(Auth::user()->user_type,['admin']) || in_array('1030', json_decode(Auth::user()->staff->role->permissions ?? "[]")) )
                         <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount"
-                        @if($mission->getOriginal('type') != \App\Mission::PICKUP_TYPE ) style="background:#f3f6f9;color:#3f4254;" disabled @endif/>
+                        style="background:#f3f6f9;color:#3f4254;" disabled />
                     @else
                         <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount" disabled/>
                     @endif
