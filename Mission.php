@@ -32,7 +32,6 @@ class Mission extends Model
             'route_url'=>'requested',
             'optional_params'=>'/{type?}',
             'color'=>'info',
-            'user_role'=>['admin','customer','branch'],
         'permissions'=>1009],
 
             ['status' => Self::APPROVED_STATUS,
@@ -41,8 +40,7 @@ class Mission extends Model
             'route_url'=>'approved',
             'optional_params'=>'/{type?}',
             'color'=>'primary',
-            'user_role'=>['admin','customer','captain','branch'],
-            'permissions'=>1010],
+        'permissions'=>1010],
 
             ['status' => Self::RECIVED_STATUS,
             'text' => translate('Recived'),
@@ -50,8 +48,7 @@ class Mission extends Model
             'route_url'=>'recived',
             'optional_params'=>'/{type?}',
             'color'=>'primary',
-            'user_role'=>['admin','customer','captain','branch'],
-            'permissions'=>1011],
+        'permissions'=>1011],
 
             ['status' => Self::DONE_STATUS,
             'text' => translate('Done'),
@@ -59,8 +56,7 @@ class Mission extends Model
             'route_url'=>'done',
             'optional_params'=>'/{type?}',
             'color'=>'success',
-            'user_role'=>['admin','customer','captain','branch'],
-            'permissions'=>1012],
+        'permissions'=>1012],
 
             ['status' => Self::CLOSED_STATUS,
             'text' => translate('Closed'),
@@ -68,8 +64,7 @@ class Mission extends Model
             'route_url'=>'closed',
             'optional_params'=>'/{type?}',
             'color'=>'danger',
-            'user_role'=>['admin','customer','branch'],
-            'permissions'=>1013],
+        'permissions'=>1013],
        ];
        return $array;
     }
@@ -79,6 +74,9 @@ class Mission extends Model
 	}
     public function client(){
 		return $this->hasOne('App\Client', 'id' , 'client_id');
+	}
+    public function to_branch(){
+		return $this->hasOne('App\Branch', 'id' , 'to_branch_id');
 	}
 
     public function shipment_mission(){

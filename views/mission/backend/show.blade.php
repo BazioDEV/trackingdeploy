@@ -63,13 +63,20 @@ $d = new DNS1D();
                         <div class="border-bottom w-100"></div>
                         <div class="d-flex justify-content-between pt-6">
                             <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
-                                <span class="opacity-70 d-block">{{$mission->address}}</span>
-                            </div>
-                            <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder d-block mb-2">{{translate('MISSION TYPE')}}<span>
                                 <span class="opacity-70 d-block">{{$mission->type}}</span>
                             </div>
+                            @if($mission->type == 'transfer')
+                                <div class="d-flex flex-column flex-root">
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
+                                    <span class="opacity-70 d-block">{{$mission->address}}</span>
+                                </div>
+                            @else
+                                <div class="d-flex flex-column flex-root">
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('TRANSFER TO BRANCH')}}<span>
+                                    <span class="opacity-70 d-block">{{$mission->to_branch->name}}</span>
+                                </div>
+                            @endif
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder d-block mb-2">{{translate('MISSION STATUS')}}<span>
                                 <span class="opacity-70 d-block text-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span>
