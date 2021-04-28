@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.76",
+    "version" : "0.77",
 
     "minimum_item_version" : "3.7",
 
@@ -80,6 +80,14 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/show.blade.php",
             "update_directory": "resources/views/backend/shipments/show.blade.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/track.blade.php",
+            "update_directory": "resources/views/backend/shipments/track.blade.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/tracking.blade.php",
+            "update_directory": "resources/views/backend/shipments/tracking.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/index.blade.php",

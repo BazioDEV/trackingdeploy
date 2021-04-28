@@ -12,7 +12,7 @@
                 <div class="alert-text">
                     <!--begin::Logo-->
                     <p class="d-block py-20 text-center">
-                        <a href="{{ route('admin.dashboard') }}">
+                        <a href="{{ route('home') }}">
                             @if(get_setting('system_logo_white') != null)
                                 <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" alt="{{ get_setting('site_name') }}">
                             @else
@@ -20,12 +20,12 @@
                             @endif
                         </a>
                     </p>
-                    <p class="mt-50"><span class="label label-inline label-pill label-danger label-rounded mr-2">NOTE:</span>{{translate('For inquiries about your shipments, please contact us from')}} <a href="#">{{translate('here')}}</a>.</p>
+                    <p class="mt-50 text-center"><span class="label label-inline label-pill label-danger label-rounded mr-2">NOTE:</span>{{translate('For inquiries about your shipments, please contact us from')}} <a href="#">{{translate('here')}}</a>.</p>
                 </div>
             </div>
             <div class="card-header">
                 <div class="card-title">
-                    <h5 class="card-label">{{translate('Track your shipment')}}</h5>
+                    <h5 class="card-label  text-center">{{translate('Track your shipment')}}</h5>
                 </div>
             </div>
             <!--begin::Form-->
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-xl-3"></div>
                         <div class="col-xl-6">
-                            <button type="reset" class="btn btn-primary font-weight-bold mr-2">{{translate('Search')}}</button>
+                            <button type="submit" class="btn btn-primary font-weight-bold mr-2">{{translate('Search')}}</button>
                         </div>
                         <div class="col-xl-3"></div>
                     </div>

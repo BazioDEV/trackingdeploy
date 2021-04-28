@@ -75,18 +75,26 @@ class ShipmentController extends Controller
 
     public function track()
     {
+        if(isset($_GET['code'])){
+            $shipment = Shipment::where('code', $_GET['code'])->first();
+            if($shipment){
+                return redirect()->route('admin.shipments.tracking', $_GET['code']);
+            }else{
+                flash(translate("Invalid shipment code"))->error();
+            }
+        }
         return view('backend.shipments.track');
     }
 
     public function tracking($code)
     {
-        $shipment = Shipment::find($shipment_id);
-        if(!$shipment || $shipment->paid == 1){
-            flash(translate("Invalid Link"))->error();
-            return back();
+        $shipment = Shipment::where('code', $code)->first();
+        if($shipment){
+            return view('backend.shipments.tracking', compact('shipment'));
+        }else{
+            flash(translate("Invalid shipment code"))->error();
+            return redirect()->route('admin.shipments.track');
         }
-        // return $shipment;
-        return view('backend.shipments.tracking',["shipment"=>$shipment]);
     }
 
     public function pay($shipment_id)
@@ -796,7 +804,6 @@ class ShipmentController extends Controller
     public function show($id)
     {
         $shipment = Shipment::find($id);
-        // echo '<pre>';print_r($shipment->attachments_before_shipping);exit;
         return view('backend.shipments.show', compact('shipment'));
     }
 
