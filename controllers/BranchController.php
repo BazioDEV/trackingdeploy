@@ -102,8 +102,9 @@ class BranchController extends Controller
     public function show($id)
     {
         $branch = Branch::where('id', $id)->first();
+        $shipments = \App\Shipment::where('branch_id', $id)->paginate(15);
         if($branch != null){
-            return view('backend.branchs.show',compact('branch'));
+            return view('backend.branchs.show',compact('branch','shipments'));
         }
         abort(404);
     }
