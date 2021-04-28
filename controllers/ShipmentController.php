@@ -723,7 +723,7 @@ class ShipmentController extends Controller
             $model->code = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
 
             if(Auth::user()->user_type == 'customer'){
-                $model->client_id = Auth::user()->id;
+                $model->client_id = Auth::user()->userClient->id;
             }
             if (!$model->save()) {
                 throw new \Exception();
