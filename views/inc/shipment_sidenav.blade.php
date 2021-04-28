@@ -5,7 +5,7 @@ $user_type = Auth::user()->user_type;
 <!--Shipments-->
 @if ($addon != null)
     @if($addon->activated)
-        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+        @if( in_array($user_type,['admin','customer','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.index','admin.shipments.update','admin.shipments.create','admin.shipments.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-box-open"></i>
@@ -119,7 +119,7 @@ $user_type = Auth::user()->user_type;
                         
                         @foreach(\App\Mission::status_info() as $item)
                         
-                            @if(in_array($user_type, ['admin','customer','captain','branch']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(in_array($user_type, $item['user_role']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                                 <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">
                                     <a href="{{ route($item['route_name'],['status'=>$item['status']]) }}" class="menu-link">
                                         <i class="menu-bullet menu-bullet-dot">
@@ -131,22 +131,10 @@ $user_type = Auth::user()->user_type;
                                 </li>
                             @endif
                         @endforeach
-
-                        <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests','admin.missions.get.manifest'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.missions.manifests')}}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('Manifests')}}</span>
-                                
-                            </a>
-                        </li>
-
                         
                     </ul>
                 </div>
             </li>
-            
         @endif
     @endif
 @endif
@@ -386,6 +374,15 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 
                     </ul>
                 </div>
+            </li>
+        @endif
+
+        @if(in_array($user_type, ['admin','captain','branch']) || in_array('1008', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests','admin.missions.get.manifest'])}}" aria-haspopup="true">
+                <a href="{{ route('admin.missions.manifests') }}" class="menu-link">
+                    <i class="menu-icon fas fa-people-carry"></i>
+                    <span class="menu-text">{{ translate('Manifest') }}</span>
+                </a>
             </li>
         @endif
     @endif

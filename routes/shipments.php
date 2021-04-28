@@ -40,7 +40,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 });
 
 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|captain|branch']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
 	//Update Routes
     Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
 

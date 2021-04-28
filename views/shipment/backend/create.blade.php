@@ -521,12 +521,15 @@
     }
 
     $('.select-client').select2({
-        placeholder: "Select Client",
-    }).on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.clients.create')}}?redirect=admin.shipments.create"
-            class="btn btn-primary" >+ {{translate('Add New Client')}}</a>
-            </li>`);
-    });
+            placeholder: "Select Client",
+        })
+    @if($user_type == 'admin' || in_array('1005', $staff_permission) )
+        .on('select2:open', () => {
+            $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.clients.create')}}?redirect=admin.shipments.create"
+                class="btn btn-primary" >+ {{translate('Add New Client')}}</a>
+                </li>`);
+        });
+    @endif
 
     $('.payment-method').select2({
         placeholder: "Payment Method",
@@ -542,14 +545,16 @@
         placeholder: "Delivery Time",
     });
 
-
     $('.select-branch').select2({
-        placeholder: "Select Branch",
-    }).on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.branchs.create')}}?redirect=admin.shipments.create"
-            class="btn btn-primary" >+ {{translate('Add New Branch')}}</a>
-            </li>`);
-    });
+            placeholder: "Select Branch",
+    })
+    @if($user_type == 'admin' || in_array('1006', $staff_permission) )
+        .on('select2:open', () => {
+            $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.branchs.create')}}?redirect=admin.shipments.create"
+                class="btn btn-primary" >+ {{translate('Add New Branch')}}</a>
+                </li>`);
+        });
+    @endif
 
 
     $('#change-country').change(function() {
@@ -670,9 +675,13 @@
             placeholder: "Select country",
             language: {
               noResults: function() {
-                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
-                  class="btn btn-primary" >Manage {{translate('Countries')}}</a>
-                  </li>`;
+                @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
+                    class="btn btn-primary" >Manage {{translate('Countries')}}</a>
+                    </li>`;
+                @else
+                    return ``;
+                @endif
               },
             },
             escapeMarkup: function(markup) {
@@ -684,9 +693,13 @@
             placeholder: "Select state",
             language: {
               noResults: function() {
-                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
-                  class="btn btn-primary" >Manage {{translate('States')}}</a>
-                  </li>`;
+                @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.shipments.covered_countries')}}?redirect=admin.shipments.create"
+                    class="btn btn-primary" >Manage {{translate('States')}}</a>
+                    </li>`;
+                @else
+                    return ``;
+                @endif
               },
             },
             escapeMarkup: function(markup) {
@@ -698,9 +711,13 @@
             placeholder: "Select Area",
             language: {
               noResults: function() {
-                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.areas.create')}}?redirect=admin.shipments.create"
-                  class="btn btn-primary" >Manage {{translate('Areas')}}</a>
-                  </li>`;
+                @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.areas.create')}}?redirect=admin.shipments.create"
+                    class="btn btn-primary" >Manage {{translate('Areas')}}</a>
+                    </li>`;
+                @else
+                    return ``;
+                @endif
               },
             },
             escapeMarkup: function(markup) {
@@ -723,9 +740,13 @@
                 placeholder: "Package Type",
                 language: {
                 noResults: function() {
-                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
-                    class="btn btn-primary" >Manage {{translate('Packages')}}</a>
-                    </li>`;
+                    @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
+                        class="btn btn-primary" >Manage {{translate('Packages')}}</a>
+                        </li>`;
+                    @else
+                        return ``;
+                    @endif
                 },
                 },
                 escapeMarkup: function(markup) {
@@ -747,9 +768,13 @@
                     placeholder: "Package Type",
                     language: {
                     noResults: function() {
-                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
-                        class="btn btn-primary" >Manage {{translate('Packages')}}</a>
-                        </li>`;
+                        @if($user_type == 'admin' || in_array('1105', $staff_permission) )
+                            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%" href="{{route('admin.packages.create')}}?redirect=admin.shipments.create"
+                            class="btn btn-primary" >Manage {{translate('Packages')}}</a>
+                            </li>`;
+                        @else
+                            return ``;
+                        @endif
                     },
                     },
                     escapeMarkup: function(markup) {
