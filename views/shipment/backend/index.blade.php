@@ -1,5 +1,8 @@
 @extends('backend.layouts.app')
-
+@php
+    $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+@endphp
 
 @section('sub_title'){{translate('Shipments')}}@endsection
 @section('subheader')
@@ -193,19 +196,36 @@
                     @if($client_id != $shipment->client_id)
                         <tr class="bg-light">
                             <td><label class="checkbox checkbox-success"><input type="checkbox" onclick="check_client(this,{{$shipment->client_id}})"/><span></span></label></td>
-                            <th colspan="4"><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></th>
+                            <th colspan="4">
+                                @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1005', $staff_permission) )
+                                    <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
+                                @else
+                                    {{$shipment->client->name}}
+                                @endif
+                            </th>
                         </tr>
                         @php
                             $client_id = $shipment->client_id;
                         @endphp
                     @endif
+                    
                     <tr>
                         <td><label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check checkbox-client-id-{{$shipment->client_id}}" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
-                        <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
-                        <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
+                        @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1009', $staff_permission) )
+                            <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
+                            <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
+                        @else
+                            <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
+                            <td width="5%">{{$shipment->barcode}}</td>
+                        @endif
+                        
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
                         <td>{{$shipment->type}}</td>
-                        <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                        @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
+                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                        @else
+                            <td>{{$shipment->branch->name}}</td>
+                        @endif
 
                         <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                         <td>{{$shipment->pay->name ?? ""}}</td>

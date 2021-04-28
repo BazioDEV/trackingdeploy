@@ -1,5 +1,8 @@
 @extends('backend.layouts.app')
-
+@php
+    $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+@endphp
 
 @section('sub_title'){{translate('Missions')}}@endsection
 @section('subheader')
@@ -126,8 +129,14 @@
 
                 <tr>
                     <td><label class="checkbox checkbox-success"><input class="ms-check" type="checkbox" name="checked_ids[]" value="{{$mission->id}}" /><span></span></label></td>
-                    <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
-                    <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
+                    @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
+                        <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
+                        <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
+                    @else
+                        <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
+                        <td width="5%">{{$mission->code}}</td>
+                    @endif
+                    
                     <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>
                     @if ($mission->captain_id)
                         <td><a href="{{route('admin.captains.show', $mission->captain->id)}}">{{$mission->captain->name}}</a></td>

@@ -1,14 +1,17 @@
+@php
+    $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+@endphp
 
-
-<div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+<div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
     <div class="col-9 row">
         <div class="col-6">
-            <h1 class="display-4 font-weight-boldest mb-10">{{translate('Mission Shipments')}}</h1>
+            <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Mission Shipments')}}</h1>
         </div>
         @if($data['reschedule'])
-            <div class="col-6 text-right">
+            <div class="text-right col-6">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
+                <button type="button" class="px-3 btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
                     {{translate('Reschedule')}}
                 </button>
             
@@ -25,7 +28,7 @@
                             <form action="{{ route('admin.missions.reschedule') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$data['mission']->id}}">
-                                <div class="modal-body text-left">
+                                <div class="text-left modal-body">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -67,7 +70,6 @@
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Type')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Branch')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Client')}}</th>
-                        <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Payment Type')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase no-print">{{translate('Actions')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase print-only">{{translate('Check')}}</th>
                     </tr>
@@ -76,17 +78,19 @@
                    
                 @foreach(\App\ShipmentMission::where('mission_id',$data['mission']->id)->get() as $shipment_mission)
                     <tr class="font-weight-boldest @if(in_array($shipment_mission->shipment->status_id ,[\App\Shipment::RETURNED_STATUS,\App\Shipment::RETURNED_STOCK,\App\Shipment::RETURNED_CLIENT_GIVEN])) table-danger @endif">
-                        <td class="pl-5 pt-7"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment_mission->shipment->id])}}">{{$shipment_mission->shipment->code}}</a></td>
+                        @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1005', $staff_permission) )
+                            <td class="pl-5 pt-7"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment_mission->shipment->id])}}">{{$shipment_mission->shipment->code}}</a></td>
+                        @else
+                            <td class="pl-5 pt-7">{{$shipment_mission->shipment->code}}</td>
+                        @endif
                         <td class="pl-5 pt-7">{{$shipment_mission->shipment->getStatus()}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->type}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
-                        <td class=" pt-7 text-right">{{$shipment_mission->shipment->client->name}}</td>
-                        
-                        <td class=" pt-7 text-right">{{$shipment_mission->shipment->getPaymentType()}}</td>
-                        <td class="text-danger pr-5 pt-7 text-right no-print">
+                        <td class="text-right  pt-7">{{$shipment_mission->shipment->client->name}}</td>
+                        <td class="pr-5 text-right text-danger pt-7 no-print">
                             @if(in_array($shipment_mission->mission->status_id , [\App\Mission::APPROVED_STATUS,\App\Mission::REQUESTED_STATUS,\App\Mission::RECIVED_STATUS]))
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter2" id="modal_open_delete_shipment" onclick="set_shipment_id({{$shipment_mission->shipment->id}})">
+                                <button type="button" class="px-3 btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter2" id="modal_open_delete_shipment" onclick="set_shipment_id({{$shipment_mission->shipment->id}})">
                                     {{translate('Remove From')}} {{$data['mission']->code}}
                                 </button>
                             @else
@@ -117,7 +121,7 @@
                 @csrf
                 <input type="hidden" name="mission_id" value="{{$data['mission']->id}}">
                 <input type="hidden" name="shipment_id" id="delete_shipment_id" value="">
-                <div class="modal-body text-left">
+                <div class="text-left modal-body">
                     @isset($data['reasons'])
                     <div class="row">
                         <div class="col-md-12">
@@ -136,7 +140,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
-                    <button type="submit" class="btn btn-danger  btn-sm">{{translate('Remove')}}</button>
+                    <button type="submit" class="btn btn-danger btn-sm">{{translate('Remove')}}</button>
                 </div>
             </form>
         </div>
