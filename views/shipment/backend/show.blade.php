@@ -173,6 +173,21 @@ $d = new DNS1D();
                     @endif
                 </div>
 
+                <div class="d-flex justify-content-between pt-6">
+                    <div class="d-flex flex-column flex-root">
+                        <span class="text-dark font-weight-bold mb-4">{{translate('Attachments')}} <span class="text-muted font-size-xs">({{translate('ADDED WHEN SHIPMENT CREATED')}})</span></span>
+                        <div class="d-flex justify-content-between pt-6">
+                            @foreach(explode(',', $shipment->attachments_before_shipping) as $img)
+                                <div class="d-flex flex-column flex-root">
+                                    <span class="text-muted font-weight-bolder font-size-lg">
+                                        <a href="{{uploaded_asset($img)}}" target="_blank"><img src="{{uploaded_asset($img)}}" alt="image" style="max-width:100px" /></a>
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
