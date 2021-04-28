@@ -71,49 +71,7 @@ class SendAssignMissionNotification
             foreach($users as $user){
                 $available_gateways = $gateways;
                 $recevier   =   \App\User::find($user);
-                if($recevier->phone == null){
-                    if (($key = array_search('sms', $available_gateways)) !== false) {
-                        unset($available_gateways[$key]);
-                    }
-                }
-                if($recevier->email == null){
-                    if (($key = array_search('email', $available_gateways)) !== false) {
-                        unset($available_gateways[$key]);
-                    }
-                }
-
-                $data = array(
-                    'sender'    =>  \Auth::user(),
-                    'message'   =>  array(
-                            'subject'   =>  $title,
-                            'content'   =>  $content,
-                            'url'       =>  $url,
-                    ),
-                    'icon'      =>  'flaticon2-bell-4',
-                    'type'      =>  'assigned_shipment',
-                );
-                $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
-
-            }
-
-            foreach ($mission->shipment_mission as $shipment_mission)
-            {
-                $shipment = $shipment_mission->shipment;
-                
-                if(isset($notify['sender'])){
-                    $users  =   array_merge($users, array($shipment->client_id));
-                }
-                if(isset($notify['captain'])){
-                    $users  =   array_merge($users, array($shipment->captain_id));
-                }
-
-                $title      = translate('There is update shipment');
-                $content    = translate('Please check the shipment which is just updated right now!');
-                $url        = url('admin/shipments').'/'.$shipment->id;
-
-                foreach($users as $user){
-                    $available_gateways = $gateways;
-                    $recevier   =   \App\User::find($user);
+                if($recevier){
                     if($recevier->phone == null){
                         if (($key = array_search('sms', $available_gateways)) !== false) {
                             unset($available_gateways[$key]);
@@ -136,7 +94,51 @@ class SendAssignMissionNotification
                         'type'      =>  'assigned_shipment',
                     );
                     $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
+                }
+            }
 
+            foreach ($mission->shipment_mission as $shipment_mission)
+            {
+                $shipment = $shipment_mission->shipment;
+                
+                if(isset($notify['sender'])){
+                    $users  =   array_merge($users, array($shipment->client_id));
+                }
+                if(isset($notify['captain'])){
+                    $users  =   array_merge($users, array($shipment->captain_id));
+                }
+
+                $title      = translate('There is update shipment');
+                $content    = translate('Please check the shipment which is just updated right now!');
+                $url        = url('admin/shipments').'/'.$shipment->id;
+
+                foreach($users as $user){
+                    $available_gateways = $gateways;
+                    $recevier   =   \App\User::find($user);
+                    if($recevier){
+                        if($recevier->phone == null){
+                            if (($key = array_search('sms', $available_gateways)) !== false) {
+                                unset($available_gateways[$key]);
+                            }
+                        }
+                        if($recevier->email == null){
+                            if (($key = array_search('email', $available_gateways)) !== false) {
+                                unset($available_gateways[$key]);
+                            }
+                        }
+
+                        $data = array(
+                            'sender'    =>  \Auth::user(),
+                            'message'   =>  array(
+                                    'subject'   =>  $title,
+                                    'content'   =>  $content,
+                                    'url'       =>  $url,
+                            ),
+                            'icon'      =>  'flaticon2-bell-4',
+                            'type'      =>  'assigned_shipment',
+                        );
+                        $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
+                    }
                 }
             }
         }
