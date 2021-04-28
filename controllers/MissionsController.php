@@ -242,8 +242,9 @@ class MissionsController extends Controller
     public function getManifestProfile(Request $request)
     {
         $captain = Captain::find($request->captain_id);
-        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',$request->manifest_date)->orderBy('order')->get();
-        return view('backend.missions.manifest-profile',compact('missions','captain'));
+        $due_date   =   $request->manifest_date;
+        $missions = Mission::where('captain_id',$request->captain_id)->where('due_date',$due_date)->orderBy('order')->get();
+        return view('backend.missions.manifest-profile',compact('missions','captain', 'due_date'));
     }
 
     public function getAmountModel($mission_id)

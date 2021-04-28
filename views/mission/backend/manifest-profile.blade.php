@@ -10,48 +10,57 @@
 
 @section('content')
 
+<style>
+    .print-only{
+        display: none;
+    }
+</style>
+<style media="print">
+    .print-only{
+        display: block;
+    }
+    .no-print, div#kt_header_mobile, div#kt_header, div#kt_footer{
+        display: none;
+    }
+</style>
+<!--begin::Entry-->
+
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container">
         <!-- begin::Card-->
-        <div class="overflow-hidden card card-custom">
-            <div class="p-0 card-body">
+        <div class="card card-custom overflow-hidden">
+            <div class="card-body p-0">
                 <!-- begin: Invoice-->
                 <!-- begin: Invoice header-->
-                <div class="px-8 py-8 row justify-content-center py-md-27 px-md-0">
+                <div class="row justify-content-center py-8 px-8 pt-md-27 px-md-0">
                     <div class="col-md-9">
-                        <div class="pb-10 d-flex justify-content-between pb-md-20 flex-column flex-md-row">
-                            <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Manifest Profile')}}</h1>
-                            <div class="px-0 d-flex flex-column align-items-md-end">
-                                <!--begin::Logo-->
-                                <a href="#" class="mb-5">
-                                    <img src="assets/media/logos/logo-dark.png" alt="" />
-                                </a>
-                                <!--end::Logo-->
+                        <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
+                            <h1 class="display-4 font-weight-boldest mb-10">
+                                @if(get_setting('system_logo_white') != null)
+                                    <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" class="d-block mb-5">
+                                @else
+                                    <img src="{{ static_asset('assets/img/logo.svg') }}" class="d-block mb-5">
+                                @endif
+                                {{translate('MANIFEST MISSIONS')}}
+                            </h1>
+                            <div class="d-flex flex-column align-items-md-end px-0">
                                 <span class="d-flex flex-column align-items-md-end opacity-70">
-
+                                    <br />
+                                    <span><span class="font-weight-bolder">{{translate('MANIFEST DATE')}}: @if(isset($due_date)) {{$due_date}} @else {{now()->format('Y-m-d')}} @endif</span> </span>
+                                    <span><span class="font-weight-bolder">{{translate('FOR CAPTAIN')}}:</span> {{$captain->name}}</span>
                                 </span>
                             </div>
-                        </div>
-                        <div class="border-bottom w-100"></div>
-                        <div class="pt-6 d-flex justify-content-between">
-                            <div class="d-flex flex-column flex-root">
-                                <span class="mb-2 font-weight-bolder">{{translate('Captain')}}</span>
-                                <span class="opacity-70">{{$captain->name}}</span>
-                            </div>
-
                         </div>
                     </div>
                 </div>
                 <!-- end: Invoice header-->
                 <!-- begin: Invoice body-->
 
+                <div class="px-8 py-8 row justify-content-center pb-md-10 px-md-0">
 
-                <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
-                    <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Manifest Missions')}}</h1>
-
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -61,7 +70,7 @@
                                         <th>{{translate('Type')}}</th>
                                         <th>{{translate('Amount')}}</th>
                                         <th>{{translate('Address')}}</th>
-                                        <th>{{translate('Arrived')}}</th>
+                                        <th></th>
 
 
                                     </tr>
@@ -77,7 +86,7 @@
                                         <td>{{format_price(convert_price($mission->amount))}}</td>
                                         <td>{{$mission->address}}</td>
                                         <td>
-                                            <div style="width: 55%;height: 30px;border: 1px solid;border-radius: 3px;"></div>
+                                            <div style="width: 30px;height: 30px;border: 1px solid;border-radius: 3px;"></div>
                                         </td>
 
                                        
@@ -90,18 +99,12 @@
                         </div>
                     </div>
                 </div>
-
-
                 <!-- end: Invoice body-->
-                <!-- begin: Invoice footer-->
-
-                <!-- end: Invoice footer-->
                 <!-- begin: Invoice action-->
-                <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
+                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 no-print">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">{{translate('Download Manifest Details')}}</button>
-                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Manifest Details')}}</button>
+                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Manifest')}}</button>
                         </div>
                     </div>
                 </div>

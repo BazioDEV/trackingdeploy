@@ -100,7 +100,7 @@ $user_type = Auth::user()->user_type;
 @if ($addon != null)
     @if($addon->activated)
         @if(in_array($user_type, ['admin','captain','branch']) || in_array('1008', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.missions.index','admin.missions.update','admin.missions.create','admin.missions.show'])}} @foreach(\App\Mission::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.missions.index','admin.missions.update','admin.missions.create','admin.missions.show','admin.missions.get.manifest'])}} @foreach(\App\Mission::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-shipping-fast"></i>
                     <span class="menu-text">{{translate('Missions')}}</span>
@@ -132,7 +132,7 @@ $user_type = Auth::user()->user_type;
                             @endif
                         @endforeach
 
-                        <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests'])}}" aria-haspopup="true">
+                        <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests','admin.missions.get.manifest'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.missions.manifests')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
