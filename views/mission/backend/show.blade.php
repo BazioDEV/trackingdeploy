@@ -3,6 +3,7 @@ use \Milon\Barcode\DNS1D;
 $d = new DNS1D();
 ?>
 
+@section('sub_title'){{translate('Mission')}}: {{$mission->code}}@endsection
 @php
     $code = filter_var($mission->code, FILTER_SANITIZE_NUMBER_INT);
 @endphp
@@ -68,13 +69,13 @@ $d = new DNS1D();
                             </div>
                             @if($mission->type == 'transfer')
                                 <div class="d-flex flex-column flex-root">
-                                    <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
-                                    <span class="opacity-70 d-block">{{$mission->address}}</span>
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('TRANSFER TO BRANCH')}}<span>
+                                    <span class="opacity-70 d-block">{{$mission->to_branch->name}}</span>
                                 </div>
                             @else
                                 <div class="d-flex flex-column flex-root">
-                                    <span class="font-weight-bolder d-block mb-2">{{translate('TRANSFER TO BRANCH')}}<span>
-                                    <span class="opacity-70 d-block">{{$mission->to_branch->name}}</span>
+                                    <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
+                                    <span class="opacity-70 d-block">{{$mission->address}}</span>
                                 </div>
                             @endif
                             <div class="d-flex flex-column flex-root">
@@ -100,39 +101,56 @@ $d = new DNS1D();
                 <!-- begin: Invoice body-->
                 {!! hookView('spot-cargo-shipment-mission-addon',$currentView,['mission'=>$mission,'reasons'=>$reasons ?? null,'reschedule'=>$reschedule ?? false]) !!}
                 <!-- end: Invoice body-->
-                <!-- begin: Invoice footer-->
-                <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-                    <div class="col-md-9">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                            <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('PICKUP COST')}}</th>
-                                        @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                            <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('SUPPLY COST')}}</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="font-weight-bolder">
-                                        @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                            <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->pickup_cost)) }}</td>
-                                        @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                            <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->supply_cost)) }}</td>
-                                        @endif
-                                    </tr>
-                                </tbody>
-                            </table>
+                @if($mission->type != \App\Mission::getType(\App\Mission::TRANSFER_TYPE))
+                    <!-- begin: Invoice footer-->
+                    <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
+                        <div class="col-md-9">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
+                                                <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('SHIPMENT COST')}}</th>
+                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('PICKUP COST')}}</th>
+                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE))
+                                                <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('SHIPMENT COST')}}</th>
+                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('COD')}}</th>
+                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('SUPPLY COST')}}</th>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('RETURN COST')}}</th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="font-weight-bolder">
+                                            @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($shipment_cost)) }}</td>
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->pickup_cost)) }}</td>
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment_cost + $mission->client->pickup_cost)) }}</td>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE))
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($shipment_cost)) }}</td>
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($cod)) }}</td>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->supply_cost)) }}</td>
+                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($return_cost)) }}</td>
+                                            @endif
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- end: Invoice footer-->
+                    <!-- end: Invoice footer-->
+                @endif
                 <!-- begin: Invoice action-->
                 <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 no-print">
                     <div class="col-md-9">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Invoice')}}</button>
+                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">{{translate('Print Mission')}}</button>
                         </div>
                     </div>
                 </div>
