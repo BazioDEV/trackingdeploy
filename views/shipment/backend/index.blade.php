@@ -547,7 +547,7 @@
             if (selected.length == 1 || sum == check_sum) {
                 $('#tableForm').attr('action', $(element).data('url'));
                 $('#tableForm').attr('method', $(element).data('method'));
-                $('#pick_up_address').val(selected_address[0]);
+                $('#pick_up_address').val(selected_address_sender[0]);
                 $('#assign-to-captain-modal').modal('toggle');
                 $('#supply_address').val(selected_address_sender[0]);
                 $('#pick_up_client_id').val(selected[0]);
