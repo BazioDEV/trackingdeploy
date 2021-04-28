@@ -136,6 +136,15 @@ $user_type = Auth::user()->user_type;
                 </div>
             </li>
         @endif
+
+        @if(in_array($user_type, ['admin','captain','branch']) || in_array('1008', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests','admin.missions.get.manifest'])}}" aria-haspopup="true">
+                <a href="{{ route('admin.missions.manifests') }}" class="menu-link">
+                    <i class="menu-icon fas fa-people-carry"></i>
+                    <span class="menu-text">{{ translate('Manifest') }}</span>
+                </a>
+            </li>
+        @endif
     @endif
 @endif
 
@@ -144,81 +153,112 @@ $user_type = Auth::user()->user_type;
 $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 @endphp
 @if ($addon != null)
-@if($addon->activated)
-    @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-        <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
-            <a href="javascript:;" class="menu-link menu-toggle">
-                <i class="menu-icon fas fa-users"></i>
-                <span class="menu-text">{{translate('Clients')}}</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="menu-submenu">
-                <i class="menu-arrow"></i>
-                <ul class="menu-subnav">
-                    <li class="menu-item menu-item-parent" aria-haspopup="true">
-                        <span class="menu-link">
-                            <span class="menu-text">{{translate('Clients')}}</span>
-                        </span>
-                    </li>
+    @if($addon->activated)
+        @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-users"></i>
+                    <span class="menu-text">{{translate('Clients')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Clients')}}</span>
+                            </span>
+                        </li>
 
-                    @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                        <li class="menu-item {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.show'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.clients.index') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('All Clients')}}</span>
+                        @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            <li class="menu-item {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.show'])}}" aria-haspopup="true">
+                                <a href="{{ route('admin.clients.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{translate('All Clients')}}</span>
 
+                                </a>
+                            </li>
+                            <li class="menu-item {{ areActiveRoutes(['admin.clients.create'])}}" aria-haspopup="true">
+                                <a href="{{ route('admin.clients.create') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{translate('Add Client')}}</span>
+
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+        @endif
+        @if( in_array($user_type,['admin']) || in_array('1106', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.transactions.index','admin.transactions.create'])}}" aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-coins"></i>
+                    <span class="menu-text">{{translate('Transactions')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Transactions')}}</span>
+                            </span>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.transactions.index'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.transactions.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <span class="menu-text">{{translate('All Transactions')}}</span>
                             </a>
                         </li>
-                        <li class="menu-item {{ areActiveRoutes(['admin.clients.create'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.clients.create') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('Add Client')}}</span>
-
+                        <li class="menu-item {{ areActiveRoutes(['admin.transactions.create'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.transactions.create') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <span class="menu-text">{{translate('Add New Transaction')}}</span>
                             </a>
                         </li>
-                    @endif
-                </ul>
-            </div>
-        </li>
-    @endif
+
+
+                    </ul>
+                </div>
+            </li>
+        @endif
     @endif
 @endif
 
 <!--Reports-->
 @if ($addon != null)
     @if($addon->activated)
-        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            @if(in_array($user_type,['admin','customer','branch']) )
-                <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.report'])}}" aria-haspopup="true" data-menu-toggle="hover">
-                    <a href="javascript:;" class="menu-link menu-toggle">
-                        <i class="menu-icon flaticon2-document"></i>
-                        <span class="menu-text">{{translate('Reports')}}</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="menu-submenu">
-                        <i class="menu-arrow"></i>
-                        <ul class="menu-subnav">
-                            <li class="menu-item menu-item-parent" aria-haspopup="true">
-                                <span class="menu-link">
-                                    <span class="menu-text">{{translate('Reports')}}</span>
-                                </span>
-                            </li>
-                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.report'])}}" aria-haspopup="true">
-                                <a href="{{ route('admin.shipments.report') }}" class="menu-link">
-                                        <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
-                                    <span class="menu-text">{{translate('Shipments Report')}}</span>
-                                </a>
-                            </li>
+        @if( in_array($user_type,['admin','customer','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.report'])}}" aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon flaticon2-document"></i>
+                    <span class="menu-text">{{translate('Reports')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Reports')}}</span>
+                            </span>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.report'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.shipments.report') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot" style="font-size: 10px;"></i>
+                                <span class="menu-text">{{translate('Shipments Report')}}</span>
+                            </a>
+                        </li>
 
 
-                        </ul>
-                    </div>
-                </li>
-            @endif
+                    </ul>
+                </div>
+            </li>
         @endif
     @endif
 @endif
@@ -374,15 +414,6 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 
                     </ul>
                 </div>
-            </li>
-        @endif
-
-        @if(in_array($user_type, ['admin','captain','branch']) || in_array('1008', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item {{ areActiveRoutes(['admin.missions.manifests','admin.missions.get.manifest'])}}" aria-haspopup="true">
-                <a href="{{ route('admin.missions.manifests') }}" class="menu-link">
-                    <i class="menu-icon fas fa-people-carry"></i>
-                    <span class="menu-text">{{ translate('Manifest') }}</span>
-                </a>
             </li>
         @endif
     @endif

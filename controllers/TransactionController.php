@@ -17,7 +17,25 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transaction::with('client','branch','captain','mission','shipment')->orderByDesc('id')->paginate(20);
+        
+        $transaction_owner[Transaction::CAPTAIN]['text'] = translate("Captain");
+        $transaction_owner[Transaction::CAPTAIN]['key'] = "captain";
+        $transaction_owner[Transaction::CAPTAIN]['id'] = "captain_id";
+        $transaction_owner[Transaction::CLIENT]['text'] = translate("Client");
+        $transaction_owner[Transaction::CLIENT]['key'] = "client";
+        $transaction_owner[Transaction::CLIENT]['id'] = "client_id";
+        $transaction_owner[Transaction::BRANCH]['text'] = translate("Branch");
+        $transaction_owner[Transaction::BRANCH]['key'] = "branch";
+        $transaction_owner[Transaction::BRANCH]['id'] = "branch_id";
+
+        $transaction_type[Transaction::MESSION_TYPE] = "mission";
+        $transaction_type[Transaction::SHIPMENT_TYPE] = "shipment";
+        $transaction_type[Transaction::MANUAL_TYPE] = "manual";
+
+        $page_name = translate('All Transactions');
+        // return $transactions;
+        return view('backend.transactions.index', compact('transactions', 'page_name', 'transaction_owner','transaction_type'));
     }
 
     public function getClientTransaction($client_id)
@@ -64,7 +82,10 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        $branchs = Branch::where('is_archived', 0)->get();
+        $clients = Client::where('is_archived', 0)->get();
+        $captains = Captain::where('is_archived', 0)->get();
+        return view('backend.shipments.create', compact('branchs', 'clients','captains'));
     }
 
     /**

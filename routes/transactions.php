@@ -7,8 +7,11 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 	//Update Routes
 	Route::get('clients/transactions/{client_id}','TransactionController@getClientTransaction')->name('admin.client.transactions.show');
 	Route::get('captains/transactions/{captain_id}','TransactionController@getCaptainTransaction')->name('admin.captain.transactions.show');
+    Route::resource('transactions','TransactionController',[
+        'as' => 'admin'
+    ]);
 
-	});
+});
 	Route::get('admin/reverce_config',function(){
 		
 		$str = file_get_contents(base_path('addons/spot-cargo-shipment-addon/config.json'));
