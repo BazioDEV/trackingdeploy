@@ -122,7 +122,7 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="text-dark font-weight-bold mb-4">{{translate('Tax &  Duty')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->tax))}}</span>
+                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price((($shipment->tax * $shipment->shipping_cost) / 100)))}}</span>
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="text-dark font-weight-bold mb-4">{{translate('Insurance')}}</span>
@@ -241,7 +241,7 @@ $d = new DNS1D();
                                 <td>{{translate($shipment->pay['name'])}} ({{$shipment->getPaymentType()}})</td>
                                 <td>@if($shipment->paid == 1) {{translate('Paid')}} @else {{translate('Pending')}} @endif</td>
                                 <td>@if($shipment->paid == 1) {{$shipment->payment->payment_date ?? ""}} @else - @endif</td>
-                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}<br /><span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span></td>
+                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price((($shipment->tax * $shipment->shipping_cost) / 100) + $shipment->shipping_cost + $shipment->insurance)) }}<br /><span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span></td>
                             </tr>
                         </tbody>
                     </table>
