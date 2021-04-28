@@ -155,6 +155,7 @@
                                     <label>{{translate('Client/Sender')}}:</label>
                                     @if($auth_user->user_type == "customer")
                                         <input type="text" placeholder="" class="form-control" name="" value="{{$auth_user->name}}" disabled>
+                                        <input type="hidden" name="Shipment[client_id]" value="{{$auth_user->userClient->id}}">
                                     @else
                                         <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
                                             <option></option>
