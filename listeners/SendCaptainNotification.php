@@ -63,29 +63,30 @@ class SendCaptainNotification
         foreach($users as $user){
             $available_gateways = $gateways;
             $recevier   =   \App\User::find($user);
-            if($recevier->phone == null){
-                if (($key = array_search('sms', $available_gateways)) !== false) {
-                    unset($available_gateways[$key]);
+            if($recevier){
+                if($recevier->phone == null){
+                    if (($key = array_search('sms', $available_gateways)) !== false) {
+                        unset($available_gateways[$key]);
+                    }
                 }
-            }
-            if($recevier->email == null){
-                if (($key = array_search('email', $available_gateways)) !== false) {
-                    unset($available_gateways[$key]);
+                if($recevier->email == null){
+                    if (($key = array_search('email', $available_gateways)) !== false) {
+                        unset($available_gateways[$key]);
+                    }
                 }
+
+                $data = array(
+                    'sender'    =>  \Auth::user(),
+                    'message'   =>  array(
+                            'subject'   =>  $title,
+                            'content'   =>  $content,
+                            'url'       =>  $url,
+                    ),
+                    'icon'      =>  'flaticon2-bell-4',
+                    'type'      =>  'new_captain',
+                );
+                $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
             }
-
-            $data = array(
-                'sender'    =>  \Auth::user(),
-                'message'   =>  array(
-                        'subject'   =>  $title,
-                        'content'   =>  $content,
-                        'url'       =>  $url,
-                ),
-                'icon'      =>  'flaticon2-bell-4',
-                'type'      =>  'new_captain',
-            );
-            $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
-
         }
     }
 
