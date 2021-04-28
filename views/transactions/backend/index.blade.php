@@ -66,9 +66,9 @@
                         <td><a href="{{route('admin.'.($transaction_owner[$transaction->transaction_owner]['key']  ?? "").'s.show',($transaction->{$transaction_owner[$transaction->transaction_owner]['id']} ?? ""))}}">{{$transaction->{$transaction_owner[$transaction->transaction_owner]['key']}->name ?? ""}}</a></td>
 
                         <td>
-                            @if($transaction_type[$transaction->type] == 'mission')
+                            @if($transaction_type[$transaction->type] == 'mission' && $transaction->mission_id)
                                 <a href="{{route('admin.missions.show', $transaction->mission_id )}}">{{translate('Mission')}}({{$transaction->mission->code ?? ""}}) </a>
-                            @elseif($transaction_type[$transaction->type] == 'shipment')
+                            @elseif($transaction_type[$transaction->type] == 'shipment' && $transaction->shipment_id)
                                 <a href="{{route('admin.shipments.show', $transaction->shipment_id )}}">{{$transaction->shipment->barcode ?? ""}} </a>
                             @elseif($transaction_type[$transaction->type] == 'manual')
                                 {{translate('Manual')}}

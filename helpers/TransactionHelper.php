@@ -138,7 +138,7 @@ class TransactionHelper{
         return $cost;
     }
 
-    public function create_mission_transaction($mission_id,$value,$transaction_owner,$transaction_owner_id,$operation)
+    public function create_mission_transaction($mission_id,$value,$transaction_owner,$transaction_owner_id,$operation, $type = \App\Transaction::MESSION_TYPE)
     {
         
 		try {
@@ -146,16 +146,15 @@ class TransactionHelper{
 
             if($operation == Transaction::DEBIT)
             {
-                $value = $value;
-                
+                $value = -$value;
             }elseif($operation == Transaction::CREDIT)
             {
-                $value = -$value;
+                $value = $value;
             }
             
             
             $transaction = new Transaction();
-            $transaction->type = \App\Transaction::MESSION_TYPE;
+            $transaction->type = $type;
             $transaction->transaction_owner = $transaction_owner;
             if($transaction_owner == Transaction::CAPTAIN)
             {
@@ -189,10 +188,10 @@ class TransactionHelper{
 			DB::beginTransaction();
             if($operation == Transaction::DEBIT)
             {
-                $value = $value;
+                $value = -$value;
             }elseif($operation == Transaction::CREDIT)
             {
-                $value = -$value;
+                $value = $value;
             }
             
             

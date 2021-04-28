@@ -14,8 +14,8 @@ class Transaction extends Model
     CONST CLIENT = 2;
     CONST BRANCH = 3;
 
-    CONST DEBIT = 1;   // +
-    CONST CREDIT = 2;  // -
+    CONST DEBIT = 1;   // -
+    CONST CREDIT = 2;  // +
 
     public function client()
     {

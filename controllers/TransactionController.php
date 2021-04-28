@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Captain;
+use App\Branch;
 use App\Client;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\TransactionHelper;
 use App\Transaction;
 use Illuminate\Http\Request;
 use DB;
@@ -85,7 +87,12 @@ class TransactionController extends Controller
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
         $captains = Captain::where('is_archived', 0)->get();
-        return view('backend.shipments.create', compact('branchs', 'clients','captains'));
+
+        $types[Transaction::CAPTAIN] = ["name"=> translate("Captain"),"key"=> "captain"];
+        $types[Transaction::CLIENT] = ["name"=> translate("Client"),"key"=> "client"];
+        $types[Transaction::BRANCH] = ["name"=> translate("Branch"),"key"=> "branch"];
+        
+        return view('backend.transactions.create', compact('branchs', 'clients','captains','types'));
     }
 
     /**
@@ -96,7 +103,40 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type' => 'required|integer|min:1|max:3',
+            'branch' => 'nullable|exists:branchs,id',
+            'client' => 'nullable|exists:clients,id',
+            'captain' => 'nullable|exists:captains,id',
+            'amount' => 'required|integer|min:-999999999,max:999999999',
+        ]);
+        if(!$request->branch && !$request->client && !$request->captain){
+            flash(translate("Please select branch , client or captain"))->error();
+            return back();
+        }
+        $types[Transaction::CAPTAIN] = "captain";
+        $types[Transaction::CLIENT] = "client";
+        $types[Transaction::BRANCH] = "branch";
+
+        if($request->amount > 0){
+            $amount_sign = Transaction::CREDIT;
+        }else{
+            $amount_sign = Transaction::DEBIT;
+        }
+
+        $transaction = new TransactionHelper();
+        if($types[$request->type] == "captain"){
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CAPTAIN,$request->captain,$amount_sign,3);
+        }elseif($types[$request->type] == "client"){
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CLIENT,$request->client,$amount_sign,3);
+        }elseif($types[$request->type] == "branch"){
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::BRANCH,$request->branch,$amount_sign,3);
+        }else{
+            flash(translate("Invalid Data"))->error();
+            return back();
+        }
+        flash(translate("Transaction created successfully"))->success();
+        return back();
     }
 
     /**

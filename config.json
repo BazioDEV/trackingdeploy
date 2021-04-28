@@ -569,6 +569,10 @@
             "update_directory": "resources/views/backend/transactions/index.blade.php"
         },
         {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/transactions/backend/create.blade.php",
+            "update_directory": "resources/views/backend/transactions/create.blade.php"
+        },
+        {
             "root_directory": "addons/spot-cargo-shipment-addon/views/transactions/permissions/transaction_addon_permissions.blade.php",
             "update_directory": "resources/views/backend/permissions/transaction_addon_permissions.blade.php"
         },
