@@ -67,7 +67,7 @@
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Type')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Branch')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Client')}}</th>
-                        <th class="text-center font-weight-bold text-muted text-uppercase">{{translate('Actions')}}</th>
+                        <th class="text-center font-weight-bold text-muted text-uppercase no-print">{{translate('Actions')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase print-only">{{translate('Check')}}</th>
                     </tr>
                 </thead>
@@ -80,7 +80,7 @@
                         <td class="text-right pt-7">{{$shipment_mission->shipment->type}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
                         <td class=" pt-7 text-right">{{$shipment_mission->shipment->client->name}}</td>
-                        <td class="text-danger pr-5 pt-7 text-right">
+                        <td class="text-danger pr-5 pt-7 text-right no-print">
                             @if(in_array($shipment_mission->mission->status_id , [\App\Mission::APPROVED_STATUS,\App\Mission::REQUESTED_STATUS,\App\Mission::RECIVED_STATUS]))
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary px-3" data-toggle="modal" data-target="#exampleModalCenter2" id="modal_open_delete_shipment" onclick="set_shipment_id({{$shipment_mission->shipment->id}})">
