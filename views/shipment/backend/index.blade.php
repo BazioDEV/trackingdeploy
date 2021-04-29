@@ -37,7 +37,9 @@
 @endsection
 
 @section('content')
-
+@php
+    $auth_user = Auth::user();
+@endphp
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="flex-wrap py-3 card-header">
@@ -47,7 +49,7 @@
             </h3>
         </div>
         @if(count($actions) > 0)
-        <div class="card-toolbar">
+        <div class="card-toolbar" id="actions-button">
             <!--begin::Dropdown-->
             <div class="mr-2 dropdown dropdown-inline">
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,9 +70,15 @@
                     <ul class="py-2 navi flex-column navi-hover">
                         <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
                         <li class="navi-item">
+                            @php
+                                $action_counter = 0;
+                            @endphp
                             @foreach($actions as $action)
-                                @if(Auth::user()->user_type == 'admin' || in_array($item['permissions'] ?? "", json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                                @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($item['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
                                     @if($action['index'] == true)
+                                        @php
+                                            $action_counter++;
+                                        @endphp
                                         <a href="#" class="action_checker navi-link @if(!isset($action['js_function_caller'])) action-caller @endif" @if(isset($action['js_function_caller'])) onclick="{{$action['js_function_caller']}}" @endif data-url="{{$action['url']}}" data-method="{{$action['method']}}">
                                             <span class="navi-icon">
                                                 <i class="{{$action['icon']}}"></i>
@@ -87,6 +95,11 @@
                 </div>
                 <!--end::Dropdown Menu-->
             </div>
+            @if($action_counter == 0)
+                <script>
+                    document.getElementById("actions-button").style.display = "none";
+                </script>
+            @endif
             <!--end::Dropdown-->
         </div>
         @endif
@@ -110,17 +123,19 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="my-2 col-md-4 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
-                                    <select name="client_id" class="form-control" id="kt_datatable_search_status">
-                                        <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Client::all() as $client)
-                                        <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
-                                        @endforeach
-                                    </select>
+                            @if($auth_user->user_type != "customer")
+                                <div class="my-2 col-md-4 my-md-0">
+                                    <div class="d-flex align-items-center">
+                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
+                                        <select name="client_id" class="form-control" id="kt_datatable_search_status">
+                                            <option value="">{{translate('All')}}</option>
+                                            @foreach(\App\Client::all() as $client)
+                                            <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="my-2 col-md-4 my-md-0">
                                 <div class="d-flex align-items-center">
                                     <label class="mb-0 mr-3 d-none d-md-block">{{translate('Type')}}:</label>
@@ -136,20 +151,20 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="row align-items-center">
-
-                            <div class="my-2 col-md-4 my-md-5">
-                                <div class="d-flex align-items-center">
-                                    <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
-                                    <select name="branch_id" class="form-control" id="kt_datatable_search_type">
-                                        <option value="">{{translate('All')}}</option>
-                                        @foreach(\App\Branch::all() as $Branch)
-                                        <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
-                                        @endforeach
-                                    </select>
+                            @if($auth_user->user_type != "branch")
+                                <div class="my-2 col-md-4 my-md-5">
+                                    <div class="d-flex align-items-center">
+                                        <label class="mb-0 mr-3 d-none d-md-block">{{translate('Branch')}}:</label>
+                                        <select name="branch_id" class="form-control" id="kt_datatable_search_type">
+                                            <option value="">{{translate('All')}}</option>
+                                            @foreach(\App\Branch::all() as $Branch)
+                                            <option @if(isset($_GET['branch_id']) && $_GET['branch_id']==$Branch->id) selected @endif value="{{$Branch->id}}">{{$Branch->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
                         </div>
                     </div>
                     <div class="mt-5 col-lg-3 col-xl-4 mt-lg-0">
@@ -171,7 +186,7 @@
                     <th>{{translate('Code')}}</th>
                     @if($status == "all") <th>{{translate('Status')}}</th> @endif
                     <th>{{translate('Type')}}</th>
-                    <th>{{translate('Branch')}}</th>
+                    @if($auth_user->user_type != "branch") <th>{{translate('Branch')}}</th> @endif
 
                     <th>{{translate('Shipping Cost')}}</th>
                     <th>{{translate('Payment Method')}}</th>
@@ -221,7 +236,7 @@
                         
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
                         <td>{{$shipment->type}}</td>
-                        @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
+                        @if( in_array($user_type ,['admin','customer']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
                             <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
                         @else
                             <td>{{$shipment->branch->name}}</td>

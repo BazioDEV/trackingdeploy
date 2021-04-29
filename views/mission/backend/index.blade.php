@@ -166,7 +166,7 @@
                                 </button>
                             @endif
                             @if($status == \App\Mission::RECIVED_STATUS)
-                                @if($user_type != 'captain' || $mission->getOriginal('type') == \App\Mission::DELIVERY_TYPE )
+                                @if($user_type != 'captain' || $mission->getOriginal('type') == \App\Mission::DELIVERY_TYPE || $mission->getOriginal('type') == \App\Mission::SUPPLY_TYPE)
                                 {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
                                 <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                                     <i class="fa fa-check"></i> {{translate('Confirm Mission / Done')}}
