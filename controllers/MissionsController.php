@@ -188,7 +188,12 @@ class MissionsController extends Controller
         $return_cost = 0;
         if($mission->type != Mission::SUPPLY_TYPE && $mission->type != Mission::RETURN_TYPE){
             foreach($mission->shipment_mission as $shipment){
-                $shipment_cost  +=  (($shipment->shipment->tax * $shipment->shipment->shipping_cost) / 100) + $shipment->shipment->shipping_cost + $shipment->shipment->insurance;
+                if($shipment->shipment->payment_type == Shipment::PREPAID && $mission->getOriginal('type') == Mission::PICKUP_TYPE){
+                    $shipment_cost  +=  (($shipment->shipment->tax * $shipment->shipment->shipping_cost) / 100) + $shipment->shipment->shipping_cost + $shipment->shipment->insurance;
+                }elseif($shipment->shipment->payment_type == Shipment::POSTPAID && $mission->getOriginal('type') == Mission::DELIVERY_TYPE){
+                    $shipment_cost  +=  (($shipment->shipment->tax * $shipment->shipment->shipping_cost) / 100) + $shipment->shipment->shipping_cost + $shipment->shipment->insurance;
+                }
+                
                 if($mission->type != Mission::DELIVERY_TYPE){
                     $COD  +=  $shipment->shipment->amount_to_be_collected;
                 }
