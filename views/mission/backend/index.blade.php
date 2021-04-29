@@ -147,10 +147,10 @@
 
                     @php
                         $helper = new TransactionHelper();
-                        $shipment_cost = $helper->calculate_mission_amount($mission->id);
+                        $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
                     @endphp
 
-                    <td>{{format_price(convert_price($shipment_cost)}}</td>
+                    <td>{{format_price(convert_price($shipment_cost))}}</td>
                     @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
 
                     <td class="text-center">
