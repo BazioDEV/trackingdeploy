@@ -146,7 +146,7 @@
                     <td>{{$mission->type}}</td>
 
 
-                    <td>{{format_price(convert_price($mission->amount))}}</td>
+                    <td>{{format_price(convert_price(\App\Http\Helpers\TransactionHelper::calculate_mission_amount($mission->id)))}}</td>
                     @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
 
                     <td class="text-center">
