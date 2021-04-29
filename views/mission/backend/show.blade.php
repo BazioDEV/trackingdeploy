@@ -109,7 +109,7 @@ $d = new DNS1D();
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('TOTAL COST')}}</th>
+                                            <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

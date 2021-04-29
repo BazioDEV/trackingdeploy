@@ -61,13 +61,16 @@ class TransactionHelper{
         }
         return $cost;
     }
-
+    
     public function calcMissionShipmentsAmount($type,$mission_id)
     {
         $shipments_cost = 0;
+
+        $client = Client::find($mission_id);
         if($type == Mission::PICKUP_TYPE)
         {
             $ids= $this->pickup_mission_prepaid_shipments_ids($mission_id);
+            $shipments_cost += $client->pickup_cost;
             $shipments_cost += (double) $this->pickup_mission_prepaid_shipments_cost_calculator($ids);
           
         }elseif($type == Mission::DELIVERY_TYPE)
@@ -78,6 +81,9 @@ class TransactionHelper{
         {
             $ids= $this->return_mission_shipments_ids($mission_id);
             $shipments_cost += (double) $this->return_mission_return_cost_calculator($ids);
+        }elseif($type == Mission::SUPPLY_TYPE)
+        {
+            $shipments_cost += $client->supply_cost;
         }
         return $shipments_cost;
     }
