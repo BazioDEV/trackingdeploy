@@ -9,11 +9,11 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                     + {{translate('Add Shipment')}}<i class="ml-2 flaticon2-box-1"></i>
                 </a>
             </li>
-            <li class="menu-item menu-item-rel ">
-                <a href="{{ route('admin.shipments.track') }}" class="btn btn-primary btn-sm mr-3">
-                    {{translate('Track Shipment')}}<i class="ml-2 flaticon2-search"></i>
-                </a>
-            </li>
         @endif
+        <li class="menu-item menu-item-rel ">
+            <a href="{{ route('admin.shipments.track') }}" class="btn btn-primary btn-sm mr-3">
+                {{translate('Track Shipment')}}<i class="ml-2 flaticon2-search"></i>
+            </a>
+        </li>
     @endif
 @endif
