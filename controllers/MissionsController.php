@@ -129,6 +129,11 @@ class MissionsController extends Controller
                     }
                 }
             }
+
+            if($to == Mission::RECIVED_STATUS)
+            {
+                $params['amount'] = $request->amount;
+            }
             
             $action = new MissionStatusManagerHelper();
             $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
