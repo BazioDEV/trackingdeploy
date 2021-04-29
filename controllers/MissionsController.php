@@ -191,7 +191,7 @@ class MissionsController extends Controller
         $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
         $COD = 0;
         $helper = new TransactionHelper();
-        $shipment_cost = $helper->calculate_mission_amount($id);
+        $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
         
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
