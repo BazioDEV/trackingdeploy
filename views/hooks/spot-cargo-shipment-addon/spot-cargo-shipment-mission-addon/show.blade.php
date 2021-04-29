@@ -70,6 +70,8 @@
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Type')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Branch')}}</th>
                         <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Client')}}</th>
+                        <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Payment Type')}}</th>
+                        <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Total Cost')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase no-print">{{translate('Actions')}}</th>
                         <th class="text-center font-weight-bold text-muted text-uppercase print-only">{{translate('Check')}}</th>
                     </tr>
@@ -87,6 +89,8 @@
                         <td class="text-right pt-7">{{$shipment_mission->shipment->type}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
                         <td class="text-right  pt-7">{{$shipment_mission->shipment->client->name}}</td>
+                        <td class="text-right  pt-7">{{translate($shipment_mission->shipment->pay['name'])}} ({{$shipment_mission->shipment->getPaymentType()}})</td>
+                        <td class="text-right  pt-7">{{format_price(convert_price((($shipment_mission->shipment->tax * $shipment_mission->shipment->shipping_cost) / 100) + $shipment_mission->shipment->shipping_cost + $shipment_mission->shipment->insurance)) }}</td>
                         <td class="pr-5 text-right text-danger pt-7 no-print">
                             @if(in_array($shipment_mission->mission->status_id , [\App\Mission::APPROVED_STATUS,\App\Mission::REQUESTED_STATUS,\App\Mission::RECIVED_STATUS]))
                                 <!-- Button trigger modal -->
