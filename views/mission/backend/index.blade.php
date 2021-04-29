@@ -7,17 +7,17 @@
 @section('sub_title'){{translate('Missions')}}@endsection
 @section('subheader')
     <!--begin::Subheader-->
-    <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
-        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+    <div class="py-2 subheader py-lg-6 subheader-solid" id="kt_subheader">
+        <div class="flex-wrap container-fluid d-flex align-items-center justify-content-between flex-sm-nowrap">
             <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-1">
+            <div class="flex-wrap mr-1 d-flex align-items-center">
                 <!--begin::Page Heading-->
-                <div class="d-flex align-items-baseline flex-wrap mr-5">
+                <div class="flex-wrap mr-5 d-flex align-items-baseline">
                     <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{translate('Missions')}}</h5>
+                    <h5 class="my-1 mr-5 text-dark font-weight-bold">{{translate('Missions')}}</h5>
                     <!--end::Page Title-->
                     <!--begin::Breadcrumb-->
-                    <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm mr-5">
+                    <ul class="p-0 my-2 mr-5 breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold font-size-sm">
                         <li class="breadcrumb-item text-muted">
                             <a href="{{ route('admin.dashboard')}}" class="text-muted">{{translate('Dashboard')}}</a>
                         </li>
@@ -40,7 +40,7 @@
 @endphp
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
-    <div class="card-header flex-wrap py-3">
+    <div class="flex-wrap py-3 card-header">
         <div class="card-title">
             <h3 class="card-label">
                 {{$page_name}}
@@ -49,7 +49,7 @@
         @if(count($actions) > 0)
         <div class="card-toolbar" id="actions-button">
             <!--begin::Dropdown-->
-            <div class="dropdown dropdown-inline mr-2">
+            <div class="mr-2 dropdown dropdown-inline">
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -65,8 +65,8 @@
                 <!--begin::Dropdown Menu-->
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                     <!--begin::Navigation-->
-                    <ul class="navi flex-column navi-hover py-2">
-                        <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">{{translate('Choose an option:')}}</li>
+                    <ul class="py-2 navi flex-column navi-hover">
+                        <li class="pb-2 navi-header font-weight-bolder text-uppercase font-size-sm text-primary">{{translate('Choose an option:')}}</li>
 
                         <li class="navi-item">
                         @php
@@ -88,7 +88,7 @@
                                 @endif
                             @endforeach
                         </li>
-                        
+
                     </ul>
                     <!--end::Navigation-->
                 </div>
@@ -103,11 +103,11 @@
         @endif
         @endif
     </div>
-    
+
     <div class="card-body">
     <form id="tableForm">
                 @csrf()
-        <table class="table aiz-table mb-0">
+        <table class="table mb-0 aiz-table">
             <thead>
                 <tr>
                     <th width="3%"></th>
@@ -116,15 +116,15 @@
                     <th>{{translate('Status')}}</th>
                     <th>{{translate('Captain')}}</th>
                     <th>{{translate('Type')}}</th>
-      
+
                     <th>{{translate('Amount')}}</th>
                     @if($show_due_date) <th>{{translate('Due Date')}}</th> @endif
-                    
+
                     <th class="text-center">{{translate('Options')}}</th>
                 </tr>
             </thead>
             <tbody>
-                
+
                 @foreach($missions as $key=>$mission)
 
                 <tr>
@@ -136,7 +136,7 @@
                         <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
                         <td width="5%">{{$mission->code}}</td>
                     @endif
-                    
+
                     <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>
                     @if ($mission->captain_id)
                         <td><a href="{{route('admin.captains.show', $mission->captain->id)}}">{{$mission->captain->name}}</a></td>
@@ -144,11 +144,11 @@
                         <td>{{translate('No Captain')}}</td>
                     @endif
                     <td>{{$mission->type}}</td>
-                    
-                    
+
+
                     <td>{{format_price(convert_price($mission->amount))}}</td>
                     @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
-                
+
                     <td class="text-center">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                             <i class="las la-eye"></i>
@@ -160,26 +160,28 @@
                                 <i class="fa fa-check"></i> {{translate('Receive Mission')}}
                                 </a> --}}
                                 {{-- @endif --}}
-                                
+
                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{$mission->amount}} , {{$mission->getOriginal('type')}})">
                                     {{ translate('Receive Mission') }}
                                 </button>
                             @endif
                             @if($status == \App\Mission::RECIVED_STATUS)
+                                @if($user_type != 'captain' || $mission->getOriginal('type') == \App\Mission::DELIVERY_TYPE )
                                 {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
                                 <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                                     <i class="fa fa-check"></i> {{translate('Confirm Mission / Done')}}
                                 </a>
                                 {{-- @endif --}}
-                                
+                                @endif
+
                             @endif
                         @endif
-                       
+
                     </td>
                 </tr>
 
                 @endforeach
-               
+
             </tbody>
         </table>
          <!-- Assign-to-captain Modal -->
@@ -196,7 +198,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>{{translate('Captain')}}:</label>
-                                            
+
                                             <select name="Mission[captain_id]" class="form-control captain_id kt-select2">
                                                 @foreach(\App\Captain::all() as $captain)
                                                 <option value="{{$captain->id}}">{{$captain->name}}</option>
@@ -210,11 +212,11 @@
                                             <input type="text" id="kt_datepicker_3" autocomplete="off" class="form-control"  name="Mission[due_date]" value="{{ date('Y-m-d') }}"/>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
-                                
+
                             </div>
-                            
+
                             @endif
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
@@ -229,9 +231,9 @@
          <div id="ajaxed-model" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-          
-                      
-                    
+
+
+
                 </div>
             </div>
         </div><!-- /.modal -->
@@ -257,9 +259,9 @@
         </div>
 
         <div class="modal-body" id="mission_modal_body" style="display:none">
-            <h5 class="modal-title mb-2" id="exampleModalLabel">{{translate('Mission Amount')}}</h5>
+            <h5 class="mb-2 modal-title" id="exampleModalLabel">{{translate('Mission Amount')}}</h5>
             <input type="number" id="amount_pickup" class="form-control" name="amount"/>
-        </div> 
+        </div>
 
         <div class="modal-footer">
             <form action="{{route('admin.missions.action',['to'=>\App\Mission::RECIVED_STATUS])}}" method="POST" enctype="multipart/form-data">
@@ -298,8 +300,8 @@
             document.getElementById("selected_mission_amount").value    = mission_amount;
             document.getElementById("mission_modal_body").style.display = "block";
         }
-        
-        
+
+
     }
 
     function show_ajax_loder_in_button(element){
@@ -311,7 +313,7 @@
             $(this).removeAttr('disabled');
         });
     }
-    
+
     function openCaptainModel(element,e)
     {
          var selected = 0;
@@ -331,22 +333,22 @@
     function openAjexedModel(element,event)
     {
         event.preventDefault();
-        
+
         show_ajax_loder_in_button(element);
         $.ajax({
             url: $(element).data('url'),
             type: 'get',
-            success: function(response){ 
+            success: function(response){
             // Add response in Modal body
             $('#ajaxed-model .modal-content').html(response);
             // Display Modal
-            $('#ajaxed-model').modal('toggle'); 
+            $('#ajaxed-model').modal('toggle');
             }
         });
     }
     $(document).ready(function() {
         $('.action-caller').on('click',function(e){
-            
+
              e.preventDefault();
              var selected = 0;
             $('.ms-check:checked').each(function() {
@@ -361,7 +363,7 @@
             {
                 Swal.fire("{{translate('Please Select Missions')}}", "", "error");
             }
-            
+
         });
         $('#ajaxed-model').on('hidden.bs.modal', function () {
             $('#ajaxed-model .modal-content').empty();
@@ -383,7 +385,7 @@
                             }
                         }
                     }
-                   
+
 
                 },
 
