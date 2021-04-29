@@ -66,7 +66,8 @@ class TransactionHelper{
     {
         $shipments_cost = 0;
 
-        $client = Client::find($mission_id);
+        $mission = Mission::find($mission_id);
+        $client = $mission->client;
         if($type == Mission::PICKUP_TYPE)
         {
             $ids= $this->pickup_mission_prepaid_shipments_ids($mission_id);
