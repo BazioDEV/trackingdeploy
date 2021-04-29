@@ -54,7 +54,7 @@
                     <th>{{translate('Type')}}</th>
                     <th>{{translate('Value')}}</th>
                     <th>{{translate('Date')}}</th>
-                    <th data-breakpoints="all" data-title="{{translate('Description')}}">{{translate('Description')}}</th>
+                    <th data-breakpoints="all" data-title="-">{{translate('Description')}}</th>
                 </tr>
             </thead>
             <tbody>

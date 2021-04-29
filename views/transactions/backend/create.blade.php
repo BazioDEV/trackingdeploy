@@ -84,7 +84,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Description')}}:</label>
-                                    <input type="text" id="description" class="form-control" placeholder="{{translate('Description')}}" name="description">
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="3" placeholder="{{translate('Description')}}"></textarea>
                                 </div>
                             </div>
                         </div>

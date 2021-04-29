@@ -105,7 +105,7 @@
                         <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Shipping Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_shipping_cost_gram')}}" name="Setting[def_shipping_cost_gram]">
                     </div>
                     <div class="form-group col-md-4">
-                        <label>{{translate('Fixed Tax/Kg')}}:</label>
+                        <label>{{translate('Fixed Tax/Kg')}}%:</label>
                         <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Tax/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_tax_gram')}}" name="Setting[def_tax_gram]">
                     </div>
                     <div class="form-group col-md-4">
