@@ -120,6 +120,7 @@ class TransactionHelper{
 		$cost = 0;
         
         $shipment = Shipment::where('id',$shipment_id)->first();
+        $tax = (($shipment->tax * $shipment->shipping_cost) / 100);
         if(in_array($shipment->status_id,[Shipment::RETURNED_CLIENT_GIVEN,Shipment::RETURNED_STATUS,Shipment::RETURNED_STOCK]))
         {
                 $cost += $shipment->return_cost;
@@ -127,11 +128,11 @@ class TransactionHelper{
         {
             if($shipment->payment_type == Shipment::PREPAID )
             {
-                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance;
+                $cost += $shipment->shipping_cost + $tax + $shipment->insurance;
             }
             elseif($shipment->payment_type == Shipment::POSTPAID )
             {
-                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance + $shipment->amount_to_be_collected;
+                $cost += $shipment->shipping_cost + $tax + $shipment->insurance + $shipment->amount_to_be_collected;
             }
         }
         

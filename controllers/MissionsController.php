@@ -6,6 +6,7 @@ use App\Captain;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\MissionActionHelper;
 use App\Http\Helpers\MissionStatusManagerHelper;
+use App\Http\Helpers\TransactionHelper;
 use App\Http\Helpers\StatusManagerHelper;
 use App\Mission;
 use App\Reason;
@@ -183,26 +184,10 @@ class MissionsController extends Controller
         $mission = Mission::find($id);
         $reasons = Reason::where("type","remove_shipment_from_mission")->get();
         $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
-        $shipment_cost = 0;
         $COD = 0;
-        $return_cost = 0;
-        if($mission->type != Mission::SUPPLY_TYPE && $mission->type != Mission::RETURN_TYPE){
-            foreach($mission->shipment_mission as $shipment){
-                if($shipment->shipment->payment_type == Shipment::PREPAID && $mission->getOriginal('type') == Mission::PICKUP_TYPE){
-                    $shipment_cost  +=  (($shipment->shipment->tax * $shipment->shipment->shipping_cost) / 100) + $shipment->shipment->shipping_cost + $shipment->shipment->insurance;
-                }elseif($shipment->shipment->payment_type == Shipment::POSTPAID && $mission->getOriginal('type') == Mission::DELIVERY_TYPE){
-                    $shipment_cost  +=  (($shipment->shipment->tax * $shipment->shipment->shipping_cost) / 100) + $shipment->shipment->shipping_cost + $shipment->shipment->insurance;
-                }
-                
-                if($mission->type != Mission::DELIVERY_TYPE){
-                    $COD  +=  $shipment->shipment->amount_to_be_collected;
-                }
-                if($mission->type != Mission::RETURN_TYPE){
-                    $return_cost  +=  $shipment->shipment->return_cost;
-                }
-            }
-        }
-
+        $helper = new TransactionHelper();
+        $shipment_cost = $helper->calculate_mission_amount($id);
+        
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
             return view('backend.missions.show',compact('mission','reasons','due_date','reschedule', 'shipment_cost'));

@@ -109,35 +109,12 @@ $d = new DNS1D();
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                                <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('SHIPMENT COST')}}</th>
-                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('PICKUP COST')}}</th>
-                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE))
-                                                <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('SHIPMENT COST')}}</th>
-                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('COD')}}</th>
-                                                <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                                <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('SUPPLY COST')}}</th>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                                <th class="font-weight-bold text-muted text-uppercase text-right">{{translate('RETURN COST')}}</th>
-                                            @endif
+                                            <th class="font-weight-bold text-muted text-uppercase text-left ">{{translate('TOTAL COST')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="font-weight-bolder">
-                                            @if($mission->type == \App\Mission::getType(\App\Mission::PICKUP_TYPE))
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($shipment_cost)) }}</td>
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->pickup_cost)) }}</td>
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment_cost + $mission->client->pickup_cost)) }}</td>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE))
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($shipment_cost)) }}</td>
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-left">{{format_price(convert_price($cod)) }}</td>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($mission->client->supply_cost)) }}</td>
-                                            @elseif($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
-                                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($return_cost)) }}</td>
-                                            @endif
+                                            <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment_cost)) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
