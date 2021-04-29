@@ -25,6 +25,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('type');
             $table->integer('shipment_id')->unsigned()->nullable();
             $table->integer('mission_id')->unsigned()->nullable();
+            $table->text('description')->nullable();
             
             $table->timestamps();
         });

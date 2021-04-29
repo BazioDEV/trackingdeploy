@@ -108,7 +108,9 @@ class TransactionController extends Controller
             'branch' => 'nullable|exists:branchs,id',
             'client' => 'nullable|exists:clients,id',
             'captain' => 'nullable|exists:captains,id',
-            'amount' => 'required|integer|min:-999999999,max:999999999',
+            'amount' => 'required|integer|min:1,max:999999999',
+            'wallet_type' => 'required|min:1,max:7',
+            'description' => 'nullable|max:5000',
         ]);
         if(!$request->branch && !$request->client && !$request->captain){
             flash(translate("Please select branch , client or captain"))->error();
@@ -118,19 +120,22 @@ class TransactionController extends Controller
         $types[Transaction::CLIENT] = "client";
         $types[Transaction::BRANCH] = "branch";
 
-        if($request->amount > 0){
+        if($request->wallet_type == "add"){
             $amount_sign = Transaction::CREDIT;
-        }else{
+        }elseif($request->wallet_type == "deduct"){
             $amount_sign = Transaction::DEBIT;
+        }else{
+            flash(translate("Invalid Wallet Type"))->error();
+            return back();
         }
 
         $transaction = new TransactionHelper();
         if($types[$request->type] == "captain"){
-            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CAPTAIN,$request->captain,$amount_sign,3);
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CAPTAIN,$request->captain,$amount_sign,3,$request->description);
         }elseif($types[$request->type] == "client"){
-            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CLIENT,$request->client,$amount_sign,3);
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::CLIENT,$request->client,$amount_sign,3,$request->description);
         }elseif($types[$request->type] == "branch"){
-            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::BRANCH,$request->branch,$amount_sign,3);
+            $transaction->create_mission_transaction(null,abs($request->amount) ,Transaction::BRANCH,$request->branch,$amount_sign,3,$request->description);
         }else{
             flash(translate("Invalid Data"))->error();
             return back();

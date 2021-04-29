@@ -68,8 +68,23 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label>{{translate('Wallet Type')}}:</label>
+                                    <select class="form-control kt-select2" name="wallet_type">
+                                        <option value="add">{{translate('Add to wallet')}}</option>
+                                        <option value="deduct">{{translate('Deduct from wallet')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label>{{translate('Amount')}}:</label>
                                     <input id="kt_touchspin_4" placeholder="{{translate('Amount')}}" type="text" class="form-control total-weight" value="0" name="amount" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{translate('Description')}}:</label>
+                                    <input type="text" id="description" class="form-control" placeholder="{{translate('Description')}}" name="description">
                                 </div>
                             </div>
                         </div>
@@ -93,7 +108,7 @@
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
-            min: -1000000000,
+            min: 1,
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,

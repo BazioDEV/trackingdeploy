@@ -138,7 +138,7 @@ class TransactionHelper{
         return $cost;
     }
 
-    public function create_mission_transaction($mission_id,$value,$transaction_owner,$transaction_owner_id,$operation, $type = \App\Transaction::MESSION_TYPE)
+    public function create_mission_transaction($mission_id,$value,$transaction_owner,$transaction_owner_id,$operation, $type = \App\Transaction::MESSION_TYPE, $description = null)
     {
         
 		try {
@@ -168,6 +168,7 @@ class TransactionHelper{
             }
             $transaction->value = $value;
             $transaction->mission_id = $mission_id;
+            $transaction->description = $description;
             $transaction->save();
 
             DB::commit();

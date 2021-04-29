@@ -44,8 +44,8 @@
             </h3>
         </div>
     </div>
-    <div class="mx-5" id="tableForm">
-        <table class="table mb-0 aiz-table">
+    <div class="m-5" id="tableForm">
+        <table class="table mb-0 aiz-table"  data-show-toggle="true" data-toggle-column="first">
             <thead>
                 <tr>
                     <th width="3%">#</th>
@@ -54,11 +54,12 @@
                     <th>{{translate('Type')}}</th>
                     <th>{{translate('Value')}}</th>
                     <th>{{translate('Date')}}</th>
+                    <th data-breakpoints="all" data-title="{{translate('Description')}}">{{translate('Description')}}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($transactions as $key=>$transaction)
-                    <tr>
+                    <tr @if($loop->first) data-expanded="true" @endif>
                         <td width="3%">{{ ($key+1) + ($transactions->currentPage() - 1)*$transactions->perPage() }}</td>
                         
                         <td>{{$transaction_owner[$transaction->transaction_owner]['text']  ?? ""}}</td>
@@ -76,6 +77,7 @@
                         </td>
                         <td>{{format_price(convert_price($transaction->value)) ?? ""}}</td>
                         <td>{{$transaction->created_at->format("Y-m-d h:i") ?? ""}}</td>
+                        <td>{{$transaction->description ?? "-"}}</td>
                     </tr>
 
                 @endforeach
