@@ -146,7 +146,7 @@
                     <td>{{$mission->type}}</td>
 
                     @php
-                        $helper = new TransactionHelper();
+                        $helper = new \App\Http\Helpers\TransactionHelper();
                         $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
                     @endphp
 
