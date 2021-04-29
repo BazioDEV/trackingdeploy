@@ -145,8 +145,12 @@
                     @endif
                     <td>{{$mission->type}}</td>
 
+                    @php
+                        $helper = new TransactionHelper();
+                        $shipment_cost = $helper->calculate_mission_amount($mission->id);
+                    @endphp
 
-                    <td>{{format_price(convert_price(\App\Http\Helpers\TransactionHelper::calculate_mission_amount($mission->id)))}}</td>
+                    <td>{{format_price(convert_price($shipment_cost)}}</td>
                     @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
 
                     <td class="text-center">
