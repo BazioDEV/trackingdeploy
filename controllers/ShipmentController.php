@@ -518,8 +518,13 @@ class ShipmentController extends Controller
             'total_weight' => 'required|integer|min:0',
         ]);
         $costs = $this->applyShipmentCost($request,$request->package_ids);
-        $costs["total_cost"] = format_price(convert_price($costs["shipping_cost"] + (($costs["tax"] * $costs["shipping_cost"]) / 100) + $costs["insurance"]));
-        return $costs;
+        
+        $formated_cost["return_cost"] = format_price(convert_price($costs["return_cost"]));
+        $formated_cost["shipping_cost"] = format_price(convert_price($costs["shipping_cost"]));
+        $formated_cost["tax"] = format_price(convert_price($costs["tax"]));
+        $formated_cost["insurance"] = format_price(convert_price($costs["insurance"]));
+        $formated_cost["total_cost"] = format_price(convert_price($costs["shipping_cost"] + $costs["tax"] + $costs["insurance"]));
+        return $formated_cost;
     }
 
     public function feesSettings()
@@ -670,7 +675,7 @@ class ShipmentController extends Controller
                 $insurance = ShipmentSetting::getCost('def_insurance_gram');
             }
 
-            $array['return_cost'] = format_price(convert_price($return_cost));
+            $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
             $array['insurance'] = $insurance;
