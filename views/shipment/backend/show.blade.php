@@ -122,7 +122,7 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="text-dark font-weight-bold mb-4">{{translate('Tax &  Duty')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price((($shipment->tax * $shipment->shipping_cost) / 100)))}}</span>
+                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->tax))}}</span>
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="text-dark font-weight-bold mb-4">{{translate('Insurance')}}</span>
