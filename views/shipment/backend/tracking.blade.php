@@ -3,6 +3,7 @@
 
 @section('sub_title'){{translate('Tracking shipment')}}: #{{$shipment->code}}@endsection
 
+@section('content')
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container">
@@ -20,6 +21,7 @@
 							@endif
 						</a>
 					</p>
+                    <p class="mt-50 text-center"><a href="{{ route('home') }}">{{translate('BACK TO HOME')}}</a></p>
 					<p class="mt-50 text-center"><span class="label label-inline label-pill label-danger label-rounded mr-2">NOTE:</span>{{translate('For inquiries about your shipments, please contact us from')}} <a href="#">{{translate('here')}}</a>.</p>
 				</div>
 			</div>
@@ -61,7 +63,7 @@
 									<td>{{$shipment->created_at->diffForHumans()}}</td>
 									<td>{{translate('Created')}}</td>
 								</tr>
-								@foreach($shipment->logs()->orderBy('id','desc')->get() as $log)
+								@foreach($shipment->logs()->orderBy('created_at','desc')->get() as $log)
 									<tr>
 										<td>{{$log->created_at->diffForHumans()}}</td>
 										<td>{{\App\Shipment::getClientStatusByStatusId($log->to)}}</td>
@@ -79,3 +81,4 @@
 		<!--end::Card-->
 	</div>
 </div>
+@endsection

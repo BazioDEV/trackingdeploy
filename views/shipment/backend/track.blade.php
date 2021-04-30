@@ -4,6 +4,7 @@
 @section('sub_title'){{translate('Track your shipment')}}@endsection
 
 
+@section('content')
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
     <div class="container">
@@ -20,6 +21,7 @@
                             @endif
                         </a>
                     </p>
+                    <p class="mt-50 text-center"><a href="{{ route('home') }}">{{translate('BACK TO HOME')}}</a></p>
                     <p class="mt-50 text-center"><span class="label label-inline label-pill label-danger label-rounded mr-2">NOTE:</span>{{translate('For inquiries about your shipments, please contact us from')}} <a href="#">{{translate('here')}}</a>.</p>
                 </div>
             </div>
@@ -62,3 +64,5 @@
     </div>
     <!--end::Container-->
 </div>
+
+@endsection
