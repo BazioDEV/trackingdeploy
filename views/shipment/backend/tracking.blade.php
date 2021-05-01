@@ -62,11 +62,15 @@
 								<tr>
 									<td>{{$shipment->created_at->diffForHumans()}}</td>
 									<td>{{translate('Created')}}</td>
+									<td></td>
+									<td></td>
 								</tr>
-								@foreach($shipment->logs()->orderBy('created_at','desc')->get() as $log)
+								@foreach($shipment->logs()->orderBy('id','asc')->get() as $log)
 									<tr>
 										<td>{{$log->created_at->diffForHumans()}}</td>
 										<td>{{\App\Shipment::getClientStatusByStatusId($log->to)}}</td>
+										<td></td>
+										<td></td>
 									</tr>
 								@endforeach
 							</tbody>
