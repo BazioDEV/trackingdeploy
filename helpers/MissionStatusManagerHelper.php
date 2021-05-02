@@ -115,7 +115,7 @@ class MissionStatusManagerHelper
                             }
 
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
-                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
                         }
                         
 
