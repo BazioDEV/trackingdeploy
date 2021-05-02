@@ -109,11 +109,23 @@ $d = new DNS1D();
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            @if($mission->status_id == App\Mission::REQUESTED_STATUS || $mission->status_id == App\Mission::APPROVED_STATUS || $mission->status_id == App\Mission::RECIVED_STATUS)
+                                                @if($mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                    <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('RETURN AMOUNT')}}</th>
+                                                @elseif($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE))
+                                                    <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('COD AMOUNT')}}</th>
+                                                @endif
+                                            @endif
                                             <th class="font-weight-bold text-muted text-uppercase text-right ">{{translate('TOTAL COST')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="font-weight-bolder">
+                                            @if($mission->status_id == App\Mission::REQUESTED_STATUS || $mission->status_id == App\Mission::APPROVED_STATUS || $mission->status_id == App\Mission::RECIVED_STATUS)
+                                                @if($mission->type == \App\Mission::getType(\App\Mission::DELIVERY_TYPE) || $mission->type == \App\Mission::getType(\App\Mission::SUPPLY_TYPE))
+                                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($cod)) }}</td>
+                                                @endif
+                                            @endif
                                             <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment_cost)) }}</td>
                                         </tr>
                                     </tbody>

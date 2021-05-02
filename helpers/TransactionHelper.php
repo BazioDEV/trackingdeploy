@@ -11,36 +11,44 @@ use App\Client;
 use DB;
 class TransactionHelper{
 
-    private function pickup_mission_prepaid_shipments_ids($mission_id)
+    private function pickup_mission_prepaid_shipments_ids($mission_id, $cod = false)
     {
         $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID)->where("paid",0)->pluck('id');
+        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID);
+        if($cod == false){
+            $shipments = $shipments->where("paid",0);
+        }
+        $shipments = $shipments->pluck('id');
         return $shipments;
     }
 
-    private function pickup_mission_prepaid_shipments_cost_calculator($shipment_ids)
+    private function pickup_mission_prepaid_shipments_cost_calculator($shipment_ids, $cod = false)
     {
         $cost = 0;
         foreach($shipment_ids as $id)
         {
-            $cost+= (double) $this->calculate_shipment_cost($id);
+            $cost+= (double) $this->calculate_shipment_cost($id,$cod);
         }
         return $cost;
     }
 
-    private function delivery_mission_postpaid_shipments_ids($mission_id)
+    private function delivery_mission_postpaid_shipments_ids($mission_id, $cod = false)
     {
         $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID)->where("paid",0)->pluck('id');
+        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID);
+        if($cod == false){
+            $shipments = $shipments->where("paid",0);
+        }
+        $shipments = $shipments->pluck('id');
         return $shipments;
     }
 
-    private function delivery_mission_postpaid_shipments_cost_calculator($shipment_ids)
+    private function delivery_mission_postpaid_shipments_cost_calculator($shipment_ids, $cod = false)
     {
         $cost = 0;
         foreach($shipment_ids as $id)
         {
-            $cost+= (double) $this->calculate_shipment_cost($id);
+            $cost+= (double) $this->calculate_shipment_cost($id,$cod);
         }
         return $cost;
     }
@@ -57,7 +65,7 @@ class TransactionHelper{
         $cost = 0;
         foreach($shipment_ids as $id)
         {
-            $cost+= (double) $this->calculate_shipment_cost($id);
+            $cost+= (double) $this->calculate_shipment_cost($id,$cod);
         }
         return $cost;
     }
@@ -77,7 +85,9 @@ class TransactionHelper{
         }elseif($type == Mission::DELIVERY_TYPE)
         {
             $ids= $this->delivery_mission_postpaid_shipments_ids($mission_id);
-            $shipments_cost += (double) $this->delivery_mission_postpaid_shipments_cost_calculator($ids);
+            $shipments_cost += (double) $this->delivery_mission_postpaid_shipments_cost_calculator($ids, true);
+            $ids= $this->pickup_mission_prepaid_shipments_ids($mission_id, true);
+            $shipments_cost += (double) $this->pickup_mission_prepaid_shipments_cost_calculator($ids, true);
         }elseif($type == Mission::RETURN_TYPE)
         {
             $ids= $this->return_mission_shipments_ids($mission_id);
@@ -85,8 +95,15 @@ class TransactionHelper{
         }elseif($type == Mission::SUPPLY_TYPE)
         {
             $shipments_cost += $client->supply_cost;
+            $shipments_cost += (double) $this->calcMissionShipmentsCOD($mission_id);
         }
         return $shipments_cost;
+    }
+    
+    public function calcMissionShipmentsCOD($mission_id)
+    {
+        $cod = Shipment::where('mission_id',$mission_id)->sum('amount_to_be_collected');
+        return $cod;
     }
 
     public function getPickupCost($mession_id)
@@ -122,24 +139,28 @@ class TransactionHelper{
         $mission->save();
     }
 
-    public function calculate_shipment_cost($shipment_id)
+    public function calculate_shipment_cost($shipment_id, $cod = false)
     {
 		$cost = 0;
         
         $shipment = Shipment::where('id',$shipment_id)->first();
-        $tax = (($shipment->tax * $shipment->shipping_cost) / 100);
         if(in_array($shipment->status_id,[Shipment::RETURNED_CLIENT_GIVEN,Shipment::RETURNED_STATUS,Shipment::RETURNED_STOCK]))
         {
                 $cost += $shipment->return_cost;
         }else
         {
-            if($shipment->payment_type == Shipment::PREPAID )
+            if($shipment->payment_type == Shipment::PREPAID && $cod == false )
             {
-                $cost += $shipment->shipping_cost + $tax + $shipment->insurance;
+                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance;
+            }
+            elseif($shipment->payment_type == Shipment::PREPAID && $cod == true )
+            {
+                $cost += $shipment->amount_to_be_collected;
             }
             elseif($shipment->payment_type == Shipment::POSTPAID )
             {
-                $cost += $shipment->shipping_cost + $tax + $shipment->insurance + $shipment->amount_to_be_collected;
+                $cost += $shipment->shipping_cost + $shipment->tax + $shipment->insurance;
+                $cost += $shipment->amount_to_be_collected;
             }
         }
         

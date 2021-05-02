@@ -189,15 +189,15 @@ class MissionsController extends Controller
         $mission = Mission::find($id);
         $reasons = Reason::where("type","remove_shipment_from_mission")->get();
         $due_date = ($mission->status_id != Mission::REQUESTED_STATUS) ? $mission->due_date : null;
-        $COD = 0;
         $helper = new TransactionHelper();
         $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
+        $cod = $helper->calcMissionShipmentsCOD($mission->id);
         
         if($mission->status_id == Mission::APPROVED_STATUS){
             $reschedule = true;
-            return view('backend.missions.show',compact('mission','reasons','due_date','reschedule', 'shipment_cost'));
+            return view('backend.missions.show',compact('mission','reasons','due_date','reschedule', 'shipment_cost','cod'));
         }else{
-            return view('backend.missions.show',compact('mission','reasons','due_date', 'shipment_cost'));
+            return view('backend.missions.show',compact('mission','reasons','due_date', 'shipment_cost','cod'));
         }
     }
 
