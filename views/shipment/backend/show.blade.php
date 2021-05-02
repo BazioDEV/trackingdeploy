@@ -172,21 +172,22 @@ $d = new DNS1D();
                         </div>
                     @endif
                 </div>
-
-                <div class="d-flex justify-content-between pt-6">
-                    <div class="d-flex flex-column flex-root">
-                        <span class="text-dark font-weight-bold mb-4">{{translate('Attachments')}} <span class="text-muted font-size-xs">({{translate('ADDED WHEN SHIPMENT CREATED')}})</span></span>
-                        <div class="d-flex justify-content-between pt-6">
-                            @foreach(explode(',', $shipment->attachments_before_shipping) as $img)
-                                <div class="d-flex flex-column flex-root">
-                                    <span class="text-muted font-weight-bolder font-size-lg">
-                                        <a href="{{uploaded_asset($img)}}" target="_blank"><img src="{{uploaded_asset($img)}}" alt="image" style="max-width:100px" /></a>
-                                    </span>
-                                </div>
-                            @endforeach
+                @if($shipment->attachments_before_shipping)
+                    <div class="d-flex justify-content-between pt-6">
+                        <div class="d-flex flex-column flex-root">
+                            <span class="text-dark font-weight-bold mb-4">{{translate('Attachments')}} <span class="text-muted font-size-xs">({{translate('ADDED WHEN SHIPMENT CREATED')}})</span></span>
+                            <div class="d-flex justify-content-between pt-6">
+                                @foreach(explode(',', $shipment->attachments_before_shipping) as $img)
+                                    <div class="d-flex flex-column flex-root">
+                                        <span class="text-muted font-weight-bolder font-size-lg">
+                                            <a href="{{uploaded_asset($img)}}" target="_blank"><img src="{{uploaded_asset($img)}}" alt="image" style="max-width:100px" /></a>
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
 
             </div>
@@ -241,7 +242,7 @@ $d = new DNS1D();
                                 <td>{{translate($shipment->pay['name'])}} ({{$shipment->getPaymentType()}})</td>
                                 <td>@if($shipment->paid == 1) {{translate('Paid')}} @else {{translate('Pending')}} @endif</td>
                                 <td>@if($shipment->paid == 1) {{$shipment->payment->payment_date ?? ""}} @else - @endif</td>
-                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price((($shipment->tax * $shipment->shipping_cost) / 100) + $shipment->shipping_cost + $shipment->insurance)) }}<br /><span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span></td>
+                                <td class="text-primary font-size-h3 font-weight-boldest text-right">{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}<br /><span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span></td>
                             </tr>
                         </tbody>
                     </table>

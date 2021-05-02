@@ -5,6 +5,7 @@
     $auth_user = Auth::user();    
 @endphp
 
+@section('sub_title'){{translate('Create New Shipment')}}@endsection
 @php
     $user_type = Auth::user()->user_type;
     $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
@@ -560,9 +561,8 @@
     $('#change-country').change(function() {
         var id = $(this).val();
         $.get("{{route('admin.shipments.get-states-ajax')}}?country_id=" + id, function(data) {
-            console.log(data[0]);
             $('select[name ="Shipment[from_state_id]"]').empty();
-
+            $('select[name ="Shipment[from_state_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
 
@@ -576,9 +576,8 @@
         var id = $(this).val();
 
         $.get("{{route('admin.shipments.get-states-ajax')}}?country_id=" + id, function(data) {
-            console.log(data[0]);
             $('select[name ="Shipment[to_state_id]"]').empty();
-
+            $('select[name ="Shipment[to_state_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Shipment[to_state_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');
@@ -591,9 +590,8 @@
         var id = $(this).val();
 
         $.get("{{route('admin.shipments.get-areas-ajax')}}?state_id=" + id, function(data) {
-            console.log(data[0]);
             $('select[name ="Shipment[from_area_id]"]').empty();
-
+            $('select[name ="Shipment[from_area_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Shipment[from_area_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');
@@ -606,9 +604,8 @@
         var id = $(this).val();
 
         $.get("{{route('admin.shipments.get-areas-ajax')}}?state_id=" + id, function(data) {
-            console.log(data[0]);
             $('select[name ="Shipment[to_area_id]"]').empty();
-
+            $('select[name ="Shipment[to_area_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Shipment[to_area_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');

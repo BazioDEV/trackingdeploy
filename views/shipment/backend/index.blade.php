@@ -228,10 +228,10 @@
                         <td><label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check checkbox-client-id-{{$shipment->client_id}}" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                         @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1009', $staff_permission) )
                             <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
-                            <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
+                            <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->code}}</a></td>
                         @else
                             <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
-                            <td width="5%">{{$shipment->barcode}}</td>
+                            <td width="5%">{{$shipment->code}}</td>
                         @endif
                         
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
@@ -242,7 +242,7 @@
                             <td>{{$shipment->branch->name}}</td>
                         @endif
 
-                        <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
+                        <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
                         <td>{{$shipment->pay->name ?? ""}}</td>
                         <td>@if($shipment->paid == 1) {{translate('Paid')}} @else - @endif</td>
                         <td>{{$shipment->shipping_date}}</td>
