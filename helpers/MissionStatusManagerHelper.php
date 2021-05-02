@@ -4,6 +4,7 @@ namespace App\Http\Helpers;
 
 use App\ClientShipmentLog;
 use App\Mission;
+use App\Client;
 use App\Shipment;
 use App\Transaction;
 use DB;
@@ -60,7 +61,7 @@ class MissionStatusManagerHelper
                             
                         }
                         
-                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE || $mission->getOriginal('type')  == Mission::DELIVERY_TYPE )
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
                         {
                             $amount_to_bo_collected = 0 ;
                             foreach ($mission->shipment_mission as $shipment_mission)
@@ -113,7 +114,9 @@ class MissionStatusManagerHelper
                             {
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
-
+                            $client = $mission->client;
+                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
                         }
@@ -139,10 +142,14 @@ class MissionStatusManagerHelper
                             {
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
-
-                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
 
+                            $helper = new \App\Http\Helpers\TransactionHelper();
+                            $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
+
+                            $transaction->create_mission_transaction($mission->id,$shipment_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            
                             if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
                                 foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
                                     $shipment = \App\Shipment::find($shipment_id);
