@@ -53,7 +53,7 @@ class SendCaptainNotification
             $users  =   array_merge($users, $notify['employees']);
         }
         if(isset($notify['sender'])){
-            $users  =   array_merge($users, array($captain->id));
+            $users  =   array_merge($users, array($captain->userCaptain->user_id));
         }
 
         $title      = translate('There is a new captain created');

@@ -53,11 +53,11 @@ class SendCreateMissionNotification
             $users  =   array_merge($users, $notify['employees']);
         }
     
-        if(isset($notify['sender'])){
-            $users  =   array_merge($users, array($mission->client_id));
-        }
+        // if(isset($notify['sender'])){
+        //     $users  =   array_merge($users, array($mission->client->userClient->user_id));
+        // }
         if(isset($notify['captain'])){
-            $users  =   array_merge($users, array($mission->captain_id));
+            $users  =   array_merge($users, array($mission->captain->userCaptain->user_id));
         }
 
         $title      = translate('There is a new mission created');
@@ -97,7 +97,7 @@ class SendCreateMissionNotification
             $shipment = $shipment_mission->shipment;
             
             if(isset($notify['sender'])){
-                $users  =   array_merge($users, array($shipment->client_id));
+                $users  =   array_merge($users, array($shipment->client->userClient->user_id));
             }
 
             $title      = translate('There is update shipment');

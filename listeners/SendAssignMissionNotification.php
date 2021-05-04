@@ -59,11 +59,11 @@ class SendAssignMissionNotification
 
         foreach ($missions as $mission)
         { 
-            if(isset($notify['sender'])){
-                $users  =   array_merge($users, array($mission->client_id));
-            }
+            // if(isset($notify['sender'])){
+            //     $users  =   array_merge($users, array($mission->client->userClient->user_id));
+            // }
             if(isset($notify['captain'])){
-                $users  =   array_merge($users, array($mission->captain_id));
+                $users  =   array_merge($users, array($mission->captain->userCaptain->user_id));
             }
 
             $url        = url('admin/missions').'/'.$mission->id;
@@ -102,11 +102,11 @@ class SendAssignMissionNotification
                 $shipment = $shipment_mission->shipment;
                 
                 if(isset($notify['sender'])){
-                    $users  =   array_merge($users, array($shipment->client_id));
+                    $users  =   array_merge($users, array($shipment->client->userClient->user_id));
                 }
-                if(isset($notify['captain'])){
-                    $users  =   array_merge($users, array($shipment->captain_id));
-                }
+                // if(isset($notify['captain'])){
+                //     $users  =   array_merge($users, array($shipment->captain->userCaptain->user_id));
+                // }
 
                 $title      = translate('There is update shipment');
                 $content    = translate('Please check the shipment which is just updated right now!');

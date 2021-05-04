@@ -54,15 +54,15 @@ class SendAddShipmenttNotification
             $users  =   array_merge($users, $notify['employees']);
         }
         if(isset($notify['sender'])){
-            $users  =   array_merge($users, array($shipment->client_id));
+            $users  =   array_merge($users, array($shipment->client->userClient->user_id));
         }
-        if(isset($notify['captain'])){
-            $users  =   array_merge($users, array($shipment->captain_id));
-        }
+        // if(isset($notify['captain'])){
+        //     $users  =   array_merge($users, array($shipment->captain->userCaptain->user_id));
+        // }
 
         $title      = translate('There is a new shipment created');
         $content    = translate('Please check the new shipment which is just created right now!');
-        $url        = url('admin/shipments').'/'.$shipment->id;
+        $url        = route('admin.shipments.show', $shipment->id);
 
         foreach($users as $user){
             $available_gateways = $gateways;
@@ -92,6 +92,39 @@ class SendAddShipmenttNotification
                 $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
             }
 
+        }
+
+        // Send public linke for paying
+
+        $title      = translate('Payment Link');
+        $content    = translate('There is link for paying your shipment!');
+        $url        = route('admin.shipments.pay', $shipment->id);
+
+        $available_gateways = $gateways;
+        $recevier   =   \App\User::find($shipment->client->userClient->user_id);
+        if($recevier){
+            if($recevier->phone == null){
+                if (($key = array_search('sms', $available_gateways)) !== false) {
+                    unset($available_gateways[$key]);
+                }
+            }
+            if($recevier->email == null){
+                if (($key = array_search('email', $available_gateways)) !== false) {
+                    unset($available_gateways[$key]);
+                }
+            }
+
+            $data = array(
+                'sender'    =>  \Auth::user(),
+                'message'   =>  array(
+                        'subject'   =>  $title,
+                        'content'   =>  $content,
+                        'url'       =>  $url,
+                ),
+                'icon'      =>  'flaticon2-bell-4',
+                'type'      =>  'add_shipment',
+            );
+            $recevier->notify(new \App\Notifications\GlobalNotification($data, $available_gateways));
         }
     }
 }

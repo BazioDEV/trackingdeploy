@@ -59,10 +59,10 @@ class SendShipmentActionNotification
             $action = Shipment::getStatusByStatusId($shipment->status_id);
 
             if(isset($notify['sender'])){
-                $users  =   array_merge($users, array($shipment->client_id));
+                $users  =   array_merge($users, array($shipment->client->userClient->user_id));
             }
             if(isset($notify['captain'])){
-                $users  =   array_merge($users, array($shipment->captain_id));
+                $users  =   array_merge($users, array($shipment->captain->userCaptain->user_id));
             }
 
             $title      = translate('There is '.$action.' shipment');

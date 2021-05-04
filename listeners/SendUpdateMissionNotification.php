@@ -58,10 +58,10 @@ class SendUpdateMissionNotification
             $action = Mission::getStatusByStatusId($mission->status_id);
 
             if(isset($notify['sender'])){
-                $users  =   array_merge($users, array($mission->client_id));
+                $users  =   array_merge($users, array($mission->client->userClient->user_id));
             }
             if(isset($notify['captain'])){
-                $users  =   array_merge($users, array($mission->captain_id));
+                $users  =   array_merge($users, array($mission->captain->userCaptain->user_id));
             }
 
             $title      = translate('There is an updated mission');
