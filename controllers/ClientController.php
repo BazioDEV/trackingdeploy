@@ -133,6 +133,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $client)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = Client::find($client);
@@ -186,6 +190,10 @@ class ClientController extends Controller
     public function destroy($client)
     {
    
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $model = Client::findOrFail($client);
         $user = UserClient::where('client_id',$model->id)->first();
         if($user != null)

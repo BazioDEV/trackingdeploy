@@ -39,6 +39,10 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $request->validate([
             'Branch.email' => 'required|unique:users,email',
         ]);
@@ -101,6 +105,10 @@ class BranchController extends Controller
      */
     public function show($id)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $branch = Branch::where('id', $id)->first();
         $shipments = \App\Shipment::where('branch_id', $id)->paginate(15);
         if($branch != null){
@@ -117,6 +125,10 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $branch = Branch::where('id', $id)->first();
         if($branch != null){
             return view('backend.branchs.edit',compact('branch'));
@@ -133,6 +145,10 @@ class BranchController extends Controller
      */
     public function update(Request $request, $Branch)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = Branch::find($Branch);
@@ -185,6 +201,10 @@ class BranchController extends Controller
      */
     public function destroy($Branch)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
    
         $model = Branch::findOrFail($Branch);
         $user = UserBranch::where('branch_id',$model->id)->first();

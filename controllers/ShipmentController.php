@@ -558,6 +558,10 @@ class ShipmentController extends Controller
 
     public function storeSettings()
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         foreach ($_POST['Setting'] as $key => $value) {
             if (ShipmentSetting::where('key',$key)->count() == 0) {
                 $set = new ShipmentSetting();
@@ -1009,6 +1013,10 @@ class ShipmentController extends Controller
 
     public function post_config_costs(Request $request)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $costs_removal = Cost::where('from_country_id', $_GET['from_country'])->where('to_country_id', $_GET['to_country'])->get();
         foreach ($costs_removal as $cost) {
             $cost->delete();
@@ -1075,6 +1083,10 @@ class ShipmentController extends Controller
     }
     public function post_covered_countries()
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $countries = Country::all();
         foreach ($countries as $count) {
             $count->covered = 0;
@@ -1094,6 +1106,10 @@ class ShipmentController extends Controller
     public function post_covered_cities($country_id)
     {
        
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $countries = State::where('country_id', $country_id)->get();
 
         foreach ($countries as $count) {

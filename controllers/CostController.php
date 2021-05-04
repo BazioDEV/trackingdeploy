@@ -36,6 +36,10 @@ class CostController extends Controller
      */
     public function store(Request $request)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = new Cost();
@@ -95,6 +99,10 @@ class CostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = Cost::find($id);

@@ -41,6 +41,10 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = new Area();
@@ -83,6 +87,10 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $area = Area::find($id);
         return view('backend.shipments.edit-area',compact('area'));
     }
@@ -96,6 +104,10 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = Area::find($id);
@@ -127,6 +139,10 @@ class AreaController extends Controller
      */
     public function destroy($area)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
    
         $model = Area::findOrFail($area);
        

@@ -37,6 +37,10 @@ class PackagesController extends Controller
      */
     public function store(Request $request)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
             $check = Package::where('name',$_POST['Package']['name'])->first();
@@ -103,6 +107,10 @@ class PackagesController extends Controller
      */
     public function update(Request $request, $package)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
             $check = Package::where('name',$_POST['Package']['name'])->whereNotIn('id',[$package])->first();
@@ -143,6 +151,10 @@ class PackagesController extends Controller
     public function destroy($package)
     {
    
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         $model = Package::findOrFail($package);
         
         if($model->delete()){

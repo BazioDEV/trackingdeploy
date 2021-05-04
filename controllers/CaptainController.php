@@ -144,6 +144,10 @@ class CaptainController extends Controller
      */
     public function update(Request $request, $captain)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
         try{	
 			DB::beginTransaction();
 			$model = Captain::find($captain);
@@ -196,6 +200,10 @@ class CaptainController extends Controller
      */
     public function destroy($captain)
     {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
    
         $model = Captain::findOrFail($captain);
         $user = UserCaptain::where('captain_id',$model->id)->first();
