@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Events\MissionAction;
+use App\Events\UpdateMission;
 use App\Event;
 use App\Mission;
 
@@ -26,7 +26,7 @@ class SendUpdateMissionNotification
      * @param  object  $event
      * @return void
      */
-    public function handle(MissionAction $event)
+    public function handle(UpdateMission $event)
     {
         $missions = Mission::find($event->mission_ids ?? []);
 

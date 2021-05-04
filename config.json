@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.99",
+    "version" : "0.100",
 
     "minimum_item_version" : "3.7",
 
