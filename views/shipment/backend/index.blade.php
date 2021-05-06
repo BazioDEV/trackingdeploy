@@ -2,6 +2,7 @@
 @php
     $user_type = Auth::user()->user_type;
     $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+    $auth_user = Auth::user();
 @endphp
 
 @section('sub_title'){{translate('Shipments')}}@endsection
@@ -27,6 +28,9 @@
                     </ul>
                     <!--end::Breadcrumb-->
                     <a href="{{ route('admin.shipments.create') }}" class="btn btn-light-primary font-weight-bolder btn-sm"><i class="flaticon2-add-1"></i> {{translate('Add New Shipment')}}</a>
+                    @if(in_array($auth_user->user_type ,['admin']))
+                        <a href="{{ route('admin.shipments.import') }}" class="btn btn-light-primary font-weight-bolder btn-sm ml-3">{{translate('Import Shipments')}}</a>
+                    @endif
                 </div>
                 <!--end::Page Heading-->
             </div>
@@ -37,9 +41,6 @@
 @endsection
 
 @section('content')
-@php
-    $auth_user = Auth::user();
-@endphp
 <!--begin::Card-->
 <div class="card card-custom gutter-b">
     <div class="flex-wrap py-3 card-header">

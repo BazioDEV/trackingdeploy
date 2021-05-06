@@ -1127,6 +1127,71 @@ class ShipmentController extends Controller
         return back();
     }
 
+    public function import(Request $request)
+    {
+        $shipment = new Shipment;
+        $columns = $shipment->getTableColumns();
+        return view('backend.shipments.import',['columns'=>$columns]);
+    }
+
+    public function parseImport(Request $request)
+    {
+        $shipment = new Shipment;
+        $shipment_columns = $shipment->getTableColumns();
+        $request->validate([
+            'shipments_file' => 'required|mimes:csv,txt',
+            "columns"    => "required|array|min:1",
+            "columns.*"  => "required|in:".implode(",", $shipment_columns)
+        ]);
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
+
+        $path = $request->file('shipments_file')->getRealPath();
+        $data = array_map('str_getcsv', file($path));
+        if($data[0] != $request->columns){
+            flash(translate('This file you are trying to import is not the file that you should upload'))->error();
+            return back();
+        }
+        if(!in_array('status_id',$request->columns) || !in_array('branch_id',$request->columns) || !in_array('client_id',$request->columns) ){
+            flash(translate('This file you are trying to import is not the file that you should upload'))->error();
+            return back();
+        }
+        $csv_header_fields  =   $data[0];
+        try {
+            unset($data[0]);
+
+            foreach ($data as $row) {
+
+                $shipment = new Shipment;
+                $valid = true;
+                for ($i=0; $i < count($row); $i++) {
+                    if($request->columns[$i] == 'branch_id'){
+                        if(!Branch::find($row[$i])){
+                            $valid = false; 
+                        }
+                    }
+                    if($request->columns[$i] == 'client_id'){
+                        if(!Client::find($row[$i])){
+                            $valid = false; 
+                        }
+                    }
+                    $shipment->{$request->columns[$i]} = $row[$i];
+                }
+                if($valid){
+                    $shipment->save();
+                }
+            }
+
+            flash(translate("File imported successfully"))->success();
+            return back();
+        } catch (\Throwable $th) {
+            flash(translate('This file you are trying to import is not the file that you should upload'))->error();
+            return back();
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *

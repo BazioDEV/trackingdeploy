@@ -3,7 +3,7 @@
 
     "unique_identifier" : "spot-cargo-shipment-addon",
 
-    "version" : "0.103",
+    "version" : "0.104",
 
     "minimum_item_version" : "3.7",
 
@@ -188,6 +188,10 @@
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/covered_countries.blade.php",
             "update_directory": "resources/views/backend/shipments/covered_countries.blade.php"
+        },
+        {
+            "root_directory": "addons/spot-cargo-shipment-addon/views/shipment/backend/import.blade.php",
+            "update_directory": "resources/views/backend/shipments/import.blade.php"
         },
         {
             "root_directory": "addons/spot-cargo-shipment-addon/views/inc/shipment_sidenav.blade.php",

@@ -367,4 +367,8 @@ class Shipment extends Model
     {
         return $this->hasOne('App\Payment', 'shipment_id' , 'id');
     }
+
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
 }

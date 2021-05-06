@@ -24,6 +24,9 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::post('/shipments/config/costs','ShipmentController@post_config_costs')->name('admin.shipments.post.config.costs');
     Route::post('/shipments/config/packages/costs','ShipmentController@post_config_package_costs')->name('admin.shipments.post.config.package.costs');
 
+    Route::get('import', 'ShipmentController@import')->name('admin.shipments.import');
+	Route::post('import/parse', 'ShipmentController@parseImport')->name('admin.shipments.import_parse');
+
     Route::resource('costs','CostController',[
         'as' => 'admin'
     ]);
