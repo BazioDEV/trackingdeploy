@@ -8,6 +8,7 @@ use App\Http\Helpers\UserRegistrationHelper;
 use App\User;
 use App\UserClient;
 use DB;
+use Auth;
 use App\Events\AddClient;
 
 class ClientController extends Controller
@@ -53,6 +54,17 @@ class ClientController extends Controller
 			if (!$model->save()){
 				throw new \Exception();
 			}
+            $auth_user = Auth::user();
+            if($auth_user->user_type == 'admin'){
+                $model->created_by_type = 'admin';
+                $model->created_by = $auth_user->id;
+            }elseif($auth_user->user_type == 'staff'){
+                $model->created_by_type = 'staff';
+                $model->created_by = $auth_user->staff->id;
+            }elseif($auth_user->user_type == 'branch'){
+                $model->created_by_type = 'branch';
+                $model->created_by =  $auth_user->userBranch->branch_id;
+            }
 			$model->code = $model->id;
 			if (!$model->save()){
 				throw new \Exception();

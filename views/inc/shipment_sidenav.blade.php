@@ -154,7 +154,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @endphp
 @if ($addon != null)
     @if($addon->activated)
-        @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+        @if(in_array($user_type, ['admin','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-users"></i>
@@ -170,7 +170,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                             </span>
                         </li>
 
-                        @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @if(in_array($user_type, ['admin','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                             <li class="menu-item {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.show'])}}" aria-haspopup="true">
                                 <a href="{{ route('admin.clients.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">

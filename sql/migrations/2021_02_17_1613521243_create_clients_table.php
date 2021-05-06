@@ -26,8 +26,9 @@ class CreateClientsTable extends Migration
 		$table->string('area')->nullable();
 		$table->string('address')->nullable();
 		$table->tinyInteger('is_archived')->default(0);
-		$table->integer('created_by')->unsigned();
-		$table->integer('updated_by')->unsigned();
+		$table->string('created_by_type')->nullable();
+		$table->unsignedBigInteger('created_by')->default(0);
+		$table->unsignedBigInteger('updated_by')->default(0);
 		$table->timestamp('created_at');
 		$table->timestamp('updated_at');
 		
