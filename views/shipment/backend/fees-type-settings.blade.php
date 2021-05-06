@@ -30,7 +30,7 @@
 
 
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label>{{translate('Default Pickup Mission Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_pickup_cost'))}}" name="Setting[def_pickup_cost]">
                             </div>
@@ -43,7 +43,7 @@
 
 
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label>{{translate('Default Supply Mission Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_supply_cost'))}}" name="Setting[def_supply_cost]">
                             </div>
