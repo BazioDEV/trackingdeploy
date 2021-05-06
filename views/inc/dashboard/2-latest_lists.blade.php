@@ -74,7 +74,7 @@
         @php
             $captains = App\Captain::withCount(['transaction AS wallet' => function ($query) { $query->select(DB::raw("SUM(value)")); }])->get();
         @endphp
-        <div class="row mt-20">
+        <div class="mt-20 row">
             <div class="col-md-12">
                 <div class="card card-custom card-stretch">
                     <div class="card-header">
@@ -121,7 +121,7 @@
 
             </div>
         </div>
-        <div class="row mt-20">
+        <div class="mt-20 row">
             <div class="col-md-12">
                 <div class="card card-custom card-stretch">
                     <div class="card-header">
@@ -204,7 +204,7 @@
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
                                     <th>{{translate('Client')}}</th>
-                                    <th>{{translate('Branch')}}</th>
+                                    {{--  <th>{{translate('Branch')}}</th>  --}}
 
                                     <th>{{translate('Shipping Cost')}}</th>
                                     <th>{{translate('Payment Method')}}</th>
@@ -216,7 +216,7 @@
 
                                 @php
                                     $count      = (App\ShipmentSetting::getVal('latest_shipment_count') ? App\ShipmentSetting::getVal('latest_shipment_count') : 10 );
-                                    $shipments  = App\Shipment::where('branch_id', Auth::user()->id)->limit($count)->orderBy('id','desc')->get();
+                                    $shipments  = App\Shipment::where('branch_id', Auth::user()->userBranch->branch_id)->limit($count)->orderBy('id','desc')->get();
                                 @endphp
                                 @foreach($shipments as $key=>$shipment)
 
@@ -225,8 +225,8 @@
                                     <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                     <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
-                                    <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                                    <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                                    <td>{{$shipment->client->name}}</td>
+                                    {{--  <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>  --}}
 
                                     <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                                     <td>{{$shipment->pay->name}}</td>
@@ -249,7 +249,7 @@
         @php
             $captains = App\Captain::where('branch_id', Auth::user()->id)->withCount(['transaction AS wallet' => function ($query) { $query->select(DB::raw("SUM(value)")); }])->get();
         @endphp
-        <div class="row mt-20">
+        <div class="mt-20 row">
             <div class="col-md-12">
                 <div class="card card-custom card-stretch">
                     <div class="card-header">
@@ -296,7 +296,7 @@
 
             </div>
         </div>
-        <div class="row mt-20">
+        <div class="mt-20 row">
             <div class="col-md-12">
                 <div class="card card-custom card-stretch">
                     <div class="card-header">
@@ -477,7 +477,7 @@
         </div>
     </div>
     
-    <div class="row mt-20">
+    <div class="mt-20 row">
         <div class="col-md-12">
             <div class="card card-custom card-stretch">
                 <div class="card-header">
